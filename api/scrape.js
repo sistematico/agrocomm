@@ -9,11 +9,11 @@ async function fetchBody(url) {
 }
 
 async function fetchBodyEncode(url) {
-  const headers = new Headers()
-  headers.append('Content-Type','text/plain; charset=UTF-8')
   const decoder = new TextDecoder('iso-8859-1')
+  let myHeaders = new Headers()
+  myHeaders.append('Content-Type','text/plain; charset=UTF-8')
   
-  const response = await fetch(url, headers)
+  const response = await fetch(url, myHeaders)
   const buffer = await response.arrayBuffer()
   const body = decoder.decode(buffer)
   
