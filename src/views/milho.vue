@@ -10,8 +10,8 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="p-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-5">
+  <div class="p-4 p-md-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-4 py-md-0">
       <h1 class="display-5 fw-bold">Saca de Milho</h1>
         <table class="table">
           <thead>
