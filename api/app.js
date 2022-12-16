@@ -4,26 +4,11 @@ import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './scrape.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const apiUrl = new URL(process.env.API_URL)
-// const prefix = process.env.NODE_ENV == 'production' ? '/api' : ''
-const prefix = apiUrl.pathname != '/' ? apiUrl.pathname : ''
-
+const prefix = process.env.NODE_ENV == 'production' ? '/api' : ''
 const fastify = Fastify({logger:{level: process.env.LOG_LEVEL}})
 await fastify.register(cors, {origin: true})
 
 fastify.register(function(app, _, done) {
-  app.get('/params', function (request, reply) {
-    console.log(request.id)
-    console.log(request.ip)
-    console.log(request.ips)
-    console.log(request.hostname)
-    console.log(request.url)
-    console.log(request.routeOptions.method)
-    console.log(request.routeOptions.url)
-    console.log(request.routeOptions.attachValidation)
-    // request.log.info('some info')
-  })
-
   app.get('/arroba-do-boi', async (request, reply) => {
     const data = await arrobaDoBoi()
 
@@ -50,6 +35,7 @@ fastify.register(function(app, _, done) {
       .header('Content-Type', 'application/json; charset=utf-8')
       .send(data)
   })
+
   app.get('/soja', async (request, reply) => {
     const data = await soja()
 
@@ -69,7 +55,6 @@ fastify.register(function(app, _, done) {
 
   done()
 }, { prefix })
-
 
 const start = async () => {
   try {
