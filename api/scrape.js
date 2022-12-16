@@ -72,7 +72,7 @@ async function arrobaDoBoi() {
     )
     fs.writeFileSync(json, JSON.stringify(data, null, 2))
   } else {
-    opts.data = fs.readFileSync(json, 'utf8', (err, data) => {
+    opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
       return data
     })
@@ -103,7 +103,7 @@ async function arrobaDaVaca() {
     )
     fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
   } else {
-    opts.data = fs.readFileSync(json, 'utf8', (err, data) => {
+    opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
       return opts.data
     })
