@@ -5,6 +5,5 @@ export const routes = [
   { path: '/arroba-do-boi', component: () => import('@/views/arrobadoboi.vue') },
   { path: '/arroba-da-vaca', component: () => import('@/views/arrobadavaca.vue') },
   { path: '/milho', component: () => import('@/views/milho.vue') },
-  { path: '/soja', component: () => import('@/views/soja.vue') },
-  { path: '/erro', component: () => import('@/views/erro.vue') }
+  { path: '/soja', component: () => import('@/views/soja.vue') }
 ]
