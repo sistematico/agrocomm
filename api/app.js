@@ -4,45 +4,54 @@ import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './scrape.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
+const apiPath = process.env.NODE_ENV == 'production' ? '/api' : ''
 const fastify = Fastify({logger:{level: process.env.LOG_LEVEL}})
 await fastify.register(cors, {origin: true})
 
-fastify.get('/arroba-do-boi', async (request, reply) => {
+fastify.get('env', async (request, reply) => {
+  return reply
+    .code(200)
+    .header('Content-Type', 'application/json; charset=utf-8')
+    .send({ env: process.env.NODE_ENV})
+})
+
+
+fastify.get(`${apiPath}/arroba-do-boi`, async (request, reply) => {
   const data = await arrobaDoBoi()
-  
+
   return reply
     .code(200)
     .header('Content-Type', 'application/json; charset=utf-8')
     .send(data)
 })
 
-fastify.get('/arroba-da-vaca', async (request, reply) => {
+fastify.get(`${apiPath}/arroba-da-vaca`, async (request, reply) => {
   const data = await arrobaDaVaca()
-  
+
   return reply
     .code(200)
     .header('Content-Type', 'application/json; charset=utf-8')
     .send(data)
 })
 
-fastify.get('/milho', async (request, reply) => {
+fastify.get(`${apiPath}/milho`, async (request, reply) => {
   const data = await milho()
-  
+
   return reply
     .code(200)
     .header('Content-Type', 'application/json; charset=utf-8')
     .send(data)
 })
-fastify.get('/soja', async (request, reply) => {
+fastify.get(`${apiPath}/soja`, async (request, reply) => {
   const data = await soja()
-  
+
   return reply
     .code(200)
     .header('Content-Type', 'application/json; charset=utf-8')
     .send(data)
 })
 
-fastify.get('/arroba-do-boi/:estado', function (request, reply) {
+fastify.get(`${apiPath}/arroba-do-boi/:estado`, function (request, reply) {
   const { estado } = request.params
 })
 
