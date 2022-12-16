@@ -23,7 +23,7 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-    - name: Building Laravel Site
+    - name: Building Vue.js
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
