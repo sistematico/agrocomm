@@ -34,5 +34,6 @@ jobs:
           cd ${{ secrets.PROJECT_PATH }}
           git pull origin main
           [ -f .env ] || cp .env.production .env
-          pnpm install --only=prod
+          #pnpm install --only=prod
+          pnpm install
           pnpm run prod

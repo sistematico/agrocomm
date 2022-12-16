@@ -14,5 +14,6 @@ const router = createRouter({
 
 createApp(App)
   .provide('appName', import.meta.env.VITE_APP_NAME)
+  .provide('apiUrl', import.meta.env.VITE_API_URL)
   .use(router)  
   .mount('#app')
