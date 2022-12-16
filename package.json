@@ -1,0 +1,46 @@
+{
+  "name": "agrocomm",
+  "description": "Um scrapper feito em Node.js usando o Fastify",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "api": "nodemon api/app.js",
+    "apidev": "nodemon api/app.js",
+    "dev": "vite",
+    "prod": "vite build --mode production",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sistematico/agrocomm.git"
+  },
+  "keywords": [
+    "nodejs",
+    "fastify"
+  ],
+  "author": "Lucas Salies Brum <sistematico@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sistematico/agrocomm/issues"
+  },
+  "homepage": "https://github.com/sistematico/agrocomm#readme",
+  "dependencies": {
+    "@fastify/cors": "^8.2.0",
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3",
+    "chart.js": "^4.0.1",
+    "cheerio": "1.0.0-rc.12",
+    "dotenv": "^16.0.3",
+    "fastify": "^4.10.2",
+    "vue": "^3.2.45",
+    "vue-chartjs": "^5.0.1",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "sass": "^1.56.2",
+    "vite": "^4.0.0"
+  }
+}
