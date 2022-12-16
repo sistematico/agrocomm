@@ -1,32 +1,31 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const domain = import.meta.env.VITE_API_URL
-const API_URL = `${domain}/arroba-da-vaca`
+const API_URL = import.meta.env.VITE_API_URL
+const url = `${API_URL}/milho`
 const cotacao = ref(null)
-const loaded = ref(false)
 
 onMounted(async () => {
-  cotacao.value = await (await fetch(API_URL)).json()
+  cotacao.value = await (await fetch(url)).json()
 })
 </script>
 <template>
   <div class="p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-5">
-      <h1 class="display-5 fw-bold">Arroba da Vaca</h1>
+      <h1 class="display-5 fw-bold">Saca de Milho</h1>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Estado</th>
-              <th scope="col">À vista</th>
-              <th scope="col">A prazo</th>
+              <th scope="col">Compra</th>
+              <th scope="col">Venda</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="{ estado, avista, aprazo } in cotacao">
+            <tr v-for="{ estado, compra, venda } in cotacao">
               <td scope="row">{{ estado }}</td>
-              <td>{{ avista }}</td>
-              <td>{{ aprazo }}</td>
+              <td>{{ compra }}</td>
+              <td>{{ venda }}</td>
             </tr>
           </tbody>
         </table>

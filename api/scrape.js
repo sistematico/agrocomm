@@ -65,20 +65,20 @@ async function arrobaDoBoi() {
   const json = getJsonPath(opts.json)
 
   if (!fs.existsSync(json)) {
-    data = await scrape(
+    opts.data = await scrape(
       'https://www.scotconsultoria.com.br/cotacoes/boi-gordo/', 
       opts.table,
       opts.tipo
     )
     fs.writeFileSync(json, JSON.stringify(data, null, 2))
   } else {
-    data = fs.readFileSync(json, 'utf8', (err, data) => {
+    opts.data = fs.readFileSync(json, 'utf8', (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
       return data
     })
   }
 
-  return data
+  return opts.data
 }
 
 async function arrobaDaVaca() {
@@ -146,7 +146,7 @@ async function soja() {
 async function milho() {
   const opts = { 
     tipo: 'agricultura', 
-    json: 'soja.json', 
+    json: 'milho.json', 
     table: [
       'table:nth-child(2) tr',
       'td:nth-child(1)',

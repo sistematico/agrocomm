@@ -32,7 +32,11 @@ onMounted(() => {
     const longitude = position.coords.longitude
     position.value = getLocation(latitude, longitude)
   }
-  const error = (err) => { console.log(error) }
+
+  const error = (err) => { 
+    // console.log(error)
+    return
+  }
 
   navigator.geolocation.getCurrentPosition(success, error)
 })
