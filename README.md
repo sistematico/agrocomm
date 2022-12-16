@@ -12,7 +12,7 @@ Documentation=https://example.com
 After=network.target
 
 [Service]
-Environment=NODE_PORT=3000
+Environment=NODE_ENV=production
 Type=simple
 User=caddy
 ExecStart=/usr/bin/node /var/www/agrocomm.somdomato.com/api/app.js

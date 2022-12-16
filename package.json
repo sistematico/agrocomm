@@ -5,8 +5,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "api": "nodemon api/app.js",
-    "apidev": "nodemon api/app.js",
+    "api": "NODE_ENV=production node api/app.js",
+    "apidev": "NODE_ENV=development nodemon api/app.js",
     "dev": "vite",
     "prod": "vite build --mode production",
     "build": "vite build",
