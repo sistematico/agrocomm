@@ -1,8 +1,6 @@
 <script setup>
 import { ref, provide, onMounted } from 'vue'
 import BaseLayout from './layouts/base.vue'
-// import { useGeo } from './composables/geo.js'
-// const { data } = useGeo()
 
 const position = ref('')
 

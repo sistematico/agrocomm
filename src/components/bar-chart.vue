@@ -25,7 +25,7 @@ onMounted(async () => {
 
   try {
     const data = await (await fetch(`${url}/arroba-do-boi`)).json()
-    const dataFiltered = data.filter(item => parseInt(item.avista) > 50);
+    const dataFiltered = data.filter(item => parseInt(item.avista) > 50)
     
     const estados = dataFiltered.map(elem => elem.estado)
     const precos = dataFiltered.map(elem => elem.avista)

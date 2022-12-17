@@ -1,11 +1,35 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { estados } from '@/logic/utils.js'
+
+const estado = ref(null)
+const route = useRoute()
 
 const API_URL = import.meta.env.VITE_API_URL
-const url = `${API_URL}/arroba-da-vaca`
+let url = `${API_URL}/arroba-da-vaca`
 const cotacao = ref(null)
+const itemRefs = ref([])
+
+const preco = (valor) => {
+  return 'R$ ' + valor.replace(/\./g, ',')
+}
+
+function copyURL(event) {
+  // const el = event.target.parentElement.previousSibling.innerHTML
+  const el = event.target.parentElement.previousSibling.previousSibling
+  navigator.clipboard.writeText(el.innerHTML)
+  alert("Copied the text: " + el.innerHTML)
+}
+
+function logme(event) {
+  let valor = event.target.parentElement.previousSibling.innerHTML
+}
 
 onMounted(async () => {
+  if (route.params.estado && estados.some(e => e.sigla.toLowerCase() === route.params.estado.toLowerCase())) {
+    url = `${API_URL}/arroba-da-vaca/${route.params.estado.toLowerCase().trim()}`  
+  }
   cotacao.value = await (await fetch(url)).json()
 })
 </script>
@@ -20,14 +44,18 @@ onMounted(async () => {
               <th scope="col">Região</th>
               <th scope="col">À vista</th>
               <th scope="col">A prazo</th>
+              <th scope="col">Copiar</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="{ estado, regiao, avista, aprazo } in cotacao">
+            <tr v-for="{ estado, regiao, avista, aprazo } in cotacao" ref="itemRefs">
               <td scope="row">{{ estado }}</td>
               <td>{{ regiao }}</td>
-              <td>{{ avista }}</td>
-              <td>{{ aprazo }}</td>
+              <td>{{ preco(avista) }}</td>
+              <td>{{ preco(aprazo) }}</td>
+              <td>
+                <button @click="copyURL($event)">Copiar</button>
+              </td>
             </tr>
           </tbody>
         </table>

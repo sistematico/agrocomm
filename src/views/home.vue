@@ -1,12 +1,14 @@
 <script setup>
 import BarChart from '@/components/bar-chart.vue'
+import Dropdown from '@/components/dropdown.vue'
+import { estados } from '@/logic/utils.js'
 </script>
 <template>
   <div class="p-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-4 py-md-0">
       <h1 class="display-5 fw-bold">AgroComm</h1>
       <p class="col-md-8 fs-4">Commodities Agrícolas</p>
-      <router-link class="btn btn-primary btn-lg" to="/sobre">Saiba Mais</router-link>
+      <Dropdown label="Estado" :items="estados" />
     </div>
   </div>
 
