@@ -37,9 +37,10 @@ async function scrape(url, elem, tipo) {
     const regiao = location.substring(indexOfSpace + 1);
     
     if (tipo === 'agricultura') {
-      const compra = $(el).find(elem[2]).text().replace(/,/g, '.')
-      const venda = $(el).find(elem[3]).text().replace(/,/g, '.') // var res = str.replace(/\D/g, "");
-      if (retEstado != '' && !/[^a-zA-Z]/.test(retEstado) && !isNaN(+compra)) data.push({ estado: retEstado, compra, venda })
+      const cidade = $(el).find(elem[2]).text()
+      const compra = $(el).find(elem[3]).text().replace(/,/g, '.')
+      const venda = $(el).find(elem[4]).text().replace(/,/g, '.') // var res = str.replace(/\D/g, "");
+      if (retEstado != '' && !/[^a-zA-Z]/.test(retEstado) && !isNaN(+compra)) data.push({ estado: retEstado, cidade, compra, venda })
     } else {
       const avista = $(el).find(elem[2]).text().replace(/,/g, '.')
       const aprazo = $(el).find(elem[3]).text().replace(/,/g, '.') // var res = str.replace(/\D/g, "");
@@ -53,7 +54,7 @@ async function scrape(url, elem, tipo) {
 async function arrobaDoBoi(queryEstado = null) {
   const opts = { 
     tipo: 'pecuaria',
-    json: 'arroba-da-vaca.json', 
+    json: 'arroba-do-boi.json', 
     table: [
       'table:nth-child(3) tr',
       'td:nth-child(1)',
@@ -79,7 +80,8 @@ async function arrobaDoBoi(queryEstado = null) {
   }
 
   if (queryEstado) {
-    const filteredEstado = JSON.parse(opts.data).filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
+    const parsed = JSON.parse(opts.data)
+    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
     if (filteredEstado.length > 0) return filteredEstado
   }
 
@@ -115,7 +117,8 @@ async function arrobaDaVaca(queryEstado = null) {
   }
 
   if (queryEstado) {
-    const filteredEstado = JSON.parse(opts.data).filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
+    const parsed = JSON.parse(opts.data)
+    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
     if (filteredEstado.length > 0) return filteredEstado
   }
 
@@ -129,6 +132,7 @@ async function soja(queryEstado = null) {
     table: [
       'table:nth-child(5) tr',
       'td:nth-child(1)',
+      'td:nth-child(2)',
       'td:nth-child(3)',
       'td:nth-child(4)'
     ], 
@@ -151,7 +155,8 @@ async function soja(queryEstado = null) {
   }
 
   if (queryEstado) {
-    const filteredEstado = JSON.parse(opts.data).filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
+    const parsed = JSON.parse(opts.data)
+    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
     if (filteredEstado.length > 0) return filteredEstado
   }
 
@@ -165,6 +170,7 @@ async function milho(queryEstado = null) {
     table: [
       'table:nth-child(2) tr',
       'td:nth-child(1)',
+      'td:nth-child(2)',
       'td:nth-child(3)',
       'td:nth-child(4)'
     ], 
@@ -187,7 +193,8 @@ async function milho(queryEstado = null) {
   }
 
   if (queryEstado) {
-    const filteredEstado = JSON.parse(opts.data).filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
+    const parsed = JSON.parse(opts.data)
+    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
     if (filteredEstado.length > 0) return filteredEstado
   }
 

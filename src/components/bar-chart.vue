@@ -6,8 +6,6 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const url = inject('apiUrl')
 const loaded = ref(false)
-// const estados = ref([])
-// const precos = ref([])
 
 const chartData = {
   labels: [],

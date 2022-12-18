@@ -3,13 +3,11 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { estados } from '@/logic/utils.js'
 
-const estado = ref(null)
 const route = useRoute()
 
 const API_URL = import.meta.env.VITE_API_URL
 let url = `${API_URL}/arroba-da-vaca`
 const cotacao = ref(null)
-const itemRefs = ref([])
 
 const preco = (valor) => {
   return 'R$ ' + valor.replace(/\./g, ',')
@@ -27,9 +25,9 @@ function logme(event) {
 }
 
 onMounted(async () => {
-  if (route.params.estado && estados.some(e => e.sigla.toLowerCase() === route.params.estado.toLowerCase())) {
-    url = `${API_URL}/arroba-da-vaca/${route.params.estado.toLowerCase().trim()}`  
-  }
+  if (route.params.estado && estados.some(e => e.sigla.toLowerCase() === route.params.estado.toLowerCase()))
+    url = `${url}/${route.params.estado.toLowerCase().trim()}`  
+
   cotacao.value = await (await fetch(url)).json()
 })
 </script>
@@ -48,7 +46,7 @@ onMounted(async () => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="{ estado, regiao, avista, aprazo } in cotacao" ref="itemRefs">
+            <tr v-for="{ estado, regiao, avista, aprazo } in cotacao">
               <td scope="row">{{ estado }}</td>
               <td>{{ regiao }}</td>
               <td>{{ preco(avista) }}</td>

@@ -1,3 +1,28 @@
+export function useGeo() {
+  const getLocation = async (lat, lon) => {
+    try {
+      let { address } = await (await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)).json()
+      return address.state
+    } catch (error) {
+      return false
+    }
+  }
+
+  const success = async position => {
+    const latitude = position.coords.latitude
+    const longitude = position.coords.longitude
+    // position.value = getLocation(latitude, longitude)
+    getLocation(latitude, longitude)
+  }
+
+  const error = err => { 
+    return false
+  }
+
+  navigator.geolocation.getCurrentPosition(success, error)
+}
+
+
 // export const estados = [
 //   { AC: 'Acre' },
 //   { AL: 'Alagoas' },
