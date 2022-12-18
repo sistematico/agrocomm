@@ -19,7 +19,7 @@ onMounted(() => {
   <table class="table">
     <thead>
       <tr>
-        <th v-for="column in props.columns">
+        <th scope="col" v-for="column in props.columns">
           {{ column }}
         </th>
       </tr>
@@ -27,7 +27,12 @@ onMounted(() => {
     <tbody>
       <tr v-for="item of props.items">
         <td v-for="td of campos">
-          {{ item[td.key] }}
+          <template v-if="!isNaN(+item[td.key])">
+            R$ {{ item[td.key] }}
+          </template>
+          <template v-else>
+            {{ item[td.key] }}
+          </template>
         </td>
       </tr>
     </tbody>

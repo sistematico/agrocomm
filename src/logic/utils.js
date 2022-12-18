@@ -1,4 +1,41 @@
-export function useGeo() {
+export function sortObject(obj) {
+  return Object.keys(obj)
+    .sort()
+    .reduce(function (result, key) {
+      result[key] = obj[key]
+      return result
+    }, {})
+}
+
+export function sortArray(obj) {
+  arr.sort(function (a, b) {
+    var keyA = new Date(a.updated_at),
+      keyB = new Date(b.updated_at)
+  
+    if (keyA < keyB) return -1
+    if (keyA > keyB) return 1
+    return 0
+  })
+}
+
+export function sortAlpha(obj) {
+  arr.sort(function (a, b) {
+    var keyA = new Date(a.updated_at),
+      keyB = new Date(b.updated_at)
+  
+    if (keyA < keyB) return -1
+    if (keyA > keyB) return 1
+    return 0
+  })
+
+  if(a.firstname < b.firstname) { return -1; }
+  if(a.firstname > b.firstname) { return 1; }
+  return 0;
+}
+
+// users.sort((a, b) => a.firstname.localeCompare(b.firstname))
+
+export function geo() {
   const getLocation = async (lat, lon) => {
     try {
       let { address } = await (await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)).json()
@@ -8,20 +45,19 @@ export function useGeo() {
     }
   }
 
-  const success = async position => {
+  const success = async (position) => {
     const latitude = position.coords.latitude
     const longitude = position.coords.longitude
     // position.value = getLocation(latitude, longitude)
     getLocation(latitude, longitude)
   }
 
-  const error = err => { 
+  const error = (err) => {
     return false
   }
 
   navigator.geolocation.getCurrentPosition(success, error)
 }
-
 
 // export const estados = [
 //   { AC: 'Acre' },
@@ -80,5 +116,5 @@ export const estados = [
   { sigla: 'SC', nome: 'Santa Catarina' },
   { sigla: 'SP', nome: 'São Paulo' },
   { sigla: 'SE', nome: 'Sergipe' },
-  { sigla: 'TO', nome: 'Tocantins' },
+  { sigla: 'TO', nome: 'Tocantins' }
 ]

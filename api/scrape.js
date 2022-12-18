@@ -71,7 +71,14 @@ async function arrobaDoBoi(queryEstado = null) {
       opts.table,
       opts.tipo
     )
-    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
+    
+    const sorted = opts.data.sort(function(a, b){
+      if(a.estado < b.estado) return -1
+      if(a.estado > b.estado) return 1
+      return 0
+    })
+
+    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
@@ -108,7 +115,14 @@ async function arrobaDaVaca(queryEstado = null) {
       opts.table,
       opts.tipo
     )
-    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
+
+    const sorted = opts.data.sort(function(a, b){
+      if(a.estado < b.estado) return -1
+      if(a.estado > b.estado) return 1
+      return 0
+    })
+
+    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
@@ -146,7 +160,14 @@ async function soja(queryEstado = null) {
       opts.table,
       opts.tipo
     )
-    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
+
+    const sorted = opts.data.sort(function(a, b){
+      if(a.estado < b.estado) return -1
+      if(a.estado > b.estado) return 1
+      return 0
+    })
+
+    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
@@ -184,7 +205,14 @@ async function milho(queryEstado = null) {
       opts.table,
       opts.tipo
     )
-    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
+
+    const sorted = opts.data.sort(function(a, b){
+      if(a.estado < b.estado) return -1
+      if(a.estado > b.estado) return 1
+      return 0
+    })
+
+    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }

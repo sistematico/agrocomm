@@ -1,8 +1,10 @@
+import { readdirSync } from 'fs'
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import RequestIp from '@supercharge/request-ip'
 import geoip from 'geoip-lite'
 import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './scrape.js'
+import { readFiles, jsonDir } from './utils.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -11,6 +13,39 @@ const fastify = Fastify({logger:{level: process.env.LOG_LEVEL}})
 await fastify.register(cors, {origin: true})
 
 fastify.register(function(app, _, done) {
+  app.get('/files', async (request, reply) => {
+    let meses = [], dias = []
+
+    // const getDirectories = source =>
+    //   readdirSync(source, { withFileTypes: true })
+    //     .filter(dirent => dirent.isDirectory())
+    //     .map(dirent => dirent.name)
+    const getDirectories = source =>
+      readdirSync(source, { recursive: true, withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
+
+    let anos = getDirectories('./json')
+    
+    // meses = anos.forEach((ano) => {
+    //   getDirectories('./json/' + ano)
+    // })
+    
+    // dias = anos.forEach((ano) => {
+    //   ano.forEach((mes) => {
+    //     getDirectories(mes)
+    //   })
+    // })
+
+
+
+
+    return reply
+      .code(200)
+      .header('Content-Type', 'application/json; charset=utf-8')
+      .send(anos)
+  })
+
   app.get('/arroba-do-boi', async (request, reply) => {
     const data = await arrobaDoBoi()
 
