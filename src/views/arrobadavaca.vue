@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import Icon from '@/components/icon.vue'
 import { useRoute } from 'vue-router'
 import { estados } from '@/logic/utils.js'
 
@@ -14,14 +15,8 @@ const preco = (valor) => {
 }
 
 function copyURL(event) {
-  // const el = event.target.parentElement.previousSibling.innerHTML
-  const el = event.target.parentElement.previousSibling.previousSibling
+  const el = event.target.parentElement.previousSibling
   navigator.clipboard.writeText(el.innerHTML)
-  alert("Copied the text: " + el.innerHTML)
-}
-
-function logme(event) {
-  let valor = event.target.parentElement.previousSibling.innerHTML
 }
 
 onMounted(async () => {
@@ -42,18 +37,21 @@ onMounted(async () => {
               <th scope="col">Região</th>
               <th scope="col">À vista</th>
               <th scope="col">A prazo</th>
-              <th scope="col">Copiar</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="{ estado, regiao, avista, aprazo } in cotacao">
               <td scope="row">{{ estado }}</td>
               <td>{{ regiao }}</td>
-              <td>{{ preco(avista) }}</td>
-              <td>{{ preco(aprazo) }}</td>
               <td>
-                <button @click="copyURL($event)">Copiar</button>
+                <span class="me-2">
+                  {{ preco(avista) }}
+                </span>
+                <a href="#" @click.prevent="copyURL($event)">
+                  <Icon name="clipboard" />
+                </a>
               </td>
+              <td>{{ preco(aprazo) }}</td>
             </tr>
           </tbody>
         </table>

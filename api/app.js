@@ -7,11 +7,15 @@ import { walk } from './utils.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
+const url = process.env.API_URL ?? 'https://agrocomm.somdomato.com/api'
 const prefix = process.env.NODE_ENV == 'production' ? '/api' : ''
-const fastify = Fastify({logger:{level: process.env.LOG_LEVEL}})
-await fastify.register(cors, {origin: true})
+const fastify = Fastify({ logger: { level: process.env.LOG_LEVEL } })
+await fastify.register(cors, { origin: true })
 
-fastify.register(function(app, _, done) {
+fastify.register((app, opts, next) => {
+  const boiRoutes = ['/boi', '/arroba-do-boi']
+  const vacaRoutes = ['/vaca', '/arroba-da-vaca']
+
   app.get('/arquivo', async (request, reply) => {
     const data = walk('arroba-do-boi')
     
@@ -21,13 +25,15 @@ fastify.register(function(app, _, done) {
       .send(data)
   })
 
-  app.get('/arroba-do-boi', async (request, reply) => {
-    const data = await arrobaDoBoi()
+  boiRoutes.forEach(async path => {
+    app.get(path, async (request, reply) => {
+      const data = await arrobaDoBoi()
 
-    return reply
-      .code(200)
-      .header('Content-Type', 'application/json; charset=utf-8')
-      .send(data)
+      return reply
+        .code(200)
+        .header('Content-Type', 'application/json; charset=utf-8')
+        .send(data)
+    })
   })
 
   app.get('/arroba-do-boi/:estado', async (request, reply) => {
@@ -40,13 +46,15 @@ fastify.register(function(app, _, done) {
       .send(data)
   })
 
-  app.get('/arroba-da-vaca', async (request, reply) => {
-    const data = await arrobaDaVaca()
-
-    return reply
+  vacaRoutes.forEach(async path => {
+    app.get(path, async (request, reply) => {
+      const data = await arrobaDaVaca()
+      
+      return reply
       .code(200)
       .header('Content-Type', 'application/json; charset=utf-8')
       .send(data)
+    })
   })
 
   app.get('/arroba-da-vaca/:estado', async (request, reply) => {
@@ -105,10 +113,10 @@ fastify.register(function(app, _, done) {
   })  
 
   app.get('*', function (request, reply) {
-    reply.send({ erro: 'Esta rota não existe' })
+    reply.send({ erro: `Esta rota não existe, use ${url}/boi por exemplo.` })
   })
 
-  done()
+  next()
 }, { prefix })
 
 const start = async () => {

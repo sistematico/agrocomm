@@ -10,7 +10,12 @@ const url = ref('')
 const route = useRoute()
 
 onMounted(() => {
-  estado.value = estados.find(obj => obj.sigla === route.params.estado.toUpperCase())
+  estado.value = Object.keys(estados).some(key => { 
+    if (key === route.params.estado.toUpperCase()) {
+      console.log({ nome: estado[key], sigla: key })
+      return { nome: estado[key], sigla: key } 
+    }
+  })
   nome.value = estado.value.nome
   url.value = estado.value.sigla.toLowerCase()
 })

@@ -10,9 +10,9 @@ defineProps({
     <ul class="dropdown-menu">
       <!-- <li v-for="(value, key, index) in getObj(items)"> -->
       <!-- <li v-for="{ sigla, nome } in items"> -->
-      <li v-for="{ sigla, nome } in items">
-        <router-link class="dropdown-item" :to="`/${sigla.toLowerCase()}`">
-          {{ nome }}
+      <li v-for="( key, value ) in items">
+        <router-link class="dropdown-item" :to="`/${key.toLowerCase()}`">
+          {{ value }}
         </router-link>
       </li>
     </ul>

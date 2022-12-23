@@ -1,6 +1,6 @@
 <script setup>
 import { inject } from 'vue'
-import NavbarDropdown from '@/components/navbar-dropdown.vue'
+import NavbarDropdown from '@/components/ndropdown.vue'
 
 const agricultura = inject('agricultura')
 const pecuaria = inject('pecuaria')
