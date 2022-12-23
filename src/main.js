@@ -5,7 +5,6 @@ import App from './App.vue'
 import { routes } from './router'
 import * as bootstrap from 'bootstrap'
 
-
 const router = createRouter({
   history: createWebHistory(),
   routes,

@@ -11,4 +11,5 @@ export const routes = [
   { path: '/arroba-da-vaca/:estado', component: () => import('@/views/arrobadavaca.vue') },
   { path: '/milho/:estado', component: () => import('@/views/milho.vue') },
   { path: '/soja/:estado', component: () => import('@/views/soja.vue') },
+  { path: '/calendario', component: () => import('@/views/calendario.vue') },
 ]

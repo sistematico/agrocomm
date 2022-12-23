@@ -1,6 +1,6 @@
 import fs from 'fs'
 import * as cheerio from 'cheerio'
-import { getJsonPath } from './utils.js'
+import { extractDate, getJsonPath } from './utils.js'
 
 async function fetchBody(url) {
   const response = await fetch(url)
@@ -25,6 +25,15 @@ async function scrape(url, elem, tipo) {
   
   const body = await fetchBodyEncode(url)
   const $ = cheerio.load(body)
+
+  const currentDate = $('div.noticias_table_coluna2:nth-child(2)').text().trim()
+  const formatedDate = extractDate(currentDate).replace(/\D/g, "")
+
+  console.log(formatedDate)
+
+  if (isNaN(+formatedDate))
+    formatedDate = timestamp().replace(/\D/g, "")
+
   
   $(elem[0]).each((_, el) => {
     const location = $(el).find(elem[1]).text()
@@ -40,19 +49,24 @@ async function scrape(url, elem, tipo) {
       const cidade = $(el).find(elem[2]).text()
       const compra = $(el).find(elem[3]).text().replace(/,/g, '.')
       const venda = $(el).find(elem[4]).text().replace(/,/g, '.') // var res = str.replace(/\D/g, "");
-      if (retEstado != '' && !/[^a-zA-Z]/.test(retEstado) && !isNaN(+compra)) data.push({ estado: retEstado, cidade, compra, venda })
+      if (retEstado != '' && !/[^a-zA-Z]/.test(retEstado) && !isNaN(+compra)) data.push({ date: formatedDate, estado: retEstado, cidade, compra, venda })
     } else {
       const avista = $(el).find(elem[2]).text().replace(/,/g, '.')
       const aprazo = $(el).find(elem[3]).text().replace(/,/g, '.') // var res = str.replace(/\D/g, "");
-      if (retEstado != '' && !/[^a-zA-Z]/.test(retEstado) && !isNaN(+avista)) data.push({ estado: retEstado, regiao, avista, aprazo })
+      if (retEstado != '' && !/[^a-zA-Z]/.test(retEstado) && !isNaN(+avista)) data.push({ date: formatedDate, estado: retEstado, regiao, avista, aprazo })
     }    
   })
 
-  return data
+  return data.sort(function(a, b){
+    if(a.estado < b.estado) return -1
+    if(a.estado > b.estado) return 1
+    return 0
+  })
 }
 
 async function arrobaDoBoi(queryEstado = null) {
   const opts = { 
+    url: 'https://www.scotconsultoria.com.br/cotacoes/boi-gordo/',
     tipo: 'pecuaria',
     json: 'arroba-do-boi.json', 
     table: [
@@ -66,19 +80,9 @@ async function arrobaDoBoi(queryEstado = null) {
   const json = getJsonPath(opts.json)
 
   if (!fs.existsSync(json)) {
-    opts.data = await scrape(
-      'https://www.scotconsultoria.com.br/cotacoes/boi-gordo/', 
-      opts.table,
-      opts.tipo
-    )
-    
-    const sorted = opts.data.sort(function(a, b){
-      if(a.estado < b.estado) return -1
-      if(a.estado > b.estado) return 1
-      return 0
-    })
+    opts.data = await scrape(opts.url, opts.table, opts.tipo)
 
-    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
+    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
@@ -97,6 +101,7 @@ async function arrobaDoBoi(queryEstado = null) {
 
 async function arrobaDaVaca(queryEstado = null) {
   const opts = { 
+    url: 'https://www.scotconsultoria.com.br/cotacoes/vaca-gorda', 
     tipo: 'pecuaria',
     json: 'arroba-da-vaca.json', 
     table: [
@@ -110,19 +115,8 @@ async function arrobaDaVaca(queryEstado = null) {
   const json = getJsonPath(opts.json)
 
   if (!fs.existsSync(json)) {
-    opts.data = await scrape(
-      'https://www.scotconsultoria.com.br/cotacoes/vaca-gorda', 
-      opts.table,
-      opts.tipo
-    )
-
-    const sorted = opts.data.sort(function(a, b){
-      if(a.estado < b.estado) return -1
-      if(a.estado > b.estado) return 1
-      return 0
-    })
-
-    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
+    opts.data = await scrape(opts.url, opts.table, opts.tipo)
+    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
@@ -141,6 +135,7 @@ async function arrobaDaVaca(queryEstado = null) {
 
 async function soja(queryEstado = null) {
   const opts = { 
+    url: 'https://www.scotconsultoria.com.br/cotacoes/graos',
     tipo: 'agricultura', 
     json: 'soja.json', 
     table: [
@@ -155,19 +150,8 @@ async function soja(queryEstado = null) {
   const json = getJsonPath(opts.json)
 
   if (!fs.existsSync(json)) {
-    opts.data = await scrape(
-      'https://www.scotconsultoria.com.br/cotacoes/graos',
-      opts.table,
-      opts.tipo
-    )
-
-    const sorted = opts.data.sort(function(a, b){
-      if(a.estado < b.estado) return -1
-      if(a.estado > b.estado) return 1
-      return 0
-    })
-
-    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
+    opts.data = await scrape(opts.url, opts.table, opts.tipo)
+    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }
@@ -186,6 +170,7 @@ async function soja(queryEstado = null) {
 
 async function milho(queryEstado = null) {
   const opts = { 
+    url: 'https://www.scotconsultoria.com.br/cotacoes/graos', 
     tipo: 'agricultura', 
     json: 'milho.json', 
     table: [
@@ -200,19 +185,8 @@ async function milho(queryEstado = null) {
   const json = getJsonPath(opts.json)
 
   if (!fs.existsSync(json)) {
-    opts.data = await scrape(
-      'https://www.scotconsultoria.com.br/cotacoes/graos', 
-      opts.table,
-      opts.tipo
-    )
-
-    const sorted = opts.data.sort(function(a, b){
-      if(a.estado < b.estado) return -1
-      if(a.estado > b.estado) return 1
-      return 0
-    })
-
-    fs.writeFileSync(json, JSON.stringify(sorted, null, 2))
+    opts.data = await scrape(opts.url, opts.table, opts.tipo)
+    fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
   } else {
     opts.data = fs.readFileSync(json, (err, data) => {
       if(err) return { message: 'Erro ao recuperar os dados' }

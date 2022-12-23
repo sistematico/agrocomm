@@ -1,5 +1,5 @@
 <script setup>
-import BarChart from '@/components/bar-chart.vue'
+import BarChart from '@/components/barchart.vue'
 import Dropdown from '@/components/dropdown.vue'
 import { estados } from '@/logic/utils.js'
 </script>

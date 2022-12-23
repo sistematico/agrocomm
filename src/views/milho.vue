@@ -12,8 +12,6 @@ onMounted(async () => {
   if (route.params.estado && estados.some(e => e.sigla.toLowerCase() === route.params.estado.toLowerCase())) {
     url = `${url}/${route.params.estado.toLowerCase().trim()}`  
   }
-
-  console.log(url)
   
   cotacao.value = await (await fetch(url)).json()
 })
