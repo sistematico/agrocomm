@@ -30,31 +30,37 @@ onMounted(async () => {
   <div class="p-4 p-md-5 mb-4 bg-light rounded-3">
     <div class="container-fluid py-4 py-md-0">
       <h1 class="display-5 fw-bold">Arroba da Vaca</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Estado</th>
-              <th scope="col">Região</th>
-              <th scope="col">À vista</th>
-              <th scope="col">A prazo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="{ estado, regiao, avista, aprazo } in cotacao">
-              <td scope="row">{{ estado }}</td>
-              <td>{{ regiao }}</td>
-              <td>
-                <span class="me-2">
-                  {{ preco(avista) }}
-                </span>
-                <a href="#" @click.prevent="copyURL($event)">
-                  <Icon name="clipboard" />
-                </a>
-              </td>
-              <td>{{ preco(aprazo) }}</td>
-            </tr>
-          </tbody>
-        </table>
+
+      <div class="d-flex align-items-center" v-if="!cotacao">
+        <strong>Carregando dados...</strong>
+        <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+      </div>
+
+      <table class="table" v-else>
+        <thead>
+          <tr>
+            <th scope="col">Estado</th>
+            <th scope="col">Região</th>
+            <th scope="col">À vista</th>
+            <th scope="col">A prazo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="{ estado, regiao, avista, aprazo } in cotacao">
+            <td scope="row">{{ estado }}</td>
+            <td>{{ regiao }}</td>
+            <td>
+              <span class="me-2">
+                {{ preco(avista) }}
+              </span>
+              <a href="#" @click.prevent="copyURL($event)">
+                <Icon name="clipboard" />
+              </a>
+            </td>
+            <td>{{ preco(aprazo) }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>

@@ -3,7 +3,7 @@ import cors from '@fastify/cors'
 import RequestIp from '@supercharge/request-ip'
 import geoip from 'geoip-lite'
 import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './scrape.js'
-import { walk } from './utils.js'
+import { walk } from './lib/arquivo.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -18,6 +18,7 @@ fastify.register((app, opts, next) => {
 
   app.get('/arquivo', async (request, reply) => {
     const data = walk('arroba-do-boi')
+    // const data = arquivo()
     
     return reply
       .code(200)

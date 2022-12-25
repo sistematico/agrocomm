@@ -69,6 +69,18 @@ function extractDate(str) {
   return `${year}/${month}/${day}`
 }
 
+async function fetchBody(url) {
+  const decoder = new TextDecoder('iso-8859-1')
+  let myHeaders = new Headers()
+  myHeaders.append('Content-Type','text/plain; charset=UTF-8')
+  
+  const response = await fetch(url, myHeaders)
+  const buffer = await response.arrayBuffer()
+  const body = decoder.decode(buffer)
+  
+  return body
+}
+
 function recursiveDepth(obj, depth = 0) {
   let keys = Object.keys(obj)
   obj.depth = depth
@@ -115,26 +127,6 @@ function getJsonPath(filename) {
   return json
 }
 
-function readFiles(dirname = jsonDir, onFileContent, onError) {
-  fs.readdir(dirname, function(err, filenames) {
-    if (err) {
-      onError(err)
-      return
-    }
-
-    filenames.forEach(function(filename) {
-      fs.readFile(dirname + filename, 'utf-8', function(err, content) {
-        if (err) {
-          onError(err)
-          return
-        }
-
-        onFileContent(filename, content)
-      })
-    })
-  })
-}
-
 function walkDirectory(dir, pat, obj) {
   const files = fs.readdirSync(dir)
 
@@ -164,4 +156,4 @@ function walk(pattern) {
   return filetree
 }
 
-export { extractDate, timestamp, getJsonPath, readFiles, jsonDir, walk }
+export { fetchBody, extractDate, timestamp, getJsonPath, jsonDir, walk }

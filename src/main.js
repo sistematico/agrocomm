@@ -2,7 +2,7 @@ import './assets/scss/bootstrap.scss'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
-import { routes } from './router'
+import { routes } from './routes'
 import * as bootstrap from 'bootstrap'
 
 const router = createRouter({
