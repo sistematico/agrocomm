@@ -6,15 +6,17 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const jsonDir = path.join(__dirname, '..', '..', 'json')
 
-// function recursiveDepth(obj, depth = 0) {
-//   let keys = Object.keys(obj)
-//   obj.depth = depth
+function recursiveDepth(obj, depth = 0) {
+  let keys = Object.keys(obj)
 
-//   keys.forEach(function(key) {
-//     if (obj[key] && typeof obj[key] === 'object')
-//       recursiveDepth(obj[key], depth + 1)
-//   })
-// }
+  keys.forEach(key => {
+    console.log(`key: ${key}, depth: ${depth}`)
+
+    if (obj[key] && typeof obj[key] === 'object')
+      if (depth < 3)
+        recursiveDepth(obj[key], depth + 1)
+  })
+}
 
 function walkDirectoryDepth(dir, pat, obj, depth = 0) {
   const files = fs.readdirSync(dir)
@@ -35,7 +37,7 @@ function walkDirectoryDepth(dir, pat, obj, depth = 0) {
     } else if (stats.isDirectory()) {
       obj[file] = {}
       obj.depth = depth
-      walkDirectory(target, pat, obj[file], depth + 1)
+      walkDirectoryDepth(target, pat, obj[file], depth + 1)
     }
   }
 }
@@ -63,10 +65,17 @@ function walkDirectory(dir, pat, obj) {
   }
 }
 
-function walk(pattern) { 
+function arquivo(pattern) { 
   let filetree = {}
   walkDirectory(jsonDir, pattern, filetree)
   return filetree
 }
 
-export { walk }
+function ultimas(pattern) { 
+  let data = {}
+  walkDirectory(jsonDir, pattern, data)
+  console.log(data) 
+
+}
+
+export { arquivo, ultimas }

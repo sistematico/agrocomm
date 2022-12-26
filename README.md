@@ -5,21 +5,60 @@
 ### Unidade Systemd da API em Node.js
 
 /etc/systemd/system/node.service
-```
+
+```ini
 [Unit]
 Description=Node.js App Systemd Unit
-Documentation=https://example.com
+Documentation=https://site.com
 After=network.target
 
 [Service]
 Environment=NODE_ENV=production
 Type=simple
 User=caddy
-ExecStart=/usr/bin/node /var/www/agrocomm.somdomato.com/api/app.js
+ExecStart=/usr/bin/node /var/www/site.com/api/app.js
 Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
+```
+
+### Unidade Systemd do Scraper da API
+
+/etc/systemd/system/scraper.service
+
+```ini
+[Unit]
+Description=Node.js Scraper Collector Systemd Unit
+Documentation=https://site.com
+After=network.target
+
+[Service]
+Environment=NODE_ENV=production
+Type=oneshot
+User=caddy
+ExecStart=/usr/bin/node /var/www/site.com/api/bin/scraper.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+#### Timer
+
+/etc/systemd/system/scraper.timer
+
+```ini
+[Unit]
+Description=Run Node.js Scraper Collector Daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
 ```
 
 

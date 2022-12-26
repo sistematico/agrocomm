@@ -3,7 +3,8 @@ import cors from '@fastify/cors'
 import RequestIp from '@supercharge/request-ip'
 import geoip from 'geoip-lite'
 import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './scrape.js'
-import { walk } from './lib/arquivo.js'
+// import { arquivo, ultimas } from './lib/stats.js'
+import { arquivo } from './lib/stats.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -16,9 +17,18 @@ fastify.register((app, opts, next) => {
   const boiRoutes = ['/boi', '/arroba-do-boi']
   const vacaRoutes = ['/vaca', '/arroba-da-vaca']
 
+  // app.get('/ultimas', async (request, reply) => {
+  //   const data = ultimas('arroba-do-boi')
+  //   // const data = arquivo()
+    
+  //   return reply
+  //     .code(200)
+  //     .header('Content-Type', 'application/json; charset=utf-8')
+  //     .send(data)
+  // })
+
   app.get('/arquivo', async (request, reply) => {
-    const data = walk('arroba-do-boi')
-    // const data = arquivo()
+    const data = arquivo()
     
     return reply
       .code(200)
