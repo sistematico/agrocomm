@@ -2,6 +2,15 @@
 
 ## Instalação da API
 
+### Tarefa Cron
+
+/etc/crontab
+
+```
+12 6 * * * caddy /usr/bin/node /var/www/site.com/api/bin/cron.js
+
+```
+
 ### Unidade Systemd da API em Node.js
 
 /etc/systemd/system/node.service
