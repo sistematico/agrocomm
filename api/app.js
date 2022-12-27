@@ -2,12 +2,12 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 import RequestIp from '@supercharge/request-ip'
 import geoip from 'geoip-lite'
-import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './scrape.js'
+import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './lib/scrape.js'
 import { arquivo, ultimas } from './lib/stats.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const url = process.env.API_URL ?? 'https://agrocomm.somdomato.com/api'
+const url = process.env.API_URL ?? 'https://api.agrocomm.com.br'
 const prefix = process.env.NODE_ENV == 'production' ? '/api' : ''
 const fastify = Fastify({ logger: { level: process.env.LOG_LEVEL } })
 await fastify.register(cors, { origin: true })

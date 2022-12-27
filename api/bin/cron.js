@@ -1,6 +1,6 @@
 import fs from 'fs'
-import { getJsonPath } from './lib/utils.js'
-import { scotScraper } from './lib/scot/scraper.js'
+import { getJsonPath } from '../lib/utils.js'
+import { scotScraper } from '../lib/scot/scraper.js'
 
 async function arrobaDoBoi(queryEstado = null) {
   const opts = { 
@@ -19,22 +19,8 @@ async function arrobaDoBoi(queryEstado = null) {
 
   if (!fs.existsSync(json)) {
     opts.data = await scotScraper(opts.url, opts.table, opts.tipo)
-
     fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
-  } else {
-    opts.data = fs.readFileSync(json, (err, data) => {
-      if(err) return { message: 'Erro ao recuperar os dados' }
-      return data
-    })
   }
-
-  if (queryEstado) {
-    const parsed = JSON.parse(opts.data)
-    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
-    if (filteredEstado.length > 0) return filteredEstado
-  }
-
-  return opts.data
 }
 
 async function arrobaDaVaca(queryEstado = null) {
@@ -55,20 +41,7 @@ async function arrobaDaVaca(queryEstado = null) {
   if (!fs.existsSync(json)) {
     opts.data = await scotScraper(opts.url, opts.table, opts.tipo)
     fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
-  } else {
-    opts.data = fs.readFileSync(json, (err, data) => {
-      if(err) return { message: 'Erro ao recuperar os dados' }
-      return opts.data
-    })
   }
-
-  if (queryEstado) {
-    const parsed = JSON.parse(opts.data)
-    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
-    if (filteredEstado.length > 0) return filteredEstado
-  }
-
-  return opts.data
 }
 
 async function soja(queryEstado = null) {
@@ -90,20 +63,7 @@ async function soja(queryEstado = null) {
   if (!fs.existsSync(json)) {
     opts.data = await scotScraper(opts.url, opts.table, opts.tipo)
     fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
-  } else {
-    opts.data = fs.readFileSync(json, (err, data) => {
-      if(err) return { message: 'Erro ao recuperar os dados' }
-      return data
-    })
   }
-
-  if (queryEstado) {
-    const parsed = JSON.parse(opts.data)
-    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
-    if (filteredEstado.length > 0) return filteredEstado
-  }
-
-  return opts.data
 }
 
 async function milho(queryEstado = null) {
@@ -125,20 +85,10 @@ async function milho(queryEstado = null) {
   if (!fs.existsSync(json)) {
     opts.data = await scotScraper(opts.url, opts.table, opts.tipo)
     fs.writeFileSync(json, JSON.stringify(opts.data, null, 2))
-  } else {
-    opts.data = fs.readFileSync(json, (err, data) => {
-      if(err) return { message: 'Erro ao recuperar os dados' }
-      return data
-    })
   }
-
-  if (queryEstado) {
-    const parsed = JSON.parse(opts.data)
-    const filteredEstado = parsed.filter(({estado}) => estado.toLowerCase().trim() === queryEstado.toLowerCase().trim())
-    if (filteredEstado.length > 0) return filteredEstado
-  }
-
-  return opts.data
 }
 
-export { arrobaDoBoi, arrobaDaVaca, soja, milho }
+arrobaDoBoi()
+arrobaDaVaca()
+soja()
+milho()

@@ -13,7 +13,6 @@ import BarChart from '@/components/barchart.vue'
     <div class="container-fluid py-4 py-md-0">
       <h1 class="display-5 fw-bold">Arroba do Boi</h1>
       <bar-chart />
-      <!-- <router-link class="btn btn-primary btn-lg" to="/sobre">Mais Gráficos</router-link> -->
     </div>
   </div>
 
