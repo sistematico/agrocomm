@@ -18,7 +18,5 @@ watchEffect(async () => {
 })
 </script>
 <template>
-	<!-- <component :is="componentes[componenteAtual]" :title="route.meta.title" :url="`${apiBaseUrl}${route.meta.apiurl}`" :key="route" /> -->
-	<!-- <component :is="componentes[componenteAtual]" /> -->
 	<component :is="componentes[componenteAtual]" :title="title" :url="url" :key="route.name" />
 </template>

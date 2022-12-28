@@ -1,4 +1,4 @@
-import './assets/scss/bootstrap.scss'
+import './assets/scss/main.scss'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'

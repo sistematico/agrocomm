@@ -35,7 +35,7 @@ watchEffect(async () => {
         <tr v-for="{ estado, cidade, compra, venda } in cotacao">
           <td>
             <a href="#" class="d-inline-block" data-bs-toggle="tooltip" title="" :data-bs-original-title="`Preço para ${estados[estado]}(${estado})`">
-              <img :src="`/assets/img/bandeiras/${estado.toLowerCase()}.svg`" height="30" :alt="`Preço para ${estado}`" />
+              <img :src="`/img/bandeiras/${estado.toLowerCase()}.svg`" height="30" :alt="`Preço para ${estado}`" />
             </a>
           </td>
           <td>{{ estados[estado] }}</td>
@@ -44,7 +44,13 @@ watchEffect(async () => {
           <td>{{ preco(venda) }}</td>
         </tr>
       </Table>
-      <span v-if="cotacao && cotacao[0]"> Última apuração: {{ convertDate(cotacao[0].date) }} </span>
+
+      <p class="text-end" v-if="cotacao && cotacao[0]">
+        <small class="fw-light text-end">
+          Última apuração: {{ convertDate(cotacao[0].date) }}
+        </small>
+      </p>
+
     </div>
   </div>
 </template>
