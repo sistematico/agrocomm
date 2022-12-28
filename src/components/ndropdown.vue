@@ -18,3 +18,8 @@ defineProps({
     </li>
   </ul>
 </template>
+<style scoped>
+.dropdown-menu {
+	min-width: 1rem !important;
+}
+</style>

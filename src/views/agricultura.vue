@@ -25,7 +25,7 @@ watchEffect(async () => {
       <Table v-if="cotacao">
         <template #header>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col"></th>
             <th scope="col">Estado</th>
             <th scope="col">Cidade</th>
             <th scope="col">Compra</th>
@@ -44,13 +44,11 @@ watchEffect(async () => {
           <td>{{ preco(venda) }}</td>
         </tr>
       </Table>
-
-      <p class="text-end" v-if="cotacao && cotacao[0]">
-        <small class="fw-light text-end">
-          Última apuração: {{ convertDate(cotacao[0].date) }}
-        </small>
-      </p>
-
+      <div class="d-flex justify-content-end fs-6" v-if="cotacao && cotacao[0]">
+        <span class="badge bg-secondary">
+          Atualizado {{ convertDate(cotacao[0].date) }}
+        </span>
+      </div>
     </div>
   </div>
 </template>

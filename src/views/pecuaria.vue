@@ -19,13 +19,13 @@ watchEffect(async () => {
 })
 </script>
 <template>
-  <div class="p-4 p-md-5 mb-4 bg-light rounded-3">
-    <div class="container-fluid py-4 py-md-0">
+  <div class="p-0 p-sm-2 p-md-5 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-2 py-md-0">
       <h1 class="display-5 fw-bold">{{ title }}</h1>
       <Table v-if="cotacao">
         <template #header>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col"></th>
             <th scope="col">Estado</th>
             <th scope="col">Regiao</th>
             <th scope="col">A vista</th>
@@ -38,16 +38,24 @@ watchEffect(async () => {
               <img :src="`/img/bandeiras/${estado.toLowerCase()}.svg`" height="30" :alt="`Preço para ${estado}`" />
             </a>
           </td>
-          <td>{{ estados[estado] }}</td>
+          <td>
+            <span class="d-none d-sm-inline">
+              {{ estados[estado] }}
+            </span>
+            <span class="d-inline d-sm-none">
+              {{ estado }}
+            </span>
+          </td>
           <td>{{ regiao }}</td>
           <td>{{ preco(avista) }}</td>
           <td>{{ preco(aprazo) }}</td>
         </tr>
       </Table>
-
-      <p class="fs-6 fw-light text-right" v-if="cotacao && cotacao[0]">
-        Última apuração: {{ convertDate(cotacao[0].date) }}
-      </p>
+      <div class="d-flex justify-content-end fs-6" v-if="cotacao && cotacao[0]">
+        <span class="badge bg-secondary">
+          Atualizado {{ convertDate(cotacao[0].date) }}
+        </span>
+      </div>
     </div>
   </div>
 </template>

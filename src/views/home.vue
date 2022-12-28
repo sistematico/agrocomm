@@ -1,13 +1,25 @@
 <script setup>
 import BarChart from '@/components/barchart.vue'
+import Carousel from '@/components/carousel.vue'
+
+const images = [
+  '/img/bg/dan-meyers-IQVFVH0ajag-unsplash.jpg',
+  '/img/bg/adrian-infernus-BN6iQEVN0ZQ-unsplash.jpg',
+  '/img/bg/randy-fath-dDc0vuVH_LU-unsplash.jpg'
+]
 </script>
 <template>
-  <div class="p-5 mb-4 bg-light border rounded-3">
+
+  <div class="mb-4">
+      <Carousel :images="images" />
+  </div>
+
+  <!-- <div class="p-5 mb-4 bg-light border rounded-3">
     <div class="container-fluid py-4 py-md-0">
       <h1 class="display-5 fw-bold">AgroComm</h1>
       <p class="col-md-8 fs-4">Commodities Agrícolas</p>
     </div>
-  </div>
+  </div> -->
 
   <div class="p-4 p-md-5 mb-4 bg-light border rounded-3">
     <div class="container-fluid py-4 py-md-0">

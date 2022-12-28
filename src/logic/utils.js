@@ -98,9 +98,14 @@ export const rotas = {
 }
 
 export function convertDate(str) {
-  const ano = str.slice(0, 4), mes = str.slice(4, 6), dia = str.slice(6, 8)
-  const date = new Date(`${ano}-${mes}-${dia}T00:00`)
-  return new Intl.DateTimeFormat('pt-BR').format(date)
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+    ano = str.slice(0, 4), 
+    mes = str.slice(4, 6), 
+    dia = str.slice(6, 8),
+    date = new Date(`${ano}-${mes}-${dia}T00:00`)
+  
+  // return new Intl.DateTimeFormat('pt-BR').format(date)
+  return date.toLocaleDateString("pt-BR", options)
 }
 
 export function preco(valor = '0.00') {
