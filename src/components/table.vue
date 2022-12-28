@@ -1,40 +1,31 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-
-const campos = ref([])
-const props = defineProps({
-  columns: { type: Object, required: true },
-  items: { type: Array, required: true }
-})
-
-onMounted(() => {
-  for (const key in props.columns) {
-    if (Object.prototype.hasOwnProperty.call(props.columns, key)) {
-      campos.value.push({ key })
-    }
-  }
-})
-</script>
 <template>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col" v-for="column in props.columns">
-          {{ column }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item of props.items">
-        <td v-for="td of campos">
-          <template v-if="!isNaN(+item[td.key])">
-            R$ {{ item[td.key] }}
-          </template>
-          <template v-else>
-            {{ item[td.key] }}
-          </template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <slot name="header" />
+      </thead>
+      <tbody>
+        <slot />
+      </tbody>
+    </table>
+  </div>
 </template>
+<style scoped>
+.table {
+  --bs-table-color: var(--bs-body-color);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--bs-border-color);
+  --bs-table-accent-bg: transparent;
+  --bs-table-striped-color: var(--bs-body-color);
+  --bs-table-striped-bg: rgba(0, 0, 0, 0.02);
+  --bs-table-active-color: var(--bs-body-color);
+  --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+  --bs-table-hover-color: var(--bs-body-color);
+  --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--bs-table-color);
+  vertical-align: top;
+  border-color: var(--bs-table-border-color);
+}
+</style>
