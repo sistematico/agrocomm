@@ -1,7 +1,7 @@
 <script setup>
 import NavbarDropdown from '@/components/ndropdown.vue'
 import EstadosDropdown from '@/components/edropdown.vue'
-import { estados } from '@/logic/utils.js'
+import { estados } from '@/logic/utils'
 
 const agricultura = [
   { label: 'Soja', link: '/soja' },

@@ -10,8 +10,6 @@ function recursiveDepth(obj, depth = 0) {
   let keys = Object.keys(obj)
 
   keys.forEach(key => {
-    console.log(`key: ${key}, depth: ${depth}`)
-
     if (obj[key] && typeof obj[key] === 'object')
       if (depth < 3)
         recursiveDepth(obj[key], depth + 1)
@@ -74,8 +72,6 @@ function arquivo(pattern) {
 function ultimas(pattern) { 
   let data = {}
   walkDirectory(jsonDir, pattern, data)
-  console.log(data) 
-
 }
 
 export { arquivo, ultimas }

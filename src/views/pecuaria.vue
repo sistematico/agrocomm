@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue'
 import Table from '@/components/table.vue'
-import { convertDate, preco, estados } from '@/logic/utils.js'
+import { convertDate, preco, estados } from '@/logic/utils'
 import { Tooltip } from 'bootstrap'
 
 const cotacao = ref(null)
@@ -14,7 +14,6 @@ onMounted(() => {
 })
 
 watchEffect(async () => {
-  console.log(props.url)
   cotacao.value = await (await fetch(props.url)).json()
 })
 </script>

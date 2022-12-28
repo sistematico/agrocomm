@@ -86,7 +86,8 @@ export const estados = {
   SC: 'Santa Catarina',
   SP: 'São Paulo',
   SE: 'Sergipe',
-  TO: 'Tocantins'
+  TO: 'Tocantins',
+  BR: 'Brasil'
 }
 
 // array.find(x => x.name === 'string 1')

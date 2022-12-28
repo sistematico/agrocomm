@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const jsonDir = path.join(__dirname, '..', '..', 'json')
+const txtDir = path.join(__dirname, '..', '..', 'txt')
 
 const estados = [
   { 'AC': 'Acre' },
@@ -108,8 +109,6 @@ function recursiveDepth(obj, depth = 0) {
   let keys = Object.keys(obj)
 
   keys.forEach(key => {
-    console.log(`key: ${key}, depth: ${depth}`)
-
     if (obj[key] && typeof obj[key] === 'object')
       if (depth < 3)
         recursiveDepth(obj[key], depth + 1)
@@ -152,4 +151,26 @@ function getJsonPath(filename) {
   return json
 }
 
-export { fetchBody, extractDate, timestamp, getJsonPath, jsonDir }
+function counter() {
+  const counterFile = `${txtDir}/counter.txt`
+  let counterData = 0
+
+  try {
+    const data = fs.readFileSync(counterFile, 'utf8')
+    counterData = Number(data)
+  } catch (err) {
+    console.error(err)
+  }
+
+  counterData++
+
+  try {
+    fs.writeFileSync(counterFile, String(counterData))
+  } catch (err) {
+    console.error(err);
+  }
+
+  return counterData
+}
+
+export { fetchBody, extractDate, timestamp, getJsonPath, jsonDir, counter }

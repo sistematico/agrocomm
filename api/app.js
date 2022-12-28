@@ -1,19 +1,25 @@
 import Fastify from 'fastify'
+import { mainRoutes } from './routes/main.js'
 import cors from '@fastify/cors'
 import RequestIp from '@supercharge/request-ip'
 import geoip from 'geoip-lite'
 import { arrobaDoBoi, arrobaDaVaca, milho, soja } from './lib/scrape.js'
 import { arquivo, ultimas } from './lib/stats.js'
+import { counter } from './lib/utils.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
 const url = process.env.API_URL ?? 'https://api.agrocomm.com.br'
-const prefix = process.env.NODE_ENV == 'production' ? '/api' : ''
 const fastify = Fastify({ logger: { level: process.env.LOG_LEVEL } })
 await fastify.register(cors, { origin: true })
 
 const boiRoutes = ['/boi', '/arroba-do-boi']
 const vacaRoutes = ['/vaca', '/arroba-da-vaca']
+
+fastify.get('/hits', async (request, reply) => {
+  const data = counter()
+  return reply.code(200).header('Content-Type', 'application/json; charset=utf-8').send({ visitas: data })
+})
 
 fastify.get('/ultimas', async (request, reply) => {
   const data = ultimas()
@@ -87,9 +93,7 @@ fastify.get('/geo', function (request, reply) {
   reply.send({ geo })
 })
 
-fastify.get('*', function (request, reply) {
-  reply.send({ erro: `Esta rota não existe, use ${url}/boi por exemplo.` })
-})
+fastify.register(mainRoutes, { prefix: '' })
 
 const start = async () => {
   try {
