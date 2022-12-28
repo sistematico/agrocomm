@@ -19,6 +19,9 @@ async function scotScraper(url, elem, tipo) {
     
     if (retEstado != '') retOldEstado = retEstado
     if (retEstado == '') retEstado = retOldEstado
+
+    if (retEstado === 'Acre') retEstado = 'AC'
+    if (retEstado === 'Alagoas') retEstado = 'AL'
     
     const indexOfSpace = location.indexOf(' ');
     const regiao = location.substring(indexOfSpace + 1);

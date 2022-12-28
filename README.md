@@ -2,7 +2,7 @@
 
 ## Instalação da API
 
-### Tarefa Cron
+### Tarefa Cron(Caso decida não usar Systemd Timers)
 
 /etc/crontab
 
@@ -46,7 +46,7 @@ After=network.target
 Environment=NODE_ENV=production
 Type=oneshot
 User=caddy
-ExecStart=/usr/bin/node /var/www/site.com/api/bin/scraper.js
+ExecStart=/usr/bin/node /var/www/site.com/api/bin/cron.js
 Restart=on-failure
 
 [Install]

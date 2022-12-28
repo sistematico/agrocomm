@@ -88,3 +88,26 @@ export const estados = {
   SE: 'Sergipe',
   TO: 'Tocantins'
 }
+
+// array.find(x => x.name === 'string 1')
+export const rotas = {
+  'Soja': 'Saca de Soja',
+  'Milho': 'Saca de Milho',
+  'Boi': 'Arroba do Boi',
+  'Vaca': 'Arroba da Vaca'
+}
+
+export function convertDate(str) {
+  const ano = str.slice(0, 4), mes = str.slice(4, 6), dia = str.slice(6, 8)
+  const date = new Date(`${ano}-${mes}-${dia}T00:00`)
+  return new Intl.DateTimeFormat('pt-BR').format(date)
+}
+
+export function preco(valor = '0.00') {
+  return 'R$ ' + valor.replace(/\./g, ',')
+}
+
+export function copyURL(event) {
+  const el = event.target.parentElement.previousSibling
+  navigator.clipboard.writeText(el.innerHTML)
+}
