@@ -5,6 +5,6 @@ export const routes = [
   { name: 'Vaca',     path: '/vaca',            component: () => import('@/views/cotacao.vue'),   meta: { title: 'Arroba da Vaca', apiurl: '/vaca', tipo: 'Pecuaria' }, alias: ['/arroba-da-vaca'],},
   { name: 'Milho',    path: '/milho',           component: () => import('@/views/cotacao.vue'),   meta: { title: 'Saca de Milho', apiurl: '/milho', tipo: 'Agricultura' } },
   { name: 'Soja',     path: '/soja',            component: () => import('@/views/cotacao.vue'),   meta: { title: 'Saca de Soja', apiurl: '/soja', tipo: 'Agricultura'} },
-  { name: 'Estado',   path: '/:estado',         component: () => import('@/views/estado.vue'),    meta: { title: 'Estados' } },
+  // { name: 'Estado',   path: '/:estado',         component: () => import('@/views/estado.vue'),    meta: { title: 'Estados' } },
   { name: 'NotFound', path: '/:pathMatch(.*)*', component: () => import('@/views/notfound.vue'),  meta: { title: 'Erro 404' } }
 ]

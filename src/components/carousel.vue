@@ -7,9 +7,8 @@ defineProps({
   <div id="agroCarousel" class="carousel carousel-fade" data-bs-ride="carousel" data-bs-interval="4000" data-bs-delay='{"show":1000,"hide":1000}'>
 
     <div class="carousel-caption position-absolute start-0 top-0 d-flex align-items-center justify-content-center align-items-center w-100 h-100">
-      <div class="w-auto text-dark bg-light border rounded-3 px-3 py-2">
-        <h1 class="display-5 fw-bold">AgroComm</h1>
-        <p class="fs-4">Commodities Agrícolas</p>
+      <div class="position-absolute start-0 top-0 w-auto ms-3 mt-3">
+        <img src="/img/logo.png" width="200" height="200" alt="AgroComm" />
       </div>
     </div>
 
@@ -30,7 +29,7 @@ defineProps({
 #agroCarousel .carousel-item img {
   object-fit: cover;
   object-position: center;
-  height: 25vh;
+  height: 50vh;
   overflow: hidden;
 }
 
@@ -38,26 +37,26 @@ defineProps({
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-  #agroCarousel .carousel-item img { height: 25vh; }
+  #agroCarousel .carousel-item img { height: 35vh; }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  #agroCarousel .carousel-item img { height: 25vh; }
+  #agroCarousel .carousel-item img { height: 35vh; }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  #agroCarousel .carousel-item img { height: 25vh; }
+  #agroCarousel .carousel-item img { height: 35vh; }
 }
 
 /* X-Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  #agroCarousel .carousel-item img { height: 25vh; }
+  #agroCarousel .carousel-item img { height: 35vh; }
 }
 
 /* XX-Large devices (larger desktops, 1400px and up) */
 @media (min-width: 1400px) {
-  #agroCarousel .carousel-item img { height: 25vh; }
+  #agroCarousel .carousel-item img { height: 35vh; }
 }
 </style>
