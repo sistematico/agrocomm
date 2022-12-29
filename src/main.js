@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import { routes } from './routes'
 import * as bootstrap from 'bootstrap'
+import Alert from './components/alert.vue'
 
 const appName = import.meta.env.VITE_APP_NAME
 const pinia = createPinia()
@@ -19,6 +20,7 @@ createApp(App)
   .provide('apiUrl', import.meta.env.VITE_API_URL)
   .use(pinia)
   .use(router)  
+  .component('Alert', Alert)
   .mount('#app')
 
 router.afterEach((to, from) => {

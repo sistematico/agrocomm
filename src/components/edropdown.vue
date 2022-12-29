@@ -1,17 +1,14 @@
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useEstadoStore } from '@/stores/estado'
 
-// const route = useRoute()
 const router = useRouter()
 const { estado } = storeToRefs(useEstadoStore())
 const props = defineProps({ items: Object })
 
 function changeRoute(novoEstado) {
   estado.value = novoEstado
-  // let current = route.path.substring(route.path.lastIndexOf('/') + 1)
-  // let newRoute = route.path != '/' ? `/${estado.value}/${current}` : `/${estado.value}`
   router.go()
 }
 </script>

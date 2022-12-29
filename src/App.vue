@@ -1,27 +1,18 @@
 <script setup>
 import BaseLayout from '@/layouts/base.vue'
+import { storeToRefs } from 'pinia'
+import { useEstadoStore } from '@/stores/estado'
+const { estado } = storeToRefs(useEstadoStore())
 </script>
 <template>
   <base-layout>
-    <router-view v-slot="{ Component, route }">
-      <transition>
-        <div :key="route.name">  
-          <component :is="Component"></component>
-        </div>
-      </transition>
-    </router-view>
+    <template #alert v-if="estado">
+      <Alert>
+        <template #title>Atenção!</template>
+        Este site está em desenvolvimento, suas funções podem se comportar de forma inesperada em alguns momentos.
+        <template #footer>Obrigado pela compreensão</template>
+      </Alert>
+    </template>
+    <router-view />
   </base-layout>
 </template>
-<style>
-/* we will explain what these classes do next! */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>
-
