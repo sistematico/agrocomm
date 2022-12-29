@@ -1,20 +1,18 @@
 <script setup>
-import { onMounted, ref, watchEffect } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import { Tooltip } from 'bootstrap'
 import { convertDate, preco, estados } from '@/logic/utils'
 import Table from '@/components/table.vue'
 
-const cotacao = ref(null)
-const props = defineProps({ title: String, url: String })
 
-onMounted(() => {
+const props = defineProps({ title: String, url: String })
+const cotacao = ref(null)
+cotacao.value = await (await fetch(props.url)).json()
+
+onMounted(async () => {
   new Tooltip(document.body, {
     selector: "[data-bs-toggle='tooltip']"
   })
-})
-
-watchEffect(async () => {
-  cotacao.value = await (await fetch(props.url)).json()
 })
 </script>
 <template>
@@ -44,9 +42,7 @@ watchEffect(async () => {
         </tr>
       </Table>
       <div class="d-flex justify-content-end fs-6" v-if="cotacao && cotacao[0]">
-        <span class="badge bg-secondary">
-          Atualizado {{ convertDate(cotacao[0].date) }}
-        </span>
+        <span class="badge bg-secondary"> Atualizado {{ convertDate(cotacao[0].date) }} </span>
       </div>
     </div>
   </div>

@@ -1,6 +1,16 @@
 import { ref, watch } from 'vue'
 
 export function useStorage(key, val, cb = null) {
+// const apiBaseUrl = import.meta.env.VITE_API_URL
+// const url = `${apiBaseUrl}/geo`
+
+// async function fetchGeo() {
+//   let { geo: { region } } = await (await fetch(url)).json()
+//   return region.toLowerCase()
+// }
+
+
+
   let storedVal = read()
 
   if (storedVal) {

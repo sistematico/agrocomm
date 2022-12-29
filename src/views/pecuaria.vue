@@ -4,8 +4,9 @@ import Table from '@/components/table.vue'
 import { convertDate, preco, estados } from '@/logic/utils'
 import { Tooltip } from 'bootstrap'
 
-const cotacao = ref(null)
 const props = defineProps({ title: String, url: String })
+const cotacao = ref(null)
+cotacao.value = await (await fetch(props.url)).json()
 
 onMounted(() => {
   new Tooltip(document.body, {
@@ -13,9 +14,9 @@ onMounted(() => {
   })
 })
 
-watchEffect(async () => {
-  cotacao.value = await (await fetch(props.url)).json()
-})
+// watchEffect(async () => {
+//   cotacao.value = await (await fetch(props.url)).json()
+// })
 </script>
 <template>
   <div class="p-0 p-sm-2 p-md-5 mb-4 bg-light rounded-3">

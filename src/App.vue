@@ -1,25 +1,27 @@
 <script setup>
-import { onMounted } from 'vue'
 import BaseLayout from '@/layouts/base.vue'
-import { useStorage } from '@/composables/localstorage'
-
-const apiBaseUrl = import.meta.env.VITE_API_URL
-const url = `${apiBaseUrl}/geo`
-let estado = useStorage('estado', null)
-
-async function fetchGeo() {
-  let { geo: { region } } = await (await fetch(url)).json()
-  return region.toLowerCase()
-}
-
-onMounted(async () => {
-  if (estado.value === 'br' || estado.value === null) {
-    estado.value = await fetchGeo()
-  }
-})
 </script>
 <template>
   <base-layout>
-    <router-view />
+    <router-view v-slot="{ Component, route }">
+      <transition>
+        <div :key="route.name">  
+          <component :is="Component"></component>
+        </div>
+      </transition>
+    </router-view>
   </base-layout>
 </template>
+<style>
+/* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
+

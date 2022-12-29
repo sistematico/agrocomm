@@ -37,6 +37,7 @@
     "dotenv": "^16.0.3",
     "fastify": "^4.10.2",
     "geoip-lite": "^1.4.6",
+    "pinia": "^2.0.28",
     "vue": "^3.2.45",
     "vue-chartjs": "^5.0.1",
     "vue-router": "^4.1.6"

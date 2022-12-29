@@ -6,7 +6,7 @@ const appName = inject('appName')
 <template>
   <header>
     <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
-      <router-link to="/inicio" class="navbar-brand d-flex align-items-center text-dark text-decoration-none fs-3 fw-bold">
+      <router-link to="/" class="navbar-brand d-flex align-items-center text-dark text-decoration-none fs-3 fw-bold">
         <picture>
           <source type="image/webp" srcset="/img/navbar.webp">
           <source type="image/png" srcset="/img/navbar.png">

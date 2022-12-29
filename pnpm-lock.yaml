@@ -12,6 +12,7 @@ specifiers:
   dotenv: ^16.0.3
   fastify: ^4.10.2
   geoip-lite: ^1.4.6
+  pinia: ^2.0.28
   sass: ^1.57.0
   vite: ^4.0.1
   vue: ^3.2.45
@@ -29,6 +30,7 @@ dependencies:
   dotenv: 16.0.3
   fastify: 4.10.2
   geoip-lite: 1.4.6
+  pinia: 2.0.28_vue@3.2.45
   vue: 3.2.45
   vue-chartjs: 5.0.1_chart.js@4.1.0+vue@3.2.45
   vue-router: 4.1.6_vue@3.2.45
@@ -1052,6 +1054,23 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
+  /pinia/2.0.28_vue@3.2.45:
+    resolution: {integrity: sha512-YClq9DkqCblq9rlyUual7ezMu/iICWdBtfJrDt4oWU9Zxpijyz7xB2xTwx57DaBQ96UGvvTMORzALr+iO5PVMw==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.4.5
+      vue: 3.2.45
+      vue-demi: 0.13.11_vue@3.2.45
+    dev: false
+
   /pino-abstract-transport/1.0.0:
     resolution: {integrity: sha512-c7vo5OpW4wIS42hUVcT5REsL8ZljsUfBjqV/e2sFxmFEFZiq1XLUp5EYLtuDH6PEHq9W1egWqRbnLUP5FuZmOA==}
     dependencies:
@@ -1328,6 +1347,21 @@ packages:
       vue: ^3.0.0-0 || ^2.6.0
     dependencies:
       chart.js: 4.1.0
+      vue: 3.2.45
+    dev: false
+
+  /vue-demi/0.13.11_vue@3.2.45:
+    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
       vue: 3.2.45
     dev: false
 
