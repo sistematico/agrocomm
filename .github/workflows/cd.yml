@@ -1,0 +1,47 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Copy site via SSH with Password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "."
+          target: ${{ secrets.PROJECT_PATH }}
+
+  build:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install and build Vite using bun
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ${{ secrets.PROJECT_PATH }}
+            git remote set-url origin git@github.com:sistematico/agrocomm.git
+            #git fetch --all && git reset --hard origin/main && git clean -dffx
+            pnpm api:install
+            pnpm site:install
+            pnpm site:build
+            bash scripts/reset.sh
+            cd ${{ secrets.PROJECT_PATH }}/apps/api
+            node ./node_modules/geoip-lite/scripts/updatedb.js license_key=${{ secrets.MAXMIND_LICENSE_KEY }}
+            cd ${{ secrets.PROJECT_PATH }}/apps/site
+            [ ! -f .env ] && mv .env.production .env
+            sudo /usr/bin/systemctl restart agrocomm-hono.service

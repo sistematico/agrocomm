@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - "apps/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+      - run: cd apps/api && bun install
+      - run: cd apps/site && bun install
+      - run: cd apps/site && bun run build
