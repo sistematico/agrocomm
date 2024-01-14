@@ -1,16 +1,27 @@
 {
   "name": "@agrocomm/api",
+  "description": "A basic API using Bun, Hono, Prisma, Cheerio and TypeScript.",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "reset": "bun x prisma migrate reset --force && bun x prisma db seed",
+    "dev": "bun run --hot src/index.ts",
+    "migrate": "bun x prisma migrate dev --name init",
+    "generate": "bun x prisma generate"
+  },
+  "prisma": {
+    "seed": "bun run --bun prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "^5.8.0",
     "bree": "^9.2.2",
     "hono": "^3.12.3"
   },
   "devDependencies": {
-    "@types/bun": "^1.0.0"
+    "@types/bun": "^1.0.1",
+    "bun-types": "latest",
+    "prisma": "^5.8.0",
+    "tsx": "^4.7.0"
   }
 }

@@ -7,7 +7,21 @@
 			"path": "apps/site",
 			"problemMatcher": [],
 			"label": "npm: dev - apps/site",
-			"detail": "vite"
+			"detail": "vite",
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "apps/api",
+			"problemMatcher": [],
+			"label": "npm: dev - apps/api",
+			"detail": "bun run --hot src/index.ts",
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
 		}
 	]
 }

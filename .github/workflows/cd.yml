@@ -34,7 +34,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.PROJECT_PATH }}
-            git remote set-url origin git@github.com:sistematico/agrocomm.git
+            #git remote set-url origin git@github.com:sistematico/agrocomm.git
             #git fetch --all && git reset --hard origin/main && git clean -dffx
             pnpm api:install
             pnpm site:install

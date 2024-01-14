@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  usuario      String     @unique
+  email        String     @unique
+  senha        String
+  nome         String?
+  cargo         Cargo      @default(USUARIO)
+  assinatura Assinatura @default(GRATIS)
+}
+
+model Cotacao {
+  id          Int       @id @default(autoincrement())
+  data        DateTime  @db.Date
+  preco       Int?
+  commodity   Commodity @relation(fields: [commodityId], references: [id])
+  estado      Estado    @relation(fields: [estadoId], references: [id])
+  cidade      Cidade    @relation(fields: [cidadeId], references: [id])
+  commodityId Int
+  estadoId    Int
+  cidadeId    Int
+}
+
+model Commodity {
+  id       Int       @id @default(autoincrement())
+  nome     String    @unique
+  cotacoes Cotacao[]
+}
+
+model Estado {
+  id       Int       @id @default(autoincrement())
+  nome     String    @unique
+  acronimo String    @unique
+  cidades  Cidade[]
+  cotacoes Cotacao[]
+}
+
+model Cidade {
+  id       Int       @id @default(autoincrement())
+  nome     String
+  estado   Estado    @relation(fields: [estadoId], references: [id])
+  estadoId Int
+  quotes   Cotacao[]
+
+  @@unique([nome, estadoId])
+}
+
+enum Cargo {
+  USUARIO
+  ADMIN
+  MODERADOR
+  SUPERADMIN
+}
+
+enum Assinatura {
+  GRATIS
+  BASICA
+  BRONZE
+  PRATA
+  OURO
+  DIAMANTE
+}
