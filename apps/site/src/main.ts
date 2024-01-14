@@ -1,6 +1,11 @@
 import { createApp } from 'vue'
-// import 'vanilla-framework'
-// import '@/assets/scss/vanilla.scss'
-import app from './app.vue'
+import { createRouter, createWebHistory } from 'vue-router'
+import { routes } from '@/routes'
+import '@/assets/scss/tailwind.scss'
+import App from '@/app.vue'
 
-createApp(app).mount('#app')
+const router = createRouter({ history: createWebHistory(), routes })
+const app = createApp(App)
+
+app.use(router)
+app.mount('#app')

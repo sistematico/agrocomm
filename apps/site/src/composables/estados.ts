@@ -1,0 +1,32 @@
+import type { Estado } from '@/types'
+
+export const estados: Estado[] = [
+  { id: 0, acronym: 'BR', name: 'Brasil', icon: '/img/bandeiras/circle/brasil.svg' },
+  { id: 1, acronym: 'AC', name: 'Acre', icon: '/img/bandeiras/circle/acre.svg' },
+  { id: 2, acronym: 'AL', name: 'Alagoas', icon: '/img/bandeiras/circle/alagoas.svg' },
+  { id: 3, acronym: 'AP', name: 'Amapá', icon: '/img/bandeiras/circle/amapa.svg' },
+  { id: 4, acronym: 'AM', name: 'Amazonas', icon: '/img/bandeiras/circle/amazonas.svg' },
+  { id: 5, acronym: 'BA', name: 'Bahia', icon: '/img/bandeiras/circle/bahia.svg' },
+  { id: 6, acronym: 'CE', name: 'Ceará', icon: '/img/bandeiras/circle/ceara.svg' },
+  { id: 7, acronym: 'DF', name: 'Distrito Federal', icon: '/img/bandeiras/circle/distrito-federal.svg' },
+  { id: 8, acronym: 'ES', name: 'Espírito Santo', icon: '/img/bandeiras/circle/espirito-santo.svg' },
+  { id: 9, acronym: 'GO', name: 'Goías', icon: '/img/bandeiras/circle/goias.svg' },
+  { id: 10, acronym: 'MA', name: 'Maranhão', icon: '/img/bandeiras/circle/maranhao.svg' },
+  { id: 11, acronym: 'MT', name: 'Mato Grosso', icon: '/img/bandeiras/circle/mato-grosso.svg' },
+  { id: 12, acronym: 'MS', name: 'Mato Grosso do Sul', icon: '/img/bandeiras/circle/mato-grosso-do-sul.svg' },
+  { id: 13, acronym: 'MG', name: 'Minas Gerais', icon: '/img/bandeiras/circle/minas-gerais.svg' },
+  { id: 14, acronym: 'PA', name: 'Pará', icon: '/img/bandeiras/circle/para.svg' },
+  { id: 15, acronym: 'PB', name: 'Paraíba', icon: '/img/bandeiras/circle/paraiba.svg' },
+  { id: 16, acronym: 'PR', name: 'Paraná', icon: '/img/bandeiras/circle/parana.svg' },
+  { id: 17, acronym: 'PE', name: 'Pernambuco', icon: '/img/bandeiras/circle/pernambuco.svg' },
+  { id: 18, acronym: 'PI', name: 'Piauí', icon: '/img/bandeiras/circle/piaui.svg' },
+  { id: 19, acronym: 'RJ', name: 'Rio de Janeiro', icon: '/img/bandeiras/circle/rio-de-janeiro.svg' },
+  { id: 20, acronym: 'RN', name: 'Rio Grande do Norte', icon: '/img/bandeiras/circle/rio-grande-do-norte.svg' },
+  { id: 21, acronym: 'RS', name: 'Rio Grande do Sul', icon: '/img/bandeiras/circle/rio-grande-do-sul.svg' },
+  { id: 22, acronym: 'RO', name: 'Rondônia', icon: '/img/bandeiras/circle/rondonia.svg' },
+  { id: 23, acronym: 'RR', name: 'Roraíma', icon: '/img/bandeiras/circle/roraima.svg' },
+  { id: 24, acronym: 'SC', name: 'Santa Catarina', icon: '/img/bandeiras/circle/santa-catarina.svg' },
+  { id: 25, acronym: 'SP', name: 'São Paulo', icon: '/img/bandeiras/circle/sao-paulo.svg' },
+  { id: 26, acronym: 'SE', name: 'Sergipe', icon: '/img/bandeiras/circle/sergipe.svg' },
+  { id: 27, acronym: 'TO', name: 'Tocantins', icon: '/img/bandeiras/circle/tocantins.svg' }  
+]

@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vanilla-framework": "^4.5.1",
     "vue": "^3.3.11"
   },
   "devDependencies": {
