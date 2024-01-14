@@ -1,8 +1,13 @@
 {
+  "name": "@agrocomm/api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts"
   },
   "dependencies": {
+    "bree": "^9.2.2",
     "hono": "^3.12.3"
   },
   "devDependencies": {
