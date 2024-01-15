@@ -41,7 +41,7 @@ jobs:
             pnpm site:build
             bash scripts/reset.sh
             cd ${{ secrets.PROJECT_PATH }}/apps/api
-            node ./node_modules/geoip-lite/scripts/updatedb.js license_key=${{ secrets.MAXMIND_LICENSE_KEY }}
+            node ../../node_modules/geoip-lite/scripts/updatedb.js license_key=${{ secrets.MAXMIND_LICENSE_KEY }}
             cd ${{ secrets.PROJECT_PATH }}/apps/site
             [ ! -f .env ] && mv .env.production .env
             sudo /usr/bin/systemctl restart agrocomm-hono.service

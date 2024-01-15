@@ -16,6 +16,7 @@
   "dependencies": {
     "@prisma/client": "^5.8.0",
     "bree": "^9.2.2",
+    "geoip-lite": "^1.4.9",
     "hono": "^3.12.3"
   },
   "devDependencies": {
