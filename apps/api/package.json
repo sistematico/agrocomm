@@ -5,8 +5,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "dev": "bun run --watch src/index.ts",
     "reset": "bun x prisma migrate reset --force && bun x prisma db seed",
-    "dev": "bun run --hot src/index.ts",
     "migrate": "bun x prisma migrate dev --name init",
     "generate": "bun x prisma generate"
   },

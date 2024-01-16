@@ -2,23 +2,30 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "bun:dev - site",
 			"type": "npm",
 			"script": "dev",
 			"path": "apps/site",
 			"problemMatcher": [],
-			"label": "npm: dev - apps/site",
-			"detail": "vite",
 			"runOptions": {
 				"runOn": "folderOpen"
 			}
 		},
 		{
+			"label": "bun:dev - api",
 			"type": "npm",
 			"script": "dev",
 			"path": "apps/api",
 			"problemMatcher": [],
-			"label": "npm: dev - apps/api",
-			"detail": "bun run --hot src/index.ts",
+			"runOptions": {
+				"runOn": "folderOpen"
+			}
+		},
+		{
+			"label": "podman:start",
+			"type": "shell",
+			"command": "${workspaceFolder}/scripts/container.sh",
+			"problemMatcher": [],
 			"runOptions": {
 				"runOn": "folderOpen"
 			}

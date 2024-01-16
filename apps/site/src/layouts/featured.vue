@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import Card from "@/components/card-cotacao.vue";
+
+const cotacao = ref('agricultura')
 </script>
 <template>
   <section class="body-font overflow-hidden">
@@ -14,15 +17,28 @@ import Card from "@/components/card-cotacao.vue";
         <div
           class="flex mx-auto border-2 border-indigo-500 rounded overflow-hidden mt-6"
         >
-          <button class="py-1 px-4 bg-indigo-500 text-white focus:outline-none">
-            Monthly
+          <button 
+            class="py-1 px-4 text-white focus:outline-none" 
+            :class="{ 'bg-indigo-500': cotacao === 'agricultura' }"
+            @click="cotacao = 'agricultura'"
+          >
+            Agricultura
           </button>
-          <button class="py-1 px-4 text-gray-300 focus:outline-none">
-            Annually
+          <button 
+            class="py-1 px-4 text-gray-300 focus:outline-none" 
+            :class="{ 'bg-indigo-500': cotacao === 'pecuaria' }"
+            @click="cotacao = 'pecuaria'"
+          >
+            Pecuária
           </button>
         </div>
       </div>
-      <div class="flex flex-wrap -m-4">
+      <div class="flex flex-wrap -m-4" v-if="cotacao === 'agricultura'">
+        AGR
+        <Card />
+      </div>
+      <div class="flex flex-wrap -m-4" v-else>
+        PEC
         <Card />
       </div>
     </div>

@@ -7,27 +7,29 @@ const prisma = new PrismaClient();
 // writer.write(new Date() + " run");
 // writer.flush();
 
-// model Cotacao {
-//   id          Int       @id @default(autoincrement())
-//   data        DateTime  @db.Date
-//   preco       Int?
-//   commodity   Commodity @relation(fields: [commodityId], references: [id])
-//   estado      Estado    @relation(fields: [estadoId], references: [id])
-//   cidade      Cidade    @relation(fields: [cidadeId], references: [id])
-//   commodityId Int
-//   estadoId    Int
-//   cidadeId    Int
-// }
-
 // const preco = Math.floor(Math.random() * (max - min + 1) + min)
-const preco = Math.floor(Math.random() * (1000 - 100 + 1) + 100)
+const preco = Math.floor(Math.random() * (1000 - 100 + 1) + 100);
 
+
+// Primeiro, criar ou conectar a uma cidade
+const cidade = await prisma.cidade.upsert({
+  where: { id: 1 },
+  update: {},
+  create: {
+    nome: 'Campo Grande',
+    estadoId: 1,
+  },
+});
+
+// Depois, criar a cotação referenciando o ID da cidade e do estado
 await prisma.cotacao.create({
   data: {
     data: new Date(),
     preco,
-    commodityId: 1,
-    estadoId: 1,
-    cidadeId: 1
+    commodityId: 1,  // Supondo que o commodity com ID 1 existe
+    cidadeId: cidade.id,
+    estadoId: cidade.estadoId, // Usando o estadoId da cidade criada/conectada
   },
 });
+
+process.exit(0);
