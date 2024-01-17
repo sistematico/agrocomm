@@ -14,13 +14,15 @@
     "seed": "bun run --bun prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.8.0",
+    "@prisma/client": "5.8.1",
     "bree": "^9.2.2",
+    "cheerio": "^1.0.0-rc.12",
     "geoip-lite": "^1.4.9",
     "hono": "^3.12.3"
   },
   "devDependencies": {
     "@types/bun": "^1.0.1",
+    "@types/cheerio": "^0.22.35",
     "bun-types": "latest",
     "prisma": "^5.8.0",
     "tsx": "^4.7.0"

@@ -32,4 +32,6 @@ await prisma.cotacao.create({
   },
 });
 
+prisma.$disconnect();
+
 process.exit(0);

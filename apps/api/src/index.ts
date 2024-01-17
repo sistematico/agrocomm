@@ -21,6 +21,10 @@ app.get("/cotacoes", async (c) => {
   return c.json({ data });
 });
 
+app.notFound(c => {
+  return c.json({ message: 'Rota não encontrada' }, 404)
+})
+
 // const count = await prisma.user.count();
 const bree = new Bree({
   root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),

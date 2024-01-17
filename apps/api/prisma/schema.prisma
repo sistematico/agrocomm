@@ -8,25 +8,13 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  usuario      String     @unique
-  email        String     @unique
-  senha        String
-  nome         String?
-  cargo         Cargo      @default(USUARIO)
+  id         Int        @id @default(autoincrement())
+  usuario    String     @unique
+  email      String     @unique
+  senha      String
+  nome       String?
+  cargo      Cargo      @default(USUARIO)
   assinatura Assinatura @default(GRATIS)
-}
-
-model Cotacao {
-  id          Int       @id @default(autoincrement())
-  data        DateTime  @db.Date
-  preco       Int?
-  commodity   Commodity @relation(fields: [commodityId], references: [id])
-  estado      Estado    @relation(fields: [estadoId], references: [id])
-  cidade      Cidade    @relation(fields: [cidadeId], references: [id])
-  commodityId Int
-  estadoId    Int
-  cidadeId    Int
 }
 
 model Commodity {
@@ -35,22 +23,34 @@ model Commodity {
   cotacoes Cotacao[]
 }
 
+model Cotacao {
+  id          Int       @id @default(autoincrement())
+  data        DateTime  @db.Date
+  preco       Int?
+  commodity   Commodity @relation(fields: [commodityId], references: [id])
+  estados     Estado    @relation(fields: [estado], references: [sigla])
+  cidades     Cidade    @relation(fields: [cidadeId], references: [id])
+  commodityId Int
+  estado      String
+  cidadeId    Int
+}
+
 model Estado {
   id       Int       @id @default(autoincrement())
   nome     String    @unique
-  acronimo String    @unique
+  sigla    String    @unique
   cidades  Cidade[]
   cotacoes Cotacao[]
 }
 
 model Cidade {
-  id       Int       @id @default(autoincrement())
-  nome     String
-  estado   Estado    @relation(fields: [estadoId], references: [id])
-  estadoId Int
-  quotes   Cotacao[]
+  id      Int       @id @default(autoincrement())
+  nome    String
+  estados Estado    @relation(fields: [estado], references: [sigla])
+  estado  String
+  quotes  Cotacao[]
 
-  @@unique([nome, estadoId])
+  @@unique([nome, estado])
 }
 
 enum Cargo {

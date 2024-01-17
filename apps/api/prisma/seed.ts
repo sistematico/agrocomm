@@ -5,34 +5,34 @@ const prisma = new PrismaClient();
 const password = "passwd";
 const hash = await Bun.password.hash(password);
 const ufs = [
-  { nome: 'Acre', acronimo: 'AC' },                // 1
-  { nome: 'Alagoas', acronimo: 'AL' },             // 2
-  { nome: 'Amapá', acronimo: 'AP' },               // 3
-  { nome: 'Amazonas', acronimo: 'AM' },            // 4
-  { nome: 'Bahia', acronimo: 'BA' },               // 5
-  { nome: 'Ceará', acronimo: 'CE' },               // 6 
-  { nome: 'Distrito Federal', acronimo: 'DF' },    // 7
-  { nome: 'Espírito Santo', acronimo: 'ES' },      // 8
-  { nome: 'Goiás', acronimo: 'GO' },               // 9
-  { nome: 'Maranhão', acronimo: 'MA' },            // 10
-  { nome: 'Mato Grosso', acronimo: 'MT' },         // 11
-  { nome: 'Mato Grosso do Sul', acronimo: 'MS' },  // 12
-  { nome: 'Minas Gerais', acronimo: 'MG' },        // 13
-  { nome: 'Pará', acronimo: 'PA' },                // 14
-  { nome: 'Paraíba', acronimo: 'PB' },             // 15
-  { nome: 'Paraná', acronimo: 'PR' },              // 16
-  { nome: 'Pernambuco', acronimo: 'PE' },          // 17
-  { nome: 'Piauí', acronimo: 'PI' },               // 18
-  { nome: 'Rio de Janeiro', acronimo: 'RJ' },      // 19
-  { nome: 'Rio Grande do Norte', acronimo: 'RN' }, // 20
-  { nome: 'Rio Grande do Sul', acronimo: 'RS' },   // 21
-  { nome: 'Rondônia', acronimo: 'RO' },            // 22
-  { nome: 'Roraima', acronimo: 'RR' },             // 23
-  { nome: 'Santa Catarina', acronimo: 'SC' },      // 24
-  { nome: 'São Paulo', acronimo: 'SP' },           // 25
-  { nome: 'Sergipe', acronimo: 'SE' },             // 26
-  { nome: 'Tocantins', acronimo: 'TO' },           // 27
-  { nome: 'Brasil', acronimo: 'BR' }               // 28
+  { nome: 'Acre', sigla: 'AC' },                // 1
+  { nome: 'Alagoas', sigla: 'AL' },             // 2
+  { nome: 'Amapá', sigla: 'AP' },               // 3
+  { nome: 'Amazonas', sigla: 'AM' },            // 4
+  { nome: 'Bahia', sigla: 'BA' },               // 5
+  { nome: 'Ceará', sigla: 'CE' },               // 6 
+  { nome: 'Distrito Federal', sigla: 'DF' },    // 7
+  { nome: 'Espírito Santo', sigla: 'ES' },      // 8
+  { nome: 'Goiás', sigla: 'GO' },               // 9
+  { nome: 'Maranhão', sigla: 'MA' },            // 10
+  { nome: 'Mato Grosso', sigla: 'MT' },         // 11
+  { nome: 'Mato Grosso do Sul', sigla: 'MS' },  // 12
+  { nome: 'Minas Gerais', sigla: 'MG' },        // 13
+  { nome: 'Pará', sigla: 'PA' },                // 14
+  { nome: 'Paraíba', sigla: 'PB' },             // 15
+  { nome: 'Paraná', sigla: 'PR' },              // 16
+  { nome: 'Pernambuco', sigla: 'PE' },          // 17
+  { nome: 'Piauí', sigla: 'PI' },               // 18
+  { nome: 'Rio de Janeiro', sigla: 'RJ' },      // 19
+  { nome: 'Rio Grande do Norte', sigla: 'RN' }, // 20
+  { nome: 'Rio Grande do Sul', sigla: 'RS' },   // 21
+  { nome: 'Rondônia', sigla: 'RO' },            // 22
+  { nome: 'Roraima', sigla: 'RR' },             // 23
+  { nome: 'Santa Catarina', sigla: 'SC' },      // 24
+  { nome: 'São Paulo', sigla: 'SP' },           // 25
+  { nome: 'Sergipe', sigla: 'SE' },             // 26
+  { nome: 'Tocantins', sigla: 'TO' },           // 27
+  { nome: 'Brasil', sigla: 'BR' }               // 28
 ]
 
 // Inserir commodities rurais
@@ -53,7 +53,7 @@ const mercadorias = [
 
 for (const uf of ufs) {
   await prisma.estado.upsert({
-      where: { acronimo: uf.acronimo },
+      where: { sigla: uf.sigla },
       update: {},
       create: uf
   });
