@@ -36,12 +36,12 @@ jobs:
             cd ${{ secrets.PROJECT_PATH }}
             #git remote set-url origin git@github.com:sistematico/agrocomm.git
             #git fetch --all && git reset --hard origin/main && git clean -dffx
-            pnpm api:install
-            pnpm site:install
-            pnpm site:build
-            bash scripts/reset.sh
+            #bash scripts/reset.sh
             cd ${{ secrets.PROJECT_PATH }}/apps/api
+            /home/nginx/.bun/bin/bun install
             node ../../node_modules/geoip-lite/scripts/updatedb.js license_key=${{ secrets.MAXMIND_LICENSE_KEY }}
             cd ${{ secrets.PROJECT_PATH }}/apps/site
             [ ! -f .env ] && mv .env.production .env
+            /home/nginx/.bun/bin/bun install
+            /home/nginx/.bun/bin/bun run build
             sudo /usr/bin/systemctl restart agrocomm-hono.service
