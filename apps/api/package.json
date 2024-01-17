@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "@types/bun": "^1.0.1",
-    "@types/cheerio": "^0.22.35",
     "bun-types": "latest",
     "prisma": "^5.8.0",
     "tsx": "^4.7.0"

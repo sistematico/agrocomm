@@ -1,26 +1,17 @@
 #!/bin/bash
 
 BUN=/home/nginx/.bun/bin/bun
-MAXMIND_LICENSE_KEY="$1"
+PROJECT_PATH="$1"
 
-[ -f apps/api/.env ] && cp apps/api/.env ../env.api
-[ -f apps/site/.env ] && cp apps/site/.env ../env.site
-
-git fetch --all && git reset --hard origin/main 
-git clean -dffx
-
-[ -f ../env.api ] && cp ../env.api apps/api/.env 
-[ -f ../env.site ] && cp ../env.site apps/site/.env
-
+#MAXMIND_LICENSE_KEY="$1"
+#[ $1 ] && node ../../node_modules/geoip-lite/scripts/updatedb.js license_key=${MAXMIND_LICENSE_KEY}
 #bash scripts/reset.sh
 
-cd apps/api
+cd $PROJECT_PATH/apps/api
 [ ! -f .env ] && cp .env.prod .env
 $BUN install
 
-[ $1 ] && node ../../node_modules/geoip-lite/scripts/updatedb.js license_key=${MAXMIND_LICENSE_KEY}
-
-cd ../site
+cd $PROJECT_PATH/apps/site
 [ ! -f .env ] && cp .env.prod .env
 $BUN install
 $BUN run build
