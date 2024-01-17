@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "bunx --bun vite",
     "build-old": "vue-tsc && vite build",
-    "build": "vue-tsc --noEmit --incremental false --composite false && /home/nginx/.bun/bin/bun x vite build",
+    "buildold2": "vue-tsc --noEmit --incremental false --composite false && vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
