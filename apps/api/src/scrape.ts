@@ -14,14 +14,20 @@ async function scrape(url: string) {
   return data;
 }
 
-const body = await scrape("https://www.scotconsultoria.com.br/cotacoes/boi-gordo/?ref=smnb");
+// const body = await scrape("https://www.scotconsultoria.com.br/cotacoes/boi-gordo/?ref=smnb");
+const body = await scrape("https://agrocomm.com.br/table");
 const $ = cheerio.load(body);
-const rows = $('div.conteudo_centro:nth-child(4) > table:nth-child(5) > tbody:nth-child(2) tr').toArray()
+// const rows = $('div.conteudo_centro:nth-child(4) > table:nth-child(5) > tbody:nth-child(2) tr').toArray()
+const rows = $('table:nth-child(3) > tbody:nth-child(2)').toArray()
+
+console.log(body)
 
 for (const row of rows) {
-  const td = $(row).children()
-  const estadoCidadeStr = $(td[0]).text()
-  cotacoes.push({ data: new Date(), commodityId: 1, estado: 'MS', cidadeId: 1, preco: 1 })
+  console.log('OK')
+  const td = $(row).children('td')
+  console.log(td[0], row)
+  // const estadoCidadeStr = $(td[0]).text()
+  // cotacoes.push({ data: new Date(), commodityId: 1, estado: estadoCidadeStr, cidadeId: 1, preco: 1 })
 }
 
-console.log(cotacoes)
+// console.log(cotacoes)

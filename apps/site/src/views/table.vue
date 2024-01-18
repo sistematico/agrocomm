@@ -21,33 +21,9 @@
       </div>
     </div>
 
-    <div
-      style="
-        background: url('https://www.scotconsultoria.com.br/bancoImagensUP/Logo_Scot_Horizontal.jpg');
-        background-repeat: no-repeat;
-        background-position: center;
-        z-index: 1000;
-        position: absolute;
-        width: 350px;
-        height: 476px;
-        opacity: 0.07;
-        left: 250px;
-      "
-    ></div>
 
-    <div
-      style="
-        background: url('https://www.scotconsultoria.com.br/img/Logo-Vertical-Scot-3.jpg');
-        background-repeat: no-repeat;
-        z-index: 1000;
-        position: absolute;
-        width: 660px;
-        height: 606px;
-        opacity: 0.07;
-        top: 562px;
-        left: 140px;
-      "
-    ></div>
+
+
 
     <table cellpadding="0" cellspacing="0" width="660px">
       <thead>
@@ -968,120 +944,7 @@
         </a>
       </p>
     </div>
-    <br />
 
-    <br />
-    <a
-      href="https://www.scotconsultoria.com.br/cotacoes/"
-      class="botaoprevnext"
-    >
-      &lt;&lt;Voltar</a
-    >
-    <br />
-    <br />
 
-    <!-- /19017027/Pg_Cotacao_BOI_660x130 -->
-    <div
-      id="div-gpt-ad-1633697010407-0"
-      style="min-width: 660px; min-height: 130px; display: none"
-      data-google-query-id="CP-PsJ6Q5IMDFYVS3QIdEcQIkA"
-    >
-      <script>
-        googletag.cmd.push(function () {
-          googletag.display("div-gpt-ad-1633697010407-0");
-        });
-      </script>
-      <div
-        id="google_ads_iframe_/19017027/Pg_Cotacao_BOI_660x130_0__container__"
-        style="border: 0pt; width: 660px; height: 0px"
-      ></div>
-    </div>
-
-    <div class="master1">
-      <br />
-
-      <div class="top_more">
-        <h2 class="titulo-arial-verde">Cotações</h2>
-        <br />
-
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/boi-gordo/?ref=smn"
-            class="link-arial"
-            >Boi gordo</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/vaca-gorda/?ref=smn>"
-            class="link-arial"
-            >Vaca Gorda</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/couro-e-sebo/?ref=smn"
-            class="link-arial"
-            >Couro e Sebo</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/mercado-futuro/?ref=smn"
-            class="link-arial"
-            >Mercado Futuro</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/boi-no-mundo/?ref=smn"
-            class="link-arial"
-            >Boi no mundo</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/atacado/?ref=smn"
-            class="link-arial"
-            >Atacado</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/indicadores/?ref=smn"
-            class="link-arial"
-            >Indicadores Scot</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/leite-cotacoes/?ref=smn"
-            class="link-arial"
-            >Leite</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/soja/?ref=smn"
-            class="link-arial"
-            >Soja</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/milho/?ref=smn"
-            class="link-arial"
-            >Milho</a
-          >
-        </div>
-        <div class="divisa">
-          <a
-            href="http://www.scotconsultoria.com.br/cotacoes/reposicao/?ref=smn"
-            class="link-arial"
-            >Reposição</a
-          >
-        </div>
-      </div>
-    </div>
   </div>
 </template>

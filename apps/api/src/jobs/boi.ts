@@ -17,8 +17,8 @@ const cidade = await prisma.cidade.upsert({
   update: {},
   create: {
     nome: 'Campo Grande',
-    estadoId: 1,
-  },
+    estado: 'MS'
+  }
 });
 
 // Depois, criar a cotação referenciando o ID da cidade e do estado
@@ -28,7 +28,7 @@ await prisma.cotacao.create({
     preco,
     commodityId: 1,  // Supondo que o commodity com ID 1 existe
     cidadeId: cidade.id,
-    estadoId: cidade.estadoId, // Usando o estadoId da cidade criada/conectada
+    estado: cidade.estado, // Usando o estadoId da cidade criada/conectada
   },
 });
 
