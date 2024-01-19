@@ -7,14 +7,14 @@ const open = ref(false)
 
 const selected = computed(() => {
   const stateAcronym = store.state || 'BR'
-  const selectedIndex = estados.findIndex(item => item.acronym === stateAcronym)
-  return selectedIndex !== -1 ? estados[selectedIndex] : estados.find(e => e.acronym === 'BR') || estados[0]
+  const selectedIndex = estados.findIndex(item => item.sigla === stateAcronym)
+  return selectedIndex !== -1 ? estados[selectedIndex] : estados.find(e => e.sigla === 'BR') || estados[0]
 })
 
 function selectState(estado: string) {
   store.setState(estado)
-  const selectedIndex = estados.findIndex(item => item.acronym === estado)
-  if (selectedIndex !== -1) store.state = estados[selectedIndex].acronym
+  const selectedIndex = estados.findIndex(item => item.sigla === estado)
+  if (selectedIndex !== -1) store.state = estados[selectedIndex].sigla
   open.value = false
 }
 </script>
@@ -22,8 +22,8 @@ function selectState(estado: string) {
   <div class="relative inline-block text-left">
     <div>
       <button @click="open = !open" type="button" class="flex w-full justify-center items-center" aria-expanded="true" aria-haspopup="true">
-        <img class="w-6 h-6 mr-2 rounded-full" :src="selected.icon" :alt="selected.name" />
-        {{ selected.name }}
+        <img class="w-6 h-6 mr-2 rounded-full" :src="selected.icone" :alt="selected.nome" />
+        {{ selected.nome }}
       </button>
     </div>
 
@@ -31,9 +31,9 @@ function selectState(estado: string) {
       <div class="h-56 py-2 overflow-y-auto" role="none">
         <template v-for="estado in estados" :key="estado.id">
           <router-link 
-            :to="`/${estado.acronym.toLowerCase()}`" 
-            class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" @click="selectState(estado.acronym)">
-            <img class="w-6 h-6 mr-2 rounded-full" :src="estado.icon" :alt="estado.name" />{{ estado.name }}
+            :to="`/${estado.sigla.toLowerCase()}`" 
+            class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" @click="selectState(estado.sigla)">
+            <img class="w-6 h-6 mr-2 rounded-full" :src="estado.icone" :alt="estado.nome" />{{ estado.nome }}
           </router-link>
         </template>
       </div>

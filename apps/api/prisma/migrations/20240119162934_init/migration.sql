@@ -18,18 +18,6 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Cotacao" (
-    "id" SERIAL NOT NULL,
-    "data" DATE NOT NULL,
-    "preco" INTEGER,
-    "commodityId" INTEGER NOT NULL,
-    "estadoId" INTEGER NOT NULL,
-    "cidadeId" INTEGER NOT NULL,
-
-    CONSTRAINT "Cotacao_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Commodity" (
     "id" SERIAL NOT NULL,
     "nome" TEXT NOT NULL,
@@ -38,10 +26,22 @@ CREATE TABLE "Commodity" (
 );
 
 -- CreateTable
+CREATE TABLE "Cotacao" (
+    "id" SERIAL NOT NULL,
+    "data" DATE NOT NULL,
+    "preco" INTEGER,
+    "estado" TEXT NOT NULL,
+    "cidade" TEXT NOT NULL,
+    "commodityId" INTEGER NOT NULL,
+
+    CONSTRAINT "Cotacao_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Estado" (
     "id" SERIAL NOT NULL,
     "nome" TEXT NOT NULL,
-    "acronimo" TEXT NOT NULL,
+    "sigla" TEXT NOT NULL,
 
     CONSTRAINT "Estado_pkey" PRIMARY KEY ("id")
 );
@@ -50,9 +50,9 @@ CREATE TABLE "Estado" (
 CREATE TABLE "Cidade" (
     "id" SERIAL NOT NULL,
     "nome" TEXT NOT NULL,
-    "estadoId" INTEGER NOT NULL,
+    "estado" TEXT NOT NULL,
 
-    CONSTRAINT "Cidade_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Cidade_pkey" PRIMARY KEY ("nome","estado")
 );
 
 -- CreateIndex
@@ -65,22 +65,13 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "Commodity_nome_key" ON "Commodity"("nome");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Estado_nome_key" ON "Estado"("nome");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Estado_acronimo_key" ON "Estado"("acronimo");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Cidade_nome_estadoId_key" ON "Cidade"("nome", "estadoId");
+CREATE UNIQUE INDEX "Estado_sigla_key" ON "Estado"("sigla");
 
 -- AddForeignKey
 ALTER TABLE "Cotacao" ADD CONSTRAINT "Cotacao_commodityId_fkey" FOREIGN KEY ("commodityId") REFERENCES "Commodity"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Cotacao" ADD CONSTRAINT "Cotacao_estadoId_fkey" FOREIGN KEY ("estadoId") REFERENCES "Estado"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Cotacao" ADD CONSTRAINT "Cotacao_estado_fkey" FOREIGN KEY ("estado") REFERENCES "Estado"("sigla") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Cotacao" ADD CONSTRAINT "Cotacao_cidadeId_fkey" FOREIGN KEY ("cidadeId") REFERENCES "Cidade"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Cidade" ADD CONSTRAINT "Cidade_estadoId_fkey" FOREIGN KEY ("estadoId") REFERENCES "Estado"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Cidade" ADD CONSTRAINT "Cidade_estado_fkey" FOREIGN KEY ("estado") REFERENCES "Estado"("sigla") ON DELETE RESTRICT ON UPDATE CASCADE;

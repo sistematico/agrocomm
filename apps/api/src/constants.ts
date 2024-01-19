@@ -72,6 +72,5 @@ export function getUrl(servico: Servico, provedor: Provedor): string | undefined
   return servicoProvedorURL.get(`${servico}-${provedor}`);
 }
 
-const url = getUrl(Servico.BOI, Provedor.SCOT);
-console.log(url);
+// const url = getUrl(Servico.BOI, Provedor.SCOT);
 

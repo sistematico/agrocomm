@@ -27,7 +27,7 @@ export function limparCidadeEstado(entrada: string): Localizacao | null {
 }
 
 export async function getOrCreateCity(nome: string, estado: string) {
-  if (nome === "Nenhuma") return 0
+  if (!nome || nome === "Nenhuma") return 0
 
   let estadoDb = await db.estado.findUnique({ where: { sigla: estado } });
   if (!estadoDb) estadoDb = await db.estado.create({ data: { nome: estado, sigla: estado } });

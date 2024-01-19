@@ -28,29 +28,29 @@ model Cotacao {
   data        DateTime  @db.Date
   preco       Int?
   commodity   Commodity @relation(fields: [commodityId], references: [id])
+  estado      String
   estados     Estado    @relation(fields: [estado], references: [sigla])
+  cidadeId    Int
   cidades     Cidade    @relation(fields: [cidadeId], references: [id])
   commodityId Int
-  estado      String
-  cidadeId    Int
 }
 
 model Estado {
   id       Int       @id @default(autoincrement())
-  nome     String    
+  nome     String
   sigla    String    @unique
   cidades  Cidade[]
   cotacoes Cotacao[]
 }
 
 model Cidade {
-  id      Int       @id @default(autoincrement())
-  nome    String
-  estados Estado    @relation(fields: [estado], references: [sigla])
-  estado  String
-  quotes  Cotacao[]
+  id       Int       @id @default(autoincrement())
+  nome     String
+  estados  Estado    @relation(fields: [estado], references: [sigla])
+  estado   String
+  cotacoes Cotacao[]
 
-  @@unique([nome, estado])
+  //@@id([nome, estado])
 }
 
 enum Cargo {

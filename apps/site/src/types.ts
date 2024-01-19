@@ -1,10 +1,10 @@
 export interface Estado {
-  id:       number
-  name:     string
-  acronym:  string
-  icon:     string
+  id:    number;
+  nome:  string;
+  sigla: string;
+  icone: string;
 }
 
 export interface TableData {
-  [key: string]: string | number | Date // unknown
+  [key: string]: string | number | Date; // unknown
 }
