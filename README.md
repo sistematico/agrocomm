@@ -10,6 +10,10 @@
 - [AgroComm](https://github.com/sistematico/agrocomm/tree/main/apps/site) | [Site](https://agrocomm.com.br)
 - [AgroComm API](https://github.com/sistematico/agrocomm/tree/main/apps/api) | [Site](https://api.agrocomm.com.br)
 
+## Banco de Dados
+
+![AgroComm](./assets/prisma-erd.svg "AgroComm")
+
 ## Dependências
 
 - [Bun](https://bun.sh)

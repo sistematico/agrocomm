@@ -37,7 +37,7 @@ model Cotacao {
 
 model Estado {
   id       Int       @id @default(autoincrement())
-  nome     String    @unique
+  nome     String    
   sigla    String    @unique
   cidades  Cidade[]
   cotacoes Cotacao[]

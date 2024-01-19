@@ -32,8 +32,8 @@ const bree = new Bree({
   jobs: [
     {
       name: "boi",
-      cron: "* * * * *"
-      //cron: "* */1 * * *"
+      //cron: "* * * * *"
+      cron: "5 8 * * *"
       //cron: "11 13 * * 1-5", // seg-sex, 12:??pm
     },
   ],
