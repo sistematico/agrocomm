@@ -5,7 +5,7 @@ PROJECT_PATH="$1"
 
 #MAXMIND_LICENSE_KEY="$1"
 #[ $1 ] && node ../../node_modules/geoip-lite/scripts/updatedb.js license_key=${MAXMIND_LICENSE_KEY}
-#bash scripts/reset.sh
+bash scripts/reset.sh
 
 cd $PROJECT_PATH/apps/api
 [ ! -f .env ] && cp .env.prod .env

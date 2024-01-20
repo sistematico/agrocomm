@@ -9,6 +9,14 @@
 			"problemMatcher": [],
 			"runOptions": {
 				"runOn": "folderOpen"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
 			}
 		},
 		{
@@ -28,7 +36,8 @@
 			"problemMatcher": [],
 			"runOptions": {
 				"runOn": "folderOpen"
-			}
+			},
+			"isBackground": true
 		}
 	]
 }

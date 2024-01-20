@@ -1,10 +1,5 @@
 import type { EstadoBrasileiro } from "@/types";
 
-export interface Localizacao {
-  estado: string;
-  cidade?: string;
-}
-
 export const estadosBrasileiros: EstadoBrasileiro[] = [
   { nome: "Acre", sigla: "AC", ddd: [68]},
   { nome: "Alagoas", sigla: "AL", ddd: [82]},

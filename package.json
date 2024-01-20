@@ -5,6 +5,10 @@
   "type": "module",
   "workspaces": ["apps/*"],
   "scripts": {
+    "api:install": "cd apps/api && bun install",
+    "api:reset": "cd apps/api && bun run freset",
+    "site:install": "cd apps/site && bun install",
+    "site:build": "cd apps/site && bun run build",
     "clean": "rm -rf node_modules bun.lockb apps/*/node_modules apps/*/bun.lockb"
   },
   "devDependencies": {

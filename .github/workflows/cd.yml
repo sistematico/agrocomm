@@ -39,4 +39,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ${{ secrets.PROJECT_PATH }}
+            #bun run api:install
+            #bun run api:reset
+            #bun run site:reset
+            #bun run site:build
             bash scripts/deploy.sh ${{ secrets.PROJECT_PATH }}

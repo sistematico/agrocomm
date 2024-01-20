@@ -1,5 +1,6 @@
 #!/bin/sh
 
+BUN=/home/nginx/.bun/bin/bun
 OLDPWD="$(pwd)"
 
 # Define cores
@@ -14,18 +15,18 @@ cd apps/api
 
 # Resetar o banco de dados
 echo -e "${GREEN}Resetando o banco de dados ao estado original...${NO_COLOR}"
-~/.bun/bin/bun x prisma migrate reset --force
+$BUN x prisma migrate reset --force
 
 # Gera o cliente Prisma
 echo -e "${GREEN}Gerando o cliente Prisma...${NO_COLOR}"
-~/.bun/bin/bun x prisma generate
+$BUN x prisma generate
 
 # Executa as migrações para recriar as tabelas
 echo -e "${GREEN}Criando as tabelas a partir do esquema(schema.prisma)...${NO_COLOR}"
-~/.bun/bin/bun x prisma db push
+$BUN x prisma db push
 
 echo -e "${GREEN}Executando o prisma/seed.ts${NO_COLOR}"
-~/.bun/bin/bun x prisma db seed
+$BUN x prisma db seed
 
 cd "$OLDPWD"
 

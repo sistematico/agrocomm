@@ -8,6 +8,7 @@
     "dev": "bun run --watch src/index.ts",
     "push": "bun x prisma db push --force-reset",
     "reset": "bun x prisma migrate reset --force && bun x prisma db seed",
+    "freset": "rm -rf prisma/migrations/ && bun x prisma db push --force-reset && bun x prisma db seed && bun x prisma generate",
     "migrate": "bun x prisma migrate dev --name init",
     "generate": "bun x prisma generate",
     "seed": "bun x prisma db seed"

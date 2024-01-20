@@ -27,17 +27,28 @@ export function limparCidadeEstado(entrada: string): Localizacao | null {
 }
 
 export async function getOrCreateCity(nome: string, estado: string) {
-  if (!nome || nome === "Nenhuma") return 0
+  if (!nome || nome === "Nenhuma") return null; // Retorna null para nomes de cidades inválidos
 
-  let estadoDb = await db.estado.findUnique({ where: { sigla: estado } });
-  if (!estadoDb) estadoDb = await db.estado.create({ data: { nome: estado, sigla: estado } });
+  try {
+    let estadoDb = await db.estado.findUnique({ where: { sigla: estado } });
+    if (!estadoDb) {
+      estadoDb = await db.estado.create({ data: { nome: estado, sigla: estado } });
+    }
 
-  let city = await db.cidade.findFirst({ where: { nome, estado: estadoDb.sigla } });
-  if (!city) city = await db.cidade.create({ data: { nome, estado: estadoDb.sigla } });
-  
-  db.$disconnect()
-  
-  return city.id;
+    let city = await db.cidade.findFirst({ where: { nome, estado: estadoDb.sigla } });
+    if (!city) {
+      city = await db.cidade.create({ data: { nome, estado: estadoDb.sigla } });
+    }
+
+    await db.$disconnect();
+
+    return city.nome;
+
+  } catch (error) {
+    await db.$disconnect();
+    console.error("Erro ao criar ou obter cidade:", error);
+    return null; // Retorna null em caso de erro
+  }
 }
 
 export function extractDateFromString(str: string): Date | null {
