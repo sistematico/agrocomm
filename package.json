@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@prisma/client": "latest",
+    "dayjs": "^1.11.10",
     "vue-router": "4"
   }
 }

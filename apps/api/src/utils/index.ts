@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import type { Localizacao } from "@/types";
+import type { Localizacao, Feriados } from "@/types";
 
 export const db = new PrismaClient();
 
-export async function scrape(url: string) {
+export async function loadUrl(url: string) {
   const data = await fetch(url)
     .then((response) => response.arrayBuffer())
     .then((buffer) => {
@@ -60,31 +60,29 @@ export function extractDateFromString(str: string): Date | null {
       const month = parseInt(match[2], 10) - 1; // Mês em JavaScript é 0-indexado
       const year = parseInt(match[3], 10);
 
-      return new Date(year, month, day);
+      // return new Date(year, month, day);
+      const utcDate = new Date(year, month, day).toISOString();
+
+      console.log("UTC:", utcDate, "Local:", new Date(year, month, day))
+
+      return new Date(utcDate);
   }
 
   return null;
 }
 
 export async function ultimaDataUtil(commodity: number) {
-  const path = "@/json/feriados.json";
+  const path = import.meta.dir + "/../json/feriados.json";
   const file = Bun.file(path);
-  const feriados = await file.json();
+  const { feriados } = await file.json();
   let dataAtual = new Date();
 
   while (true) {
     const dataFormatada = `${dataAtual.getFullYear()}-${(dataAtual.getMonth() + 1).toString().padStart(2, '0')}-${dataAtual.getDate().toString().padStart(2, '0')}`;
     const dataFeriado = new Date(dataFormatada);
 
-    if (dataAtual.getDay() >= 1 && dataAtual.getDay() <= 5 && !feriados.includes(dataFormatada)) {
-      const existeData = await db.cotacao.findFirst({ where: { data: dataFeriado, commodityId: commodity } });
-      if (!existeData) return dataFormatada; 
-    }
+    if (dataAtual.getDay() >= 1 && dataAtual.getDay() <= 5 && feriados.filter((feriado: Feriados) => feriado.date === dataFormatada).length === 0) return dataFeriado; 
 
     dataAtual.setDate(dataAtual.getDate() - 1);
   }
 }
-
-// ultimaDataUtilNaoFeriado(1).then((data) => {
-//   console.log('Última data útil não feriado:', data);
-// });

@@ -16,3 +16,9 @@ export type EstadoBrasileiro = {
   sigla: string;
   ddd: number[];
 }
+
+export type Feriados = {
+  date: string;
+  name: string;
+  image?: string;
+}

@@ -27,7 +27,10 @@ const open = ref(false)
               <router-link to="/" class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Início</router-link>
             </li>
             <li>
-              <router-link to="/contato" class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400">Contato</router-link>
+              <router-link to="/agricultura" class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400">Agricultura</router-link>
+            </li>
+            <li>
+              <router-link to="/pecuaria" class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400">Pecuaria</router-link>
             </li>
             <li class="flex items-center">
               <Dropdown class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400" />

@@ -1,12 +1,11 @@
 import { db } from "@/utils";
-import { boiService } from "@/cotacoes/boi.service";
+import { milhoService } from "@/cotacoes/milho.service";
 
-const cotacao = await boiService();
+const cotacao = await milhoService();
 
 if (cotacao) {
   await db.cotacao.createMany({ data: cotacao.cotacoes });
   db.$disconnect();
 }
-
 
 process.exit(0);

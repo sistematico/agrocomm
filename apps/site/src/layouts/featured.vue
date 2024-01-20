@@ -30,6 +30,7 @@ onMounted(async () => {
     if (cotacoes) {
       data.value = cotacoes
       headers.value = Object.keys(cotacoes[0] || {}) // Atualiza os cabeçalhos com base nos dados recebidos
+      
     }
   } catch (error) {
     console.error('There has been a problem with your fetch operation:', error)

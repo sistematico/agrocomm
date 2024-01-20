@@ -37,18 +37,18 @@ const ufs = [
 
 // Inserir commodities rurais
 const mercadorias = [
+  'Arroba da Vaca', // 0
   'Arroba do Boi',  // 1
-  'Arroba da Vaca', // 2
-  'Novilho',        // 3
-  'Novilha',        // 4
-  'Bezerro',        // 5
-  'Bezerra',        // 6
-  'Soja',           // 7
-  'Milho',          // 8
-  'Feijão',         // 9
-  'Café',           // 10
-  'Leite',          // 11
-  'Eucalipto'       // 12
+  'Novilho',        // 2
+  'Novilha',        // 3
+  'Bezerro',        // 4
+  'Bezerra',        // 5
+  'Soja',           // 6
+  'Milho',          // 7
+  'Feijão',         // 8
+  'Café',           // 9
+  'Leite',          // 10
+  'Eucalipto'       // 11
 ];
 
 for (const uf of ufs) {
