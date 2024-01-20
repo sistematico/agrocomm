@@ -63,8 +63,6 @@ export function extractDateFromString(str: string): Date | null {
       // return new Date(year, month, day);
       const utcDate = new Date(year, month, day).toISOString();
 
-      console.log("UTC:", utcDate, "Local:", new Date(year, month, day))
-
       return new Date(utcDate);
   }
 

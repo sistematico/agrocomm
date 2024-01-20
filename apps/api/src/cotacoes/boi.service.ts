@@ -1,4 +1,4 @@
-import { scrape } from "@/scrape/scrape.service";
+import { scrapePecuaria } from "@/scrape/scrape.service";
 import { db, ultimaDataUtil } from "@/utils";
 
 export async function boiService() {
@@ -8,11 +8,11 @@ export async function boiService() {
   
   const diaUtil = await ultimaDataUtil(1);
 
-  const existeData = await db.cotacao.findMany({ where: { data: diaUtil, commodityId: 1 } });
+  const existeData = await db.cotacao.findMany({ where: { data: diaUtil, commodity: 1 } });
   
   if (existeData && existeData.length > 0) return { cotacoes: existeData }; 
 
-  const cotacoes = await scrape(url, content, dateDiv);
+  const cotacoes = await scrapePecuaria(url, 1, content, dateDiv);
   await db.cotacao.createMany({ data: cotacoes });
 
   if (cotacoes) return { cotacoes }; 

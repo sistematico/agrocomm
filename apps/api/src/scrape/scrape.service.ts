@@ -5,7 +5,7 @@ import type { Cotacao } from "@/types";
 
 export const cotacoes: Cotacao[] = [];
 
-export async function scrape(url: string, content: string, dateDiv: string) {
+export async function scrapePecuaria(url: string, commodity: number, content: string, dateDiv: string) {
   const body = await loadUrl(url);
   const $ = cheerio.load(body);
   const rows = $(content).toArray();
@@ -30,7 +30,45 @@ export async function scrape(url: string, content: string, dateDiv: string) {
 
       const preco = $(row).children("td:nth-child(2)").text().replace(/\D/g, "");
 
-      cotacoes.push({ data: current || new Date(), commodityId: 1, cidade, estado: estado.sigla, preco: Number(preco) });
+      cotacoes.push({ data: current || new Date(), commodity, cidade, estado: estado.sigla, preco: Number(preco) });
+    }
+    i++;
+  }
+
+  return cotacoes
+}
+
+export async function scrapeAgricultura(url: string, commodity: number, content: string, dateDiv: string) {
+  const body = await loadUrl(url);
+  const $ = cheerio.load(body);
+  const rows = $(content).toArray();
+  const current = extractDateFromString($(dateDiv).text());
+
+  let i = 0;
+  let oldEstadoStr, estadoStr = "";
+
+  for (const row of rows) {
+    if (i > 2) {
+      const locationStr = $(row).children("td:nth-child(1)").text().trim();      
+      const location = locationStr.split(/\s+/);
+      
+      if (location[0] !== "") {
+        oldEstadoStr = location[0].toUpperCase();
+        estadoStr = location[0].toUpperCase();
+      } else {
+        if (oldEstadoStr) estadoStr = oldEstadoStr;
+      }
+
+      const estado = estadosBrasileiros.find((e) => e.sigla === estadoStr);
+      if (!estado) continue;
+
+      const cidade = $(row).children("td:nth-child(2)").text().trim();
+      console.log(cidade);
+      if (!cidade) continue;
+
+      const preco = $(row).children("td:nth-child(3)").text().replace(/\D/g, "");
+
+      cotacoes.push({ data: current || new Date(), commodity, cidade, estado: estado.sigla, preco: Number(preco) });
     }
     i++;
   }

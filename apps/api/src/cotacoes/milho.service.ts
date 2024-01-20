@@ -1,4 +1,4 @@
-import { scrape } from "@/scrape/scrape.service";
+import { scrapeAgricultura } from "@/scrape/scrape.service";
 import { db, ultimaDataUtil } from "@/utils";
 
 export async function milhoService() {
@@ -8,13 +8,10 @@ export async function milhoService() {
   
   const diaUtil = await ultimaDataUtil(1);
 
-  const existeData = await db.cotacao.findMany({ where: { data: diaUtil, commodityId: 7 } });  
-  if (existeData && existeData.length > 0) {
-    console.log("Já existe cotação para o dia", existeData);
-    return { cotacoes: existeData }; 
-  }
+  const existeData = await db.cotacao.findMany({ where: { data: diaUtil, commodity: 7 } });  
+  if (existeData && existeData.length > 0) return { cotacoes: existeData }; 
 
-  const cotacoes = await scrape(url, content, dateDiv);
+  const cotacoes = await scrapeAgricultura(url, 7, content, dateDiv);
   await db.cotacao.createMany({ data: cotacoes });
 
   if (cotacoes) return { cotacoes }; 

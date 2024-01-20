@@ -21,14 +21,15 @@ model Commodity {
   id       Int       @id @default(autoincrement())
   nome     String    @unique
   cotacoes Cotacao[]
+  // cidades  Cidade[]
 }
 
 model Cotacao {
   id          Int       @id @default(autoincrement())
   data        DateTime  @db.Date
   preco       Int
-  commodityId Int
-  commodity   Commodity @relation(fields: [commodityId], references: [id])
+  commodity   Int
+  commodities Commodity @relation(fields: [commodity], references: [id])
   estado      String
   estados     Estado    @relation(fields: [estado], references: [sigla])
   cidade      String    @default("Nenhuma")
@@ -44,12 +45,15 @@ model Estado {
 }
 
 model Cidade {
-  id       Int       @id @default(autoincrement())
-  nome     String
-  estados  Estado    @relation(fields: [estado], references: [sigla])
-  estado   String
-  cotacoes Cotacao[]
+  id        Int       @id @default(autoincrement())
+  nome      String    @unique
+  commodity Int
+  // commodities Commodity @relation(fields: [commodity], references: [id])
+  estado    String
+  estados   Estado    @relation(fields: [estado], references: [sigla])
+  cotacoes  Cotacao[]
 
+  @@unique([estado, commodity])
   @@unique([nome, estado])
 }
 
