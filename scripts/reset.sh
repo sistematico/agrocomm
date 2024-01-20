@@ -15,7 +15,7 @@ cd apps/api
 
 # Resetar o banco de dados
 echo -e "${GREEN}Resetando o banco de dados ao estado original...${NO_COLOR}"
-$BUN x prisma migrate reset --force
+$BUN x prisma migrate reset --force --skip-seed
 
 # Gera o cliente Prisma
 echo -e "${GREEN}Gerando o cliente Prisma...${NO_COLOR}"

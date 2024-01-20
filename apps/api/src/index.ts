@@ -24,9 +24,12 @@ app.get("/cotacoes", async (c) => {
   if (!Array.isArray(data) || data.length === 0) {
     const cotacao = await boi();    
     if (!Array.isArray(cotacao) || cotacao.length === 0) return c.json({ message: "Sem dados" });
+
     const insert = await db.cotacao.createMany({ data: cotacao });
     console.log("Dados inseridos:", insert.count)
+    
     db.$disconnect();
+    
     return c.json({ cotacao });
   }
 

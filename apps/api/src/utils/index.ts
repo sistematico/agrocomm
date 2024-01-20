@@ -66,7 +66,7 @@ export function extractDateFromString(str: string): Date | null {
   return null;
 }
 
-export async function ultimaDataUtilNaoFeriado(commodity: number) {
+export async function ultimaDataUtil(commodity: number) {
   const path = "@/json/feriados.json";
   const file = Bun.file(path);
   const feriados = await file.json();
