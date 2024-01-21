@@ -61,7 +61,6 @@ export const estadosBrasileiros: EstadoBrasileiro[] = [
 
 // // Uso
 // const url = getUrl("Boi", "Scot");
-// console.log(url); // Saída: "https://www.google.com"
 
 export enum Servico {
   BOI = "BOI",

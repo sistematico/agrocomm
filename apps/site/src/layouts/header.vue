@@ -12,7 +12,7 @@ const open = ref(false)
       <div class="flex flex-wrap justify-between items-center mx-auto">
         <router-link to="/" class="flex items-center">
           <img src="/img/navbar.svg" class="mr-3 h-12 sm:h-10" :alt="appName" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap">{{ appName }}</span>
+          <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">{{ appName }}</span>
         </router-link>
 
         <button @click="open = !open" type="button" class="inline-flex items-center p-2 ml-1 text-sm rounded-lg lg:hidden focus:outline-none text-gray-400 hover:bg-gray-700">
@@ -24,16 +24,16 @@ const open = ref(false)
         <div class="justify-between items-center w-full lg:flex lg:w-auto lg:order-1" :class="{ hidden: !open }">
           <ul class="flex items-center flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
             <li>
-              <router-link to="/" class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Início</router-link>
+              <router-link to="/" class="block py-2 pr-4 pl-3 uppercase font-bold text-lg rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 hover:text-indigo-500 lg:p-0" aria-current="page">Início</router-link>
             </li>
             <li>
-              <router-link to="/agricultura" class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400">Agricultura</router-link>
+              <router-link to="/agricultura" class="block py-2 pr-4 pl-3 uppercase font-bold text-lg hover:text-indigo-500 lg:p-0 text-gray-400">Agricultura</router-link>
             </li>
             <li>
-              <router-link to="/pecuaria" class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400">Pecuaria</router-link>
+              <router-link to="/pecuaria" class="block py-2 pr-4 pl-3 uppercase font-bold text-lg hover:text-indigo-500 lg:p-0 text-gray-400">Pecuaria</router-link>
             </li>
             <!-- <li class="flex items-center">
-              <Dropdown class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400" />
+              <Dropdown class="block py-2 pr-4 pl-3 hover:text-indigo-500 lg:p-0 text-gray-400" />
             </li> -->
           </ul>
         </div>

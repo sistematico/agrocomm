@@ -11,7 +11,7 @@ const appName = import.meta.env.VITE_APP_NAME
           <div class="mb-4 lg:-mt-2">
             <router-link to="/" class="inline-flex items-center gap-2 text-xl font-bold text-gray-100 md:text-2xl">
               <img src="/img/navbar.svg" class="mr-3 h-12 sm:h-10" :alt="appName" />
-              {{ appName }}
+              <span class="text-white">{{ appName }}</span>
             </router-link>
           </div>
 

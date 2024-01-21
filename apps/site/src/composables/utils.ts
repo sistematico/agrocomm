@@ -9,3 +9,28 @@ export async function getIp() {
   )
   return json.ip
 }
+
+export function checkIfImageExists(url: string, callback: (exists: boolean) => void) {
+  const img = new Image();
+  img.src = url;
+
+  if (img.complete) {
+    callback(true);
+  } else {
+    img.onload = () => {
+      callback(true);
+    };
+
+    img.onerror = () => {
+      callback(false);
+    };
+  }
+};
+
+// checkIfImageExists('http://website/images/img.png', (exists) => {
+//   if (exists) {
+//     // Success code
+//   } else {
+//     // Fail code
+//   }
+// });

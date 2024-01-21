@@ -63,8 +63,8 @@ export async function scrapeAgricultura(url: string, commodity: number, content:
       if (!estado) continue;
 
       const cidadeStr = $(row).children("td:nth-child(2)").text().trim();
+
       const cidade = await getOrCreateCity(cidadeStr, estado.sigla);
-      console.log(cidade);
       if (!cidade) continue;
 
       const preco = $(row).children("td:nth-child(3)").text().replace(/\D/g, "");

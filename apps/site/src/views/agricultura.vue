@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import Loader from "@/components/loader.vue";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 dayjs.extend(utc)
 
 const API_URL = `${import.meta.env.VITE_API_URL}/milho`
 const cotacao = ref([])
+const loaded = ref(false)
 
 function formatCurrency(value: string) {
   return "R$ " + [value.slice(0, -2), ",", value.slice(-2)].join("");
@@ -13,7 +15,11 @@ function formatCurrency(value: string) {
 
 onMounted(async () => {
   const { cotacoes } = await (await fetch(API_URL)).json()
-  cotacao.value = cotacoes
+  
+  if (cotacoes) {
+    loaded.value = true
+    cotacao.value = cotacoes
+  }
 })
 </script>
 <template>
@@ -22,7 +28,8 @@ onMounted(async () => {
       <div class="flex flex-col text-center w-full mb-20">
         <h1 class="text-4xl font-large title-font mb-1 text-white">Agricultura</h1>
       </div>
-      <div class="flex flex-col">
+      <Loader v-if="!loaded" />
+      <div class="flex flex-col" v-else>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
 
@@ -39,10 +46,12 @@ onMounted(async () => {
                   </tr>
                 </thead>
                 <tbody class="border-b bg-white">
-                  <tr class="border-b" v-for="{ data, preco, estado, cidade } in cotacao">
+                  <tr class="border-b" v-for="{ data, preco, estado, cidades: { nome: cidade } } in cotacao">
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ dayjs.utc(data).format('DD/MM/YYYY') }}</td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ formatCurrency(String(preco)) }}</td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ estado }}</td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      <img :src="`/img/bandeiras/square-rounded/${String(estado).toLowerCase()}.svg`" class="w-4 h-4 inline-block mr-2" /> 
+                      {{ estado }}</td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ cidade }}</td>
                   </tr>
                 </tbody>

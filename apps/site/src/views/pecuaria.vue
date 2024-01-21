@@ -44,7 +44,10 @@ onMounted(async () => {
                   <tr class="border-b" v-for="{ data, preco, estado, cidades: { nome: cidade } } in cotacao">
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ dayjs.utc(data).format('DD/MM/YYYY') }}</td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ formatCurrency(String(preco)) }}</td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ estado || 'MS' }}</td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      <img :src="`/img/bandeiras/square-rounded/${String(estado).toLowerCase()}.svg`" class="w-4 h-4 inline-block mr-2" /> 
+                      {{ estado }}
+                    </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ cidade }}</td>
                   </tr>
                 </tbody>
