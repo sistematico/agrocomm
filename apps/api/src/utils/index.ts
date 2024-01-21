@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import type { Localizacao, Feriados } from "@/types";
+import { estadosBrasileiros } from "@/constants";
 
 export const db = new PrismaClient();
 
@@ -15,7 +16,8 @@ export async function loadUrl(url: string) {
 }
 
 export function limparCidadeEstado(entrada: string): Localizacao | null {
-  const estados = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
+  const estados = estadosBrasileiros.map((item) => item.sigla)
+
   const palavras = entrada.split(/\s+/); // Separa a entrada em palavras
   if (palavras.length === 0) return null;
 
@@ -42,7 +44,7 @@ export async function getOrCreateCity(nome: string, estado: string) {
 
     await db.$disconnect();
 
-    return city.nome;
+    return city;
 
   } catch (error) {
     await db.$disconnect();

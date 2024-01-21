@@ -3,9 +3,9 @@ import { loadUrl, extractDateFromString, getOrCreateCity } from "@/utils";
 import { estadosBrasileiros } from "@/constants";
 import type { Cotacao } from "@/types";
 
-export const cotacoes: Cotacao[] = [];
+const cotacoes: Cotacao[] = [];
 
-export async function scrapePecuaria(url: string, commodity: number, content: string, dateDiv: string) {
+export async function scrapePecuaria(url: string, commodity: number, content: string, dateDiv: string): Promise<Cotacao[]> {
   const body = await loadUrl(url);
   const $ = cheerio.load(body);
   const rows = $(content).toArray();
@@ -30,7 +30,7 @@ export async function scrapePecuaria(url: string, commodity: number, content: st
 
       const preco = $(row).children("td:nth-child(2)").text().replace(/\D/g, "");
 
-      cotacoes.push({ data: current || new Date(), commodity, cidade, estado: estado.sigla, preco: Number(preco) });
+      cotacoes.push({ data: current || new Date(), commodity, cidade: cidade.id, estado: estado.sigla, preco: Number(preco) });
     }
     i++;
   }
@@ -38,7 +38,7 @@ export async function scrapePecuaria(url: string, commodity: number, content: st
   return cotacoes
 }
 
-export async function scrapeAgricultura(url: string, commodity: number, content: string, dateDiv: string) {
+export async function scrapeAgricultura(url: string, commodity: number, content: string, dateDiv: string): Promise<Cotacao[]> {
   const body = await loadUrl(url);
   const $ = cheerio.load(body);
   const rows = $(content).toArray();
@@ -62,13 +62,14 @@ export async function scrapeAgricultura(url: string, commodity: number, content:
       const estado = estadosBrasileiros.find((e) => e.sigla === estadoStr);
       if (!estado) continue;
 
-      const cidade = $(row).children("td:nth-child(2)").text().trim();
+      const cidadeStr = $(row).children("td:nth-child(2)").text().trim();
+      const cidade = await getOrCreateCity(cidadeStr, estado.sigla);
       console.log(cidade);
       if (!cidade) continue;
 
       const preco = $(row).children("td:nth-child(3)").text().replace(/\D/g, "");
 
-      cotacoes.push({ data: current || new Date(), commodity, cidade, estado: estado.sigla, preco: Number(preco) });
+      cotacoes.push({ data: current || new Date(), commodity, cidade: cidade.id, estado: estado.sigla, preco: Number(preco) });
     }
     i++;
   }

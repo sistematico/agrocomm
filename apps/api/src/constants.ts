@@ -1,5 +1,20 @@
 import type { EstadoBrasileiro } from "@/types";
 
+export enum Commodities {
+  Vaca,           // 0
+  Boi,            // 1
+  Novilho,        // 2
+  Novilha,        // 3
+  Bezerro,        // 4
+  Bezerra,        // 5
+  Soja,           // 6
+  Milho,          // 7
+  Feijão,         // 8
+  Café,           // 9
+  Leite,          // 10
+  Eucalipto,      // 11
+};
+
 export const estadosBrasileiros: EstadoBrasileiro[] = [
   { nome: "Acre", sigla: "AC", ddd: [68]},
   { nome: "Alagoas", sigla: "AL", ddd: [82]},

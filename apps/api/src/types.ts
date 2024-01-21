@@ -2,7 +2,7 @@ export interface Cotacao {
   data: Date;
   preco: number;
   commodity: number;
-  cidade: string;
+  cidade: number;
   estado: string;
 }
 

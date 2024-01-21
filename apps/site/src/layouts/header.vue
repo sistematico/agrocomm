@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Dropdown from '@/components/dropdown.vue'
+// import Dropdown from '@/components/dropdown.vue'
 
 const appName = import.meta.env.VITE_APP_NAME
 
@@ -32,9 +32,9 @@ const open = ref(false)
             <li>
               <router-link to="/pecuaria" class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400">Pecuaria</router-link>
             </li>
-            <li class="flex items-center">
+            <!-- <li class="flex items-center">
               <Dropdown class="block py-2 pr-4 pl-3 hover:text-gray-100 lg:p-0 text-gray-400" />
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>

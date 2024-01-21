@@ -21,7 +21,6 @@ model Commodity {
   id       Int       @id @default(autoincrement())
   nome     String    @unique
   cotacoes Cotacao[]
-  // cidades  Cidade[]
 }
 
 model Cotacao {
@@ -32,8 +31,8 @@ model Cotacao {
   commodities Commodity @relation(fields: [commodity], references: [id])
   estado      String
   estados     Estado    @relation(fields: [estado], references: [sigla])
-  cidade      String    @default("Nenhuma")
-  cidades     Cidade    @relation(fields: [cidade, estado], references: [nome, estado])
+  cidade      Int    
+  cidades     Cidade    @relation(fields: [cidade], references: [id])
 }
 
 model Estado {
@@ -46,15 +45,10 @@ model Estado {
 
 model Cidade {
   id        Int       @id @default(autoincrement())
-  nome      String    @unique
-  commodity Int
-  // commodities Commodity @relation(fields: [commodity], references: [id])
+  nome      String    
   estado    String
   estados   Estado    @relation(fields: [estado], references: [sigla])
   cotacoes  Cotacao[]
-
-  @@unique([estado, commodity])
-  @@unique([nome, estado])
 }
 
 enum Cargo {
