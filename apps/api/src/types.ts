@@ -2,7 +2,7 @@ export interface Cotacao {
   data: Date;
   preco: number;
   commodity: number;
-  cidade: number;
+  cidade: string; 
   estado: string;
 }
 
@@ -13,7 +13,7 @@ export interface Localizacao {
 
 export type EstadoBrasileiro = {
   nome: string;
-  sigla: string;
+  uf: string;
   ddd: number[];
 }
 

@@ -12,12 +12,15 @@ export async function sojaService() {
   const existeData = await db.cotacao.findMany({
     where: { data: diaUtil, commodity: Commodities.Soja },
     orderBy: [ { estado: 'asc' }, { cidades: { nome: 'asc' } } ],
-    include: { cidades: true }
+    include: { 
+      cidades: true 
+    }
   })
 
   if (existeData && existeData.length > 0) return { cotacoes: existeData }; 
   
   const cotacoes = await scrapeAgricultura(url, Commodities.Soja, content, dateDiv);
+  
   await db.cotacao.createMany({ data: cotacoes });
 
   if (cotacoes) return { cotacoes }; 

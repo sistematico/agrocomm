@@ -16,7 +16,7 @@ export async function loadUrl(url: string) {
 }
 
 export function limparCidadeEstado(entrada: string): Localizacao | null {
-  const estados = estadosBrasileiros.map((item) => item.sigla)
+  const estados = estadosBrasileiros.map((item) => item.uf)
 
   const palavras = entrada.split(/\s+/); // Separa a entrada em palavras
   if (palavras.length === 0) return null;
@@ -32,14 +32,14 @@ export async function getOrCreateCity(nome: string, estado: string) {
   if (!nome || nome === "Nenhuma") return null; // Retorna null para nomes de cidades inválidos
 
   try {
-    let estadoDb = await db.estado.findUnique({ where: { sigla: estado } });
+    let estadoDb = await db.estado.findUnique({ where: { uf: estado } });
     if (!estadoDb) {
-      estadoDb = await db.estado.create({ data: { nome: estado, sigla: estado } });
+      estadoDb = await db.estado.create({ data: { nome: estado, uf: estado } });
     }
 
-    let city = await db.cidade.findFirst({ where: { nome, estado: estadoDb.sigla } });
+    let city = await db.cidade.findFirst({ where: { nome, estado: estadoDb.uf } });
     if (!city) {
-      city = await db.cidade.create({ data: { nome, estado: estadoDb.sigla } });
+      city = await db.cidade.create({ data: { nome, estado: estadoDb.uf } });
     }
 
     await db.$disconnect();

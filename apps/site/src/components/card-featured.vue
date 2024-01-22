@@ -1,14 +1,16 @@
 <script setup lang="ts">
 defineProps<{
-  section?: string
+  section: string,
+  link: string,
+  image: string
 }>()
 </script>
 <template>
-  <router-link :to="`/${section?.toLocaleLowerCase()}`">
+  <router-link :to="`/${link}`">
     <div class="relative overflow-hidden rounded-lg shadow transition hover:shadow-lg min-w-[220px] md:min-w-[300px]">
       <img
         :alt="section"
-        :src="`/img/res/${section?.toLocaleLowerCase()}.webp`"
+        :src="`/img/res/${image}.webp`"
         class="absolute inset-0 h-full w-full object-cover"
       />
       <div

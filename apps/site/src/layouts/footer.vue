@@ -2,6 +2,7 @@
 import Icon from '@/components/icon.vue'
 
 const appName = import.meta.env.VITE_APP_NAME
+const appDesc = import.meta.env.VITE_APP_DESC
 </script>
 <template>
   <div>
@@ -9,13 +10,13 @@ const appName = import.meta.env.VITE_APP_NAME
       <div class="mb-16 grid grid-cols-2 md:grid-cols-4 gap-12 pt-10 lg:gap-8 lg:pt-12">
         <div class="col-span-full lg:col-span-2">
           <div class="mb-4 lg:-mt-2">
-            <router-link to="/" class="inline-flex items-center gap-2 text-xl font-bold text-gray-100 md:text-2xl">
+            <router-link to="/" class="inline-flex items-center gap-2 text-xl font-bold text-gray-100 bg-transparent md:text-2xl">
               <img src="/img/navbar.svg" class="mr-3 h-12 sm:h-10" :alt="appName" />
               <span class="text-white">{{ appName }}</span>
             </router-link>
           </div>
 
-          <p class="mb-6 text-gray-400 sm:pr-8">Commodities Agrícolas</p>
+          <p class="mb-6 text-gray-400 sm:pr-8">{{ appDesc }}</p>
 
           <div class="flex gap-4">
             <a href="https://www.facebook.com/agrocommbr" target="_blank" class="text-gray-400 transition duration-100 hover:text-gray-500 active:text-gray-600">

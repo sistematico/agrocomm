@@ -5,8 +5,9 @@ import { routes } from "@/routes";
 export const router = createRouter({ 
   history: createWebHistory(), 
   routes,
-  linkExactActiveClass: 'text-indigo-600',
-  linkActiveClass: 'text-indigo-600'  
+  // linkExactActiveClass: 'text-indigo-600 bg-gray-900',
+  linkExactActiveClass: 'bg-gray-900',
+  linkActiveClass: 'bg-gray-900'  
 });
 
 // router.beforeEach((_to, _from, next) => {
@@ -14,7 +15,7 @@ export const router = createRouter({
 //   const subdomain = host.split('.')[1] ? host.split('.')[0] : false;
   
 //   if (typeof subdomain === 'string') {
-//     const estadoValido = estados.find((e) => e.sigla.toLocaleLowerCase() === subdomain.toLocaleLowerCase());
+//     const estadoValido = estados.find((e) => e.uf.toLocaleLowerCase() === subdomain.toLocaleLowerCase());
 //     if (estadoValido) {
 //       console.log(estadoValido)  
 //     }

@@ -4,14 +4,14 @@ import Footer from '@/layouts/footer.vue'
 </script>
 <template>
   <!-- <div class="min-h-screen"> -->
-  <div class="pb-6 sm:pb-8 lg:pb-12">
-    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+  <!-- <div class="pb-6 sm:pb-8 lg:pb-12"> -->
+    <!-- <div class="mx-auto max-w-screen-2xl px-4 md:px-8"> -->
       <Header />
-      <main>
+      <main class="mt-2">
         <slot />
       </main>
-    </div>
-  </div>
+    <!-- </div> -->
+  <!-- </div> -->
   <div class="sticky top-[100vh]">
     <Footer />
   </div>

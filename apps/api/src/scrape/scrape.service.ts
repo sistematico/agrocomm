@@ -22,7 +22,7 @@ export async function scrapePecuaria(url: string, commodity: number, content: st
       const estadoStr = location[0].toUpperCase();
       const cidadeStr = location.slice(1).join(" ");
       
-      const estado = estadosBrasileiros.find((e) => e.sigla === estadoStr);
+      const estado = estadosBrasileiros.find((e) => e.uf === estadoStr);
       if (!estado) continue;
 
       const cidade = await getOrCreateCity(cidadeStr, estadoStr);
@@ -30,7 +30,13 @@ export async function scrapePecuaria(url: string, commodity: number, content: st
 
       const preco = $(row).children("td:nth-child(2)").text().replace(/\D/g, "");
 
-      cotacoes.push({ data: current || new Date(), commodity, cidade: cidade.id, estado: estado.sigla, preco: Number(preco) });
+      cotacoes.push({ 
+        data: current || new Date(), 
+        commodity, 
+        cidade: cidade.nome,      
+        estado: estado.uf, 
+        preco: Number(preco) 
+      });
     }
     i++;
   }
@@ -59,17 +65,24 @@ export async function scrapeAgricultura(url: string, commodity: number, content:
         if (oldEstadoStr) estadoStr = oldEstadoStr;
       }
 
-      const estado = estadosBrasileiros.find((e) => e.sigla === estadoStr);
+      const estado = estadosBrasileiros.find((e) => e.uf === estadoStr);
       if (!estado) continue;
 
       const cidadeStr = $(row).children("td:nth-child(2)").text().trim();
 
-      const cidade = await getOrCreateCity(cidadeStr, estado.sigla);
+      const cidade = await getOrCreateCity(cidadeStr, estado.uf);
       if (!cidade) continue;
 
       const preco = $(row).children("td:nth-child(3)").text().replace(/\D/g, "");
 
-      cotacoes.push({ data: current || new Date(), commodity, cidade: cidade.id, estado: estado.sigla, preco: Number(preco) });
+      // cotacoes.push({ data: current || new Date(), commodity, cidade: cidade.id, estado: estado.uf, preco: Number(preco) });
+      cotacoes.push({ 
+        data: current || new Date(), 
+        commodity, 
+        cidade: cidade.nome,
+        preco: Number(preco),
+        estado: estado.uf 
+      });
     }
     i++;
   }

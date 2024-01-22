@@ -7,14 +7,14 @@ const open = ref(false)
 
 const selected = computed(() => {
   const stateAcronym = store.state || 'BR'
-  const selectedIndex = estados.findIndex(item => item.sigla === stateAcronym)
-  return selectedIndex !== -1 ? estados[selectedIndex] : estados.find(e => e.sigla === 'BR') || estados[0]
+  const selectedIndex = estados.findIndex(item => item.uf === stateAcronym)
+  return selectedIndex !== -1 ? estados[selectedIndex] : estados.find(e => e.uf === 'BR') || estados[0]
 })
 
 function selectState(estado: string) {
   store.setState(estado)
-  const selectedIndex = estados.findIndex(item => item.sigla === estado)
-  if (selectedIndex !== -1) store.state = estados[selectedIndex].sigla
+  const selectedIndex = estados.findIndex(item => item.uf === estado)
+  if (selectedIndex !== -1) store.state = estados[selectedIndex].uf
   open.value = false
 }
 </script>
@@ -31,8 +31,8 @@ function selectState(estado: string) {
       <div class="h-56 py-2 overflow-y-auto" role="none">
         <template v-for="estado in estados" :key="estado.id">
           <router-link 
-            :to="`/${estado.sigla.toLowerCase()}`" 
-            class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" @click="selectState(estado.sigla)">
+            :to="`/${estado.uf.toLowerCase()}`" 
+            class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" @click="selectState(estado.uf)">
             <img class="w-6 h-6 mr-2 rounded-full" :src="estado.icone" :alt="estado.nome" />{{ estado.nome }}
           </router-link>
         </template>
