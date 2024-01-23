@@ -16,11 +16,13 @@ export async function milhoService() {
   })
 
   if (existeData && existeData.length > 0) return { cotacoes: existeData }; 
-
+ 
   const cotacoes = await scrapeAgricultura(url, Commodities.Milho, content, dateDiv);
-  await db.cotacao.createMany({ data: cotacoes });
-
-  if (cotacoes) return { cotacoes }; 
+  if (cotacoes) {
+    await db.cotacao.createMany({ data: cotacoes, skipDuplicates: true });
+    return { cotacoes }; 
+  }
+  
 
   return null;
 }

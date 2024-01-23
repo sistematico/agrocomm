@@ -19,7 +19,7 @@ export async function boiService() {
 
   const cotacoes = await scrapePecuaria(url, Commodities.Boi, content, dateDiv);
   if (cotacoes) {
-    await db.cotacao.createMany({ data: cotacoes });
+    await db.cotacao.createMany({ data: cotacoes, skipDuplicates: true });
     return { cotacoes }; 
   }
 

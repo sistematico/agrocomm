@@ -1,8 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { boiRoutes } from "@/routes/boi";
-import { sojaRoutes } from "@/routes/soja";
-import { milhoRoutes } from "@/routes/milho";
+import boiRoutes from "@/routes/boi";
+import vacaRoutes from "@/routes/vaca";
+import sojaRoutes from "@/routes/soja";
+import milhoRoutes from "@/routes/milho";
 import Bree from "bree";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -18,6 +19,7 @@ app.get("/users", async (c) => {
 });
 
 app.route('/boi', boiRoutes)
+app.route('/vaca', vacaRoutes)
 app.route('/soja', sojaRoutes)
 app.route('/milho', milhoRoutes)
 
@@ -34,12 +36,16 @@ const bree = new Bree({
       cron: "11 13 * * 1-5", // seg-sex, 13:11pm
     },
     {
+      name: "boi",
+      cron: "10 10 * * 1-5", // seg-sex, 10:10am
+    },
+    {
       name: "soja",
       cron: "18 13 * * 1-5", // seg-sex, 13:18pm
     },
     {
       name: "milho",
-      cron: "14 13 * * 1-5", // seg-sex, 13:14pm
+      cron: "14 14 * * 1-5", // seg-sex, 14:14pm
     },
   ],
 });

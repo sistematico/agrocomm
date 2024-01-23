@@ -33,6 +33,8 @@ model Cotacao {
   estados     Estado    @relation(fields: [estado], references: [uf])
   cidade      String
   cidades     Cidade    @relation(fields: [cidade, estado], references: [nome, estado])
+  
+  @@unique([data, commodity, estado, cidade])
 }
 
 model Estado {

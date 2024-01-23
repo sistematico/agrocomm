@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { boiService } from "@/cotacoes/boi.service";
 
-const boiRoutes = new Hono();
+const app = new Hono();
 
-boiRoutes.get("", async (c) => {
+app.get("", async (c) => {
   const cotacoes = await boiService();
   return c.json(cotacoes);
 });
 
-export { boiRoutes };
+export default app;

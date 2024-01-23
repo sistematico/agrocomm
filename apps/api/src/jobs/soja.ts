@@ -4,7 +4,7 @@ import { sojaService } from "@/cotacoes/soja.service";
 const cotacao = await sojaService();
 
 if (cotacao) {
-  await db.cotacao.createMany({ data: cotacao.cotacoes });
+  await db.cotacao.createMany({ data: cotacao.cotacoes, skipDuplicates: true });
   db.$disconnect();
 }
 

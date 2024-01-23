@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { milhoService } from "@/cotacoes/milho.service";
 
-const milhoRoutes = new Hono();
+const app = new Hono();
 
-milhoRoutes.get("", async (c) => {
+app.get("", async (c) => {
   const cotacoes = await milhoService();
   return c.json(cotacoes);
 });
 
-export { milhoRoutes };
+export default app;

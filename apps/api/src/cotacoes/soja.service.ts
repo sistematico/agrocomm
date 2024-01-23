@@ -18,12 +18,12 @@ export async function sojaService() {
   })
 
   if (existeData && existeData.length > 0) return { cotacoes: existeData }; 
-  
-  const cotacoes = await scrapeAgricultura(url, Commodities.Soja, content, dateDiv);
-  
-  await db.cotacao.createMany({ data: cotacoes });
 
-  if (cotacoes) return { cotacoes }; 
+  const cotacoes = await scrapeAgricultura(url, Commodities.Soja, content, dateDiv);
+  if (cotacoes) {
+    await db.cotacao.createMany({ data: cotacoes, skipDuplicates: true });
+    return { cotacoes }; 
+  }
 
   return null;
 }
