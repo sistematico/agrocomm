@@ -36,7 +36,7 @@ const bree = new Bree({
       cron: "11 13 * * 1-5", // seg-sex, 13:11pm
     },
     {
-      name: "boi",
+      name: "vaca",
       cron: "10 10 * * 1-5", // seg-sex, 10:10am
     },
     {
