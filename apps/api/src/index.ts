@@ -9,7 +9,6 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import { db } from "@/utils";
 
-
 const app = new Hono();
 app.use('*', cors({ origin: Bun.env.APP_URL || 'http://localhost:5173' }))
 
