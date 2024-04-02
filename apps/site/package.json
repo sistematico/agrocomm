@@ -12,6 +12,7 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "vue": "^3.4.21",
+    "vue-router": "4",
     "vue3-lottie": "^3.3.0"
   },
   "devDependencies": {

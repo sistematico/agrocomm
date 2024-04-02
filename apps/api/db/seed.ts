@@ -17,3 +17,7 @@ await db.insert(schema.movies).values([
 ]);
 
 console.log(`Seeding complete.`);
+
+export function movies(movies: any) {
+  throw new Error('Function not implemented.');
+}

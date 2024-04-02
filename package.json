@@ -20,6 +20,6 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "vue-router": "4"
+    "geoip-lite": "^1.4.10"
   }
 }

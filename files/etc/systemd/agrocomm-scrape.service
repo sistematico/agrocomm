@@ -3,7 +3,7 @@ Description=AgroComm Scrape Service
 
 [Service]
 Type=oneshot
-User=YOUR_USER
+User=nginx
 WorkingDirectory=/var/www/agrocomm
 ExecStart=/home/nginx/.bun/bin/bun run /var/www/agrocomm/apps/api/src/scrape.ts
 #RemainAfterExit=true
