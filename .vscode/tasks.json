@@ -30,14 +30,30 @@
 			}
 		},
 		{
-			"label": "podman:start",
-			"type": "shell",
-			"command": "${workspaceFolder}/scripts/container.sh",
+			"label": "bun:studio - api",
+			"type": "npm",
+			"script": "studio",
+			"path": "apps/api",
 			"problemMatcher": [],
 			"runOptions": {
 				"runOn": "folderOpen"
 			},
-			"isBackground": true
+			"presentation": {
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "podman:start",
+			"type": "shell",
+			"command": "${workspaceFolder}/scripts/container.sh",
+			"problemMatcher": [],
+			"isBackground": true,
+			"promptOnClose": false
 		}
 	]
 }

@@ -4,12 +4,19 @@
   "author": "Lucas Saliés Brum <paxa@paxa.dev> (https://paxa.dev)",
   "type": "module",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "generate": "bunx drizzle-kit generate:sqlite --schema ./db/schema.ts",
+    "migrate": "bun run db/migrate.ts",
+    "seed": "bun run db/seed.ts",
+    "studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
+    "drizzle-orm": "^0.30.6",
     "hono": "^4.2.0"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "better-sqlite3": "^9.4.3",
+    "drizzle-kit": "^0.20.14"
   }
 }
