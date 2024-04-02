@@ -10,12 +10,12 @@ BUNX=/home/nginx/.bun/bin/bunx
 # bash scripts/reset.sh
 
 cd $PROJECT_PATH/apps/api
-[ ! -f .env ] && cp .env.prod .env
+[ ! -f .env ] && cp .env.production .env
 #$BUNX prisma generate
 $BUN install
 
 cd $PROJECT_PATH/apps/site
-[ ! -f .env ] && cp .env.prod .env
+[ ! -f .env ] && cp .env.production .env
 $BUN install
 $BUN run build
 
