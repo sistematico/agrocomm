@@ -1,10 +1,5 @@
-import { createApp } from "vue";
-import { router } from "@/router";
-import "@/assets/scss/tailwind.scss";
-import App from "@/app.vue";
-// import { store } from "@/store"
+import { createApp } from 'vue'
+import './style.css'
+import App from './App.vue'
 
-const app = createApp(App);
-
-app.use(router);
-app.mount("#app");
+createApp(App).mount('#app')

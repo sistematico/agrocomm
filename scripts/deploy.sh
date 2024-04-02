@@ -11,7 +11,7 @@ BUNX=/home/nginx/.bun/bin/bunx
 
 cd $PROJECT_PATH/apps/api
 [ ! -f .env ] && cp .env.prod .env
-$BUNX prisma generate
+#$BUNX prisma generate
 $BUN install
 
 cd $PROJECT_PATH/apps/site
