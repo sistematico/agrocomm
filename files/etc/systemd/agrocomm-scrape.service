@@ -1,0 +1,12 @@
+[Unit]
+Description=AgroComm Scrape Service
+
+[Service]
+Type=oneshot
+User=YOUR_USER
+WorkingDirectory=/var/www/agrocomm
+ExecStart=/home/nginx/.bun/bin/bun run /var/www/agrocomm/apps/api/src/scrape.ts
+#RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
