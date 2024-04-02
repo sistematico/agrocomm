@@ -1,4 +1,5 @@
 node_modules/
+drizzle/
 *.db
 data/*
 !data/.gitkeep
