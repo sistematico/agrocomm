@@ -13,5 +13,5 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - run: |
           cd apps/api && bun install
-          cd apps/site && bun install
-          cd apps/site && bun run build
+          cd ../site && bun install
+          bun run build
