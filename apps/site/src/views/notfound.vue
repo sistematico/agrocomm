@@ -1,5 +1,3 @@
 <template>
-  <div class="container">
-    <h1 class="mt-5">Error 404</h1>
-  </div>
+  <h1 class="mt-3">Error 404</h1>
 </template>

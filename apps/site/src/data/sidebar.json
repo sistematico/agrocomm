@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Pecuaria",
+    "links": [
+      {
+        "name": "Arroba do Boi",
+        "url": "/boi"
+      },
+      {
+        "name": "Arroba da Vaca",
+        "url": "/vaca"
+      }
+    ]
+  },
+  {
+    "title": "Agricultura",
+    "links": [
+      {
+        "name": "Saca de Soja",
+        "url": "/soja"
+      }
+    ]
+  }
+]
