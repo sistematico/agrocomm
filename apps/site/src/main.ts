@@ -1,4 +1,4 @@
-import '@/assets/scss/bootstrap.scss'
+import '@/assets/scss/main.scss'
 import { createApp } from 'vue'
 import { router } from '@/router'
 import Vue3Lottie from 'vue3-lottie'
