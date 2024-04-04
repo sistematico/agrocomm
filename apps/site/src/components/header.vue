@@ -8,7 +8,7 @@ const appName = import.meta.env.VITE_APP_NAME
       <div class="container">
         <router-link to="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
           <img src="/img/navbar.svg" class="bi me-2" width="42" height="42" />
-          <span class="fs-4">{{ appName }}</span>
+          <span class="fs-4 fw-bold">{{ appName }}</span>
         </router-link>
 
         <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
