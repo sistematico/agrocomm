@@ -5,9 +5,8 @@ import json from '@/data/sidebar.json'
 <template>
   <div class="row">
     <div class="col-md-10">
-      <!-- <h1 class="mt-3">Início</h1> -->
-      <video id="background-video" autoplay loop muted poster="/img/poster.jpg">
-        <source src="/video/2758322-uhd_3840_2160_30fps.mp4" type="video/mp4">
+      <video id="background-video" autoplay loop muted poster="https://cdn.agrocomm.com.br/images/poster.jpg">
+        <source src="https://cdn.agrocomm.com.br/video/2758322-uhd_3840_2160_30fps.mp4" type="video/mp4">
       </video>
     </div>
     <div class="col-md-2">
