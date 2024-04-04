@@ -1,4 +1,4 @@
-# AgroComm
+# AgroComm (Monorepo)
 
 <p align="center">
   <img src="./assets/logo.svg" alt="AgroComm" width="320" />
@@ -17,8 +17,8 @@
 ## Dependências
 
 - [Bun](https://bun.sh)
-- [pnpm](https://pnpm.io)
-- [Prisma](https://prisma.io)
+- [Drizzle ORM](https://prisma.io)
 - [Vite](https://vitejs.dev)
 - [Vue.js](https://vuejs.org)
 - [Hono](https://hono.dev)
+- [Twitter Bootstrap](https://getbootstrap.com)
