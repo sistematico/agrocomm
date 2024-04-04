@@ -1,4 +1,9 @@
 import * as cheerio from 'cheerio'
+// import { db } from '../db/index'
+// import * as schema from '../db/schema'
+
+// const delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000;
+// Bun.sleep(delay)
 
 async function scrape(url: string) {
   const data = await fetch(url)
@@ -7,29 +12,34 @@ async function scrape(url: string) {
       const decoder = new TextDecoder('iso-8859-1' as any)
       return decoder.decode(buffer)
     })
-
   return data
 }
 
 const body = await scrape('https://afd.calpoly.edu/web/sample-tables')
 const $ = cheerio.load(body)
 
-const listItems = $('ul').find('li')
-console.log(`List item count: ${listItems.length}`)
-console.log(typeof listItems)
-console.log(listItems)
+// const table = $('table').find('li')
+// const tables = $('table')
+// console.log(`List item count: ${table.length}`)
 
-// const response = await fetch("https://bun.sh");
-// const html = await response.text(); // HTML string
+const table = $('table:nth-of-type(1) tbody')
+// console.log(table.text())
 
-// const $ = await cheerio.fromURL('https://afd.calpoly.edu/web/sample-tables');
+table.each((i, e) => {
+  // let row  = $(e).text().replace(/(\s+)/g, ' ');
+  let row  = $(e).find('tr').text().replace(/(\s+)/g, ' ');
+  // if (i === 0) console.log($(e).text())
+  console.log(row)
+})
 
-// import { db } from '../db/index'
-// import * as schema from '../db/schema'
+// $('tr').each((_, e) => {
 
-// const delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000;
+//     let row  = $(e).text().replace(/(\s+)/g, ' ');
+//     console.log(`${row}`);
+// });
 
-// Bun.sleep(delay)
+// console.log(typeof listItems)
+// console.log(listItems)
 
 // await db.insert(schema.movies).values([
 //   {
@@ -45,5 +55,3 @@ console.log(listItems)
 //     releaseYear: 2003,
 //   },
 // ]);
-
-// console.log(`Seeding complete.`);
