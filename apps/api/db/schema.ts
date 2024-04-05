@@ -31,9 +31,9 @@ export const prices = sqliteTable('prices', {
   createdAt: text('created_at').notNull().default(now),
   commodityId: integer('commodity_id').references(() => commodities.id),
   cityId: integer('city_id').references(() => cities.id),
-  stateId: integer('state_id').references(() => states.id), // Novo campo adicionado
+  stateAbbr: text('state_abbr').references(() => states.abbr), // Novo campo adicionado
   }, (t) => ({
-    priceIdx: uniqueIndex('unique_price_per_day_state_city').on(t.createdAt, t.commodityId, t.stateId, t.cityId)
+    priceIdx: uniqueIndex('unique_price_per_day_state_city').on(t.createdAt, t.commodityId, t.stateAbbr, t.cityId)
   })
 )
 
@@ -53,12 +53,12 @@ export const prices = sqliteTable('prices', {
 
 export const states = sqliteTable('states', {
   id: integer('id').primaryKey(),
-  abbr: text('abbr').unique().notNull(),
-  name: text('name').unique().notNull()
+  abbr: text('state_abbr').unique().notNull(),
+  name: text('state_name').unique().notNull()
 })
 
 export const cities = sqliteTable('cities', {
   id: integer('id').primaryKey(),
-  name: text('name'),
-  state: integer('state_abbr').references(() => states.abbr)
+  name: text('city_name'),
+  stateAbbr: text('state_abbr').references(() => states.abbr)
 })
