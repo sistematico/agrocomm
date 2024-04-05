@@ -1,23 +1,57 @@
-import { db } from './index'
-import * as schema from "./schema";
+import { db } from '-/db'
+import * as schema from '-/db/schema'
 
-await db.insert(schema.movies).values([
-  {
-    title: "The Matrix",
-    releaseYear: 1999,
-  },
-  {
-    title: "The Matrix Reloaded",
-    releaseYear: 2003,
-  },
-  {
-    title: "The Matrix Revolutions",
-    releaseYear: 2003,
-  },
-]);
+const hash = await Bun.password.hash('password')
 
-console.log(`Seeding complete.`);
+await db.insert(schema.users).values([
+  { 
+    username: "admin", 
+    email: "agrocomm@agrocomm.com.br", 
+    name: "Admin", 
+    role: "admin", 
+    password: hash
+  }
+]).onConflictDoNothing()
+
+await db.insert(schema.commodities).values([
+  { name: "Arroba do Boi" },
+  { name: "Arroba da Vaca" },
+  { name: "Saca de Milho" },
+  { name: "Saca de Soja" }
+]).onConflictDoNothing()
+
+await db.insert(schema.states).values([
+  { name: "Acre", abbr: "AC"},
+  { name: "Alagoas", abbr: "AL"},
+  { name: "Amapá", abbr: "AP"},
+  { name: "Amazonas", abbr: "AM"},
+  { name: "Bahia", abbr: "BA"},
+  { name: "Ceará", abbr: "CE"},
+  { name: "Distrito Federal", abbr: "DF"},
+  { name: "Espírito Santo", abbr: "ES"},
+  { name: "Goiás", abbr: "GO"},
+  { name: "Maranhão", abbr: "MA"},
+  { name: "Mato Grosso", abbr: "MT"},
+  { name: "Mato Grosso do Sul", abbr: "MS"},
+  { name: "Minas Gerais", abbr: "MG"},
+  { name: "Pará", abbr: "PA"},
+  { name: "Paraíba", abbr: "PB"},
+  { name: "Paraná", abbr: "PR"},
+  { name: "Pernambuco", abbr: "PE"},
+  { name: "Piauí", abbr: "PI"},
+  { name: "Rio de Janeiro", abbr: "RJ"},
+  { name: "Rio Grande do Norte", abbr: "RN"},
+  { name: "Rio Grande do Sul", abbr: "RS"},
+  { name: "Rondônia", abbr: "RO"},
+  { name: "Roraima", abbr: "RR"},
+  { name: "Santa Catarina", abbr: "SC"},
+  { name: "São Paulo", abbr: "SP"},
+  { name: "Sergipe", abbr: "SE"},
+  { name: "Tocantins", abbr: "TO"}
+]).onConflictDoNothing()
+
+console.log(`Seeding complete.`)
 
 export function movies(movies: any) {
-  throw new Error('Function not implemented.');
+  throw new Error('Function not implemented.')
 }
