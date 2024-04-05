@@ -6,7 +6,7 @@ const appName = import.meta.env.VITE_APP_NAME
   <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <div class="container">
-        <router-link to="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+        <router-link to="/" class="d-flex align-items-center me-md-auto link-body-emphasis text-decoration-none">
           <img src="/img/navbar.svg" class="bi me-2" width="42" height="42" />
           <span class="fs-4 fw-bold">{{ appName }}</span>
         </router-link>
