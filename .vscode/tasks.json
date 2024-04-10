@@ -54,6 +54,31 @@
 			"problemMatcher": [],
 			"isBackground": true,
 			"promptOnClose": false
+		},
+		{
+			"label": "Run Ansible Playbook",
+			"type": "shell",
+			"command": "ansible-playbook",
+			"args": [
+				"-i",
+				"eris.paxa.dev,",
+				"ansible/playbook.yml"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
 		}
 	]
 }
+
+
+
+
+
+
+

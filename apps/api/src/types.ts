@@ -1,8 +1,19 @@
+export interface Cities {
+  id: number
+  name: string
+}
+
+export interface States {
+  name: string
+  abbr: string
+}
+
 export interface Quote {
-  commodityId: number
   date: string
-  location: string
   price: number
+  state?: string
+  city?: string
+  commodityId: number
 }
 
 interface ProviderDetails {

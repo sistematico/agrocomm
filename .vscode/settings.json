@@ -1,5 +1,6 @@
 {
     "scss.lint.unknownAtRules": "ignore",
     "css.lint.unknownAtRules": "ignore",
-    "npm.packageManager": "bun"
+    "npm.packageManager": "bun",
+    "ansible.python.interpreterPath": "/bin/python"
 }

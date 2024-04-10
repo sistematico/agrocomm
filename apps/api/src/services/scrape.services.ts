@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio'
+import { extractCityAndState } from '@/services/region.services'
 import { convertStringToFormattedDateString, stringToNumber } from '@/utils'
 import type { Quote, ProviderInfo, QuoteType } from '@/types'
 
@@ -25,7 +26,7 @@ const providers: { [key in string]: ProviderInfo } = {
   },
 }
 
-async function loadUrl(url: string) {
+async function loadUrl(url: string): Promise<string> {
   const data = await fetch(url)
     .then(response => response.arrayBuffer())
     .then(buffer => {
@@ -35,8 +36,8 @@ async function loadUrl(url: string) {
   return data
 }
 
-export async function scrapeUrl(type: QuoteType, provider: string = 'scot') {  
-  const data: Quote[] = []; // Assumindo que Quote é um tipo definido em algum lugar
+export async function scrapeUrl(type: QuoteType, provider: string = 'scot'): Promise<Quote[]> {  
+  const data: Quote[] = [] 
   
   const providerDetails = providers[provider][type]
   if (!providerDetails) throw new Error(`Informações para o tipo ${type} não encontradas.`)
@@ -50,9 +51,10 @@ export async function scrapeUrl(type: QuoteType, provider: string = 'scot') {
   tr.each((idx, el) => {
     if (idx > 2) {
       const location = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
+      const { city, state } = extractCityAndState(location)
       const rawPrice = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
       const price = stringToNumber(rawPrice)
-      data.push({ commodityId: providerDetails.id, date, location, price })
+      data.push({ date, price, city: city ? city : '-', state: state ? state : '-', commodityId: providerDetails.id })
     }
   })
 

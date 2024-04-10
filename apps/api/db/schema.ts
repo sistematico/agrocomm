@@ -1,6 +1,7 @@
-import { sqliteTable, text, integer, uniqueIndex,  } from 'drizzle-orm/sqlite-core'
+import { sqliteTable, text, integer, index, uniqueIndex } from 'drizzle-orm/sqlite-core'
+import { getCurrentDate } from '@/utils'
 
-const now = new Date().toISOString()
+const now = getCurrentDate()
 
 export const users = sqliteTable('users', {
   id: integer('id').primaryKey({ autoIncrement: true }),
@@ -12,45 +13,6 @@ export const users = sqliteTable('users', {
   createdAt: text('created_at').notNull().default(now)
 })
 
-export const commodities = sqliteTable('commodities', {
-  id: integer('id').primaryKey(),
-  name: text('name').unique().notNull()
-})
-
-// export const prices = sqliteTable('prices', {
-//   id: integer('id').primaryKey(),
-//   price: integer('price').notNull(),
-//   createdAt: text('created_at').notNull().default(now),
-//   commodityId: integer('commodity_id').references(() => commodities.id),
-//   cityId: integer('city_id').references(() => cities.id),
-// })
-
-export const prices = sqliteTable('prices', {
-  id: integer('id').primaryKey(),
-  price: integer('price').notNull(),
-  createdAt: text('created_at').notNull().default(now),
-  commodityId: integer('commodity_id').references(() => commodities.id),
-  cityId: integer('city_id').references(() => cities.id),
-  stateAbbr: text('state_abbr').references(() => states.abbr), // Novo campo adicionado
-  }, (t) => ({
-    priceIdx: uniqueIndex('unique_price_per_day_state_city').on(t.createdAt, t.commodityId, t.stateAbbr, t.cityId)
-  })
-)
-
-// export const states = sqliteTable('states', {
-//     id: integer('id').primaryKey(),
-//     abbr: text('abbr'),
-//     name: text('name'),
-//   }, (cities) => ({
-//     nameIdx: uniqueIndex('nameIdx').on(cities.name)
-//   })
-// )
-
-// export const cities = sqliteTable('cities', {
-//   id: integer('id').primaryKey(),
-//   name: text('name')
-// })
-
 export const states = sqliteTable('states', {
   id: integer('id').primaryKey(),
   abbr: text('state_abbr').unique().notNull(),
@@ -58,7 +20,37 @@ export const states = sqliteTable('states', {
 })
 
 export const cities = sqliteTable('cities', {
-  id: integer('id').primaryKey(),
+  id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('city_name'),
-  stateAbbr: text('state_abbr').references(() => states.abbr)
+  state: text('state').references(() => states.abbr)
+})
+
+export const commodities = sqliteTable('commodities', {
+  id: integer('id').primaryKey(),
+  name: text('name').unique().notNull()
+})
+
+// export const prices = sqliteTable('prices', {
+//   id: integer('id').unique().primaryKey({ autoIncrement: true }),
+//   price: integer('price').notNull(),
+//   createdAt: text('created_at').notNull().default(now),
+//   commodityId: integer('commodity_id').references(() => commodities.id),
+//   city: text('city').references(() => cities.name),
+//   state: text('state').references(() => states.abbr), // Novo campo adicionado
+//   }, (t) => ({
+//     priceIdx: uniqueIndex('unique_price_per_day_state_city').on(t.id, t.createdAt, t.commodityId, t.state, t.city)
+//   })
+// )
+
+export const prices = sqliteTable("prices", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  price: integer('price').notNull(),
+  createdAt: text('created_at').notNull().default(now),
+  commodityId: integer('commodity_id').references(() => commodities.id),
+  city: text('city').references(() => cities.name),
+  state: text('state').references(() => states.abbr), // Novo campo adicionado
+}, (table) => {
+  return {
+    priceIdx: uniqueIndex("unique_price_per_day_state_city").on(table.createdAt, table.commodityId, table.state, table.city)
+  }
 })
