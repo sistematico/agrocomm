@@ -18,6 +18,10 @@
       {
         "name": "Saca de Soja",
         "url": "/soja"
+      },
+      {
+        "name": "Saca de Milho",
+        "url": "/milho"
       }
     ]
   }

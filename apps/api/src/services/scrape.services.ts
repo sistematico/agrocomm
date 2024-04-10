@@ -1,13 +1,31 @@
 import * as cheerio from 'cheerio'
-import { db } from '-/db/index'
-import * as schema from '-/db/schema'
+import { convertStringToFormattedDateString, stringToNumber } from '@/utils'
+import type { Quote, ProviderInfo, QuoteType } from '@/types'
 
-const d = new Date().setHours(0,0,0,0)
+const providers: { [key in string]: ProviderInfo } = {
+  ['scot']: {
+    boi: {
+      id: 1,
+      url: 'https://www.scotconsultoria.com.br/cotacoes/boi-gordo/?ref=smnb',
+      tag: 'table:nth-of-type(2) tbody tr',
+      datetag: 'table:nth-of-type(2) thead tr th'
+    },
+    vaca: {
+      id: 2,
+      url: 'https://www.scotconsultoria.com.br/cotacoes/vaca-gorda/?ref=smnb',
+      tag: 'table:nth-of-type(3) tbody tr',
+      datetag: 'table:nth-of-type(2) thead tr th'
+    },
+    milho: {
+      id: 2,
+      url: 'https://www.scotconsultoria.com.br/cotacoes/vaca-gorda/?ref=smnb',
+      tag: 'table:nth-of-type(3) tbody tr',
+      datetag: 'table:nth-of-type(2) thead tr th'
+    },
+  },
+}
 
-// const delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000;
-// Bun.sleep(delay)
-
-async function scrape(url: string) {
+async function loadUrl(url: string) {
   const data = await fetch(url)
     .then(response => response.arrayBuffer())
     .then(buffer => {
@@ -17,54 +35,26 @@ async function scrape(url: string) {
   return data
 }
 
-// const body = await scrape('https://afd.calpoly.edu/web/sample-tables')
-// const $ = cheerio.load(body)
+export async function scrapeUrl(type: QuoteType, provider: string = 'scot') {  
+  const data: Quote[] = []; // Assumindo que Quote é um tipo definido em algum lugar
+  
+  const providerDetails = providers[provider][type]
+  if (!providerDetails) throw new Error(`Informações para o tipo ${type} não encontradas.`)
+  
+  const body = await loadUrl(providerDetails.url)
+  const $ = cheerio.load(body)
+  const tr = $(providerDetails.tag)
+  const tableDate = $(providerDetails.datetag).text().replace(/(\s+)/g, ' ')
+  const date = convertStringToFormattedDateString(tableDate)
 
-// const table = $('table').find('li')
-// const tables = $('table')
+  tr.each((idx, el) => {
+    if (idx > 2) {
+      const location = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
+      const rawPrice = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
+      const price = stringToNumber(rawPrice)
+      data.push({ commodityId: providerDetails.id, date, location, price })
+    }
+  })
 
-// const table = $('table:nth-of-type(1) tbody')
-
-// table.each((i, e) => {
-//   // let row  = $(e).text().replace(/(\s+)/g, ' ');
-//   let row  = $(e).find('tr').text().replace(/(\s+)/g, ' ');
-//   // if (i === 0) console.log($(e).text())
-//   console.log(row)
-// })
-
-// $('tr').each((_, e) => {
-
-//     let row  = $(e).text().replace(/(\s+)/g, ' ');
-//     console.log(`${row}`);
-// });
-
-// console.log(typeof listItems)
-// console.log(listItems)
-
-const price = Math.floor(Math.random() * 1000)
-
-// price: integer('price').notNull(),
-// createdAt: text('created_at').notNull().default(now),
-// commodityId: integer('commodity_id').references(() => commodities.id),
-// cityId: integer('city_id').references(() => cities.id),
-// stateId: integer('state_id').references(() => states.id), // Novo campo adicionado
-
-// export const cities = sqliteTable('cities', {
-//   id: integer('id').primaryKey(),
-//   name: text('name'),
-//   state: integer('state_abbr').references(() => states.abbr)
-// })
-
-const city = await db.insert(schema.cities).values([
-  { name: "Campo Grande", stateAbbr: "MS" }
-]).onConflictDoNothing().returning()
-
-await db.insert(schema.prices).values([
-  { 
-    price: 1,
-    commodityId: 1, 
-    cityId: city[0].id, 
-    stateAbbr: "MS", 
-    createdAt: String(d)
-  }
-])
+  return data
+}

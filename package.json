@@ -1,6 +1,6 @@
 {
   "name": "agrocomm",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Lucas Saliés Brum <paxa@paxa.dev> (https://paxa.dev)",
   "type": "module",
   "workspaces": ["apps/*"],
