@@ -8,7 +8,9 @@
     "dev": "bun run --cwd apps/site dev",
     "apidev": "bun run --hot apps/api/src/index.ts",
     "api:install": "cd apps/api && bun install",
-    "api:reset": "cd apps/api && bun run freset",
+    "api:init": "cd apps/api && bun run init",
+    "api:reset": "cd apps/api && bun run reset",
+    "api:scrape": "cd apps/api && bun run scrape",
     "site:install": "cd apps/site && bun install",
     "site:build": "cd apps/site && bun run build",
     "clean": "rm -rf node_modules bun.lockb apps/*/node_modules apps/*/bun.lockb"
