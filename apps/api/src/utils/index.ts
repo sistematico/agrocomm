@@ -98,3 +98,10 @@ export function getCurrentDate(): string {
   // Converte para o formato ISO String em UTC
   return utcDate.toISOString()
 }
+
+export function getRandomNumber(min: number, max: number) {
+  // Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
+  // return Math.random() * (max - min) + min;
+  return ((Math.floor(Math.random() * (max - min + 1)) + min) * 1000) * 60
+}
+

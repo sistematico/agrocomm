@@ -13,7 +13,7 @@ export interface Quote {
   price: number
   state?: string
   city?: string
-  commodityId: number
+  commodity: string
 }
 
 interface ProviderDetails {

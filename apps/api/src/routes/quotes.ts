@@ -10,9 +10,6 @@ quotes.get('/', (c) => c.json('list quotes'))
 quotes.get('/:type', async (c) => {
   const quoteType = c.req.param('type')
   const data = await getQuotes(quoteType)
-
-  console.log(quoteType)
-
   return c.json(data)
 })
 

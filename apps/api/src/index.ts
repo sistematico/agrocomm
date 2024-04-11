@@ -1,7 +1,10 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { main, quotes } from '@/routes'
 
 const app = new Hono()
+
+app.use('*', cors())
 
 app.route('/', main)
 app.route('/quotes', quotes)

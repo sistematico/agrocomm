@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio'
 import { db } from '-/db/index'
 import * as schema from '-/db/schema'
 import { extractCityAndState } from '@/services/region.services'
-import { convertStringToFormattedDateString, stringToNumber } from '@/utils'
+import { convertStringToFormattedDateString, stringToNumber, getRandomNumber } from '@/utils'
 import type { Quote, ProviderInfo, QuoteType } from '@/types'
 
 const providers: { [key in string]: ProviderInfo } = {
@@ -13,19 +13,19 @@ const providers: { [key in string]: ProviderInfo } = {
       tag: 'table:nth-of-type(2) tbody tr',
       datetag: 'table:nth-of-type(2) thead tr th'
     },
-    vaca: {
+    ['vaca']: {
       id: 2,
       url: 'https://www.scotconsultoria.com.br/cotacoes/vaca-gorda/?ref=smnb',
-      tag: 'table:nth-of-type(3) tbody tr',
-      datetag: 'table:nth-of-type(2) thead tr th'
+      tag: 'table:nth-of-type(1) tbody tr',
+      datetag: 'table:nth-of-type(1) thead tr th'
     },
-    milho: {
+    ['milho']: {
       id: 3,
       url: 'https://www.scotconsultoria.com.br/cotacoes/graos/?ref=smnb',
       tag: 'table:nth-of-type(1) tbody tr',
       datetag: 'table:nth-of-type(2) thead tr th'
     },
-    soja: {
+    ['soja']: {
       id: 4,
       url: 'https://www.scotconsultoria.com.br/cotacoes/graos/?ref=smnb',
       tag: 'table:nth-of-type(3) tbody tr',
@@ -62,19 +62,23 @@ async function scrapeUrl(type: QuoteType, provider: string = 'scot') {
       const { city, state } = extractCityAndState(location)
       const rawPrice = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
       const price = stringToNumber(rawPrice)
-      data.push({ date, price, city: city ? city : '-', state: state ? state : '-', commodityId: providerDetails.id })
+      data.push({ date, price, city: city ? city : '-', state: state ? state : '-', commodity: type })
     }
   })
 
   if (data.length > 0) await db.insert(schema.prices).values(data).onConflictDoNothing()
 }
 
-let delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
+let delay = getRandomNumber(1, 2)
+console.log(`Delay: ${delay} minutos`) 
 Bun.sleep(delay)
 
+console.log(`Rodando depois de: ${delay} minutos`)
 await scrapeUrl('boi', 'scot')
 
-delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
+delay = delay = getRandomNumber(1, 2)
+console.log(`Delay: ${delay} minutos`) 
 Bun.sleep(delay)
 
+console.log(`Rodando depois de: ${delay} minutos`)
 await scrapeUrl('vaca', 'scot')
