@@ -1,25 +1,27 @@
-import { eq, and, sql } from 'drizzle-orm'
+import { eq, sql, or } from 'drizzle-orm'
 import { db } from '-/db/index'
 import * as schema from '-/db/schema'
+import { getCurrentDate } from '@/utils'
 
-export async function getQuotes(type: number) {  
-  const quotes = await db
+export async function getQuotes(type: string) {  
+  const now = getCurrentDate()
+  
+  const prices = db
     .select()
     .from(schema.prices)
+    .where(eq(schema.prices.commodity, type))
+    .as('prices')
+
+  const quotes = await db
+    .select()
+    .from(prices)
     .where(
-      and(
-        eq(schema.prices.commodityId, type),
-        // (sql`(strftime('%s'))`),
-        (sql`(abs(strftime('%s','now') - strftime('%s', ${schema.prices.createdAt})))`),
-        // (sql`(abs(strftime('%s','now') - strftime('%s', ${schema.prices.createdAt})) < 86400)`),
+      or(
+        eq(schema.prices.createdAt, now),
+        sql`(abs(strftime('%s','now') - strftime('%s', '${schema.prices.createdAt}')))`
       )
     )
-  // await db.select().from(users).orderBy(users.name, users.name2);
-  // await db.select().from(users).orderBy(asc(users.name), desc(users.name2));
+    .orderBy(schema.prices.state)
 
   return quotes
 }
-
-const q = await getQuotes(1)
-
-console.log(q)

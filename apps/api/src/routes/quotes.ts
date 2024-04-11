@@ -8,8 +8,11 @@ quotes.get('/', (c) => c.json('list quotes'))
 // quotes.post('/', (c) => c.json('create an quote', 201))
 
 quotes.get('/:type', async (c) => {
-  const quoteType = parseInt(c.req.param('type'))
+  const quoteType = c.req.param('type')
   const data = await getQuotes(quoteType)
+
+  console.log(quoteType)
+
   return c.json(data)
 })
 

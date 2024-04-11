@@ -30,27 +30,15 @@ export const commodities = sqliteTable('commodities', {
   name: text('name').unique().notNull()
 })
 
-// export const prices = sqliteTable('prices', {
-//   id: integer('id').unique().primaryKey({ autoIncrement: true }),
-//   price: integer('price').notNull(),
-//   createdAt: text('created_at').notNull().default(now),
-//   commodityId: integer('commodity_id').references(() => commodities.id),
-//   city: text('city').references(() => cities.name),
-//   state: text('state').references(() => states.abbr), // Novo campo adicionado
-//   }, (t) => ({
-//     priceIdx: uniqueIndex('unique_price_per_day_state_city').on(t.id, t.createdAt, t.commodityId, t.state, t.city)
-//   })
-// )
-
 export const prices = sqliteTable("prices", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   price: integer('price').notNull(),
   createdAt: text('created_at').notNull().default(now),
-  commodityId: integer('commodity_id').references(() => commodities.id),
+  commodity: text('commodity').references(() => commodities.name),
   city: text('city').references(() => cities.name),
   state: text('state').references(() => states.abbr), // Novo campo adicionado
 }, (table) => {
   return {
-    priceIdx: uniqueIndex("unique_price_per_day_state_city").on(table.createdAt, table.commodityId, table.state, table.city)
+    priceIdx: uniqueIndex("unique_price_per_day_state_city").on(table.createdAt, table.commodity, table.state, table.city)
   }
 })
