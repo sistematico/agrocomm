@@ -85,17 +85,9 @@ export function stringToNumber(price: string): number {
 
 export function getCurrentDate(): string {
   const now = new Date();
-
-  // Zera a hora, minutos, segundos e milissegundos localmente
   now.setHours(0, 0, 0, 0);
-
-  // Calcula a diferença do fuso horário local para UTC em milissegundos
   const timezoneOffset = now.getTimezoneOffset() * 60000; // getTimezoneOffset() retorna em minutos
-
-  // Ajusta a data para UTC manualmente
   const utcDate = new Date(now.getTime() - timezoneOffset);
-
-  // Converte para o formato ISO String em UTC
   return utcDate.toISOString()
 }
 

@@ -7,7 +7,7 @@ import type { Quote, ProviderInfo, QuoteType } from '@/types'
 
 const providers: { [key in string]: ProviderInfo } = {
   ['scot']: {
-    boi: {
+    ['boi']: {
       id: 1,
       url: 'https://www.scotconsultoria.com.br/cotacoes/boi-gordo/?ref=smnb',
       tag: 'table:nth-of-type(2) tbody tr',
@@ -23,12 +23,12 @@ const providers: { [key in string]: ProviderInfo } = {
       id: 3,
       url: 'https://www.scotconsultoria.com.br/cotacoes/graos/?ref=smnb',
       tag: 'table:nth-of-type(1) tbody tr',
-      datetag: 'table:nth-of-type(2) thead tr th'
+      datetag: 'table:nth-of-type(1) thead tr th'
     },
     ['soja']: {
       id: 4,
       url: 'https://www.scotconsultoria.com.br/cotacoes/graos/?ref=smnb',
-      tag: 'table:nth-of-type(3) tbody tr',
+      tag: 'table:nth-of-type(2) tbody tr',
       datetag: 'table:nth-of-type(2) thead tr th'
     },
   },
@@ -55,14 +55,23 @@ async function scrapeUrl(type: QuoteType, provider: string = 'scot') {
   const tr = $(providerDetails.tag)
   const tableDate = $(providerDetails.datetag).text().replace(/(\s+)/g, ' ')
   const date = convertStringToFormattedDateString(tableDate)
+  let location: string, tempLocation: string = ''
 
   tr.each((idx, el) => {
     if (idx > 2) {
-      const location = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
-      const { city, state } = extractCityAndState(location)
+      if (type === 'milho' || type === 'soja') {
+        tempLocation = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
+        if (tempLocation !== '') location = tempLocation
+        else tempLocation = location
+      } else {
+        location = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
+      }
+
+      const loc = extractCityAndState(location)
       const rawPrice = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
       const price = stringToNumber(rawPrice)
-      data.push({ date, price, city: city ? city : '-', state: state ? state : '-', commodity: type })
+      
+      if (loc && loc.state) data.push({ date, price, city: loc.city || '-', state: loc.state, commodity: type })
     }
   })
 
@@ -70,15 +79,22 @@ async function scrapeUrl(type: QuoteType, provider: string = 'scot') {
 }
 
 let delay = getRandomNumber(1, 2)
-console.log(`Delay: ${delay} minutos`) 
 Bun.sleep(delay)
+// console.log(`Delay: ${delay}ms`) 
 
-console.log(`Rodando depois de: ${delay} minutos`)
 await scrapeUrl('boi', 'scot')
 
 delay = delay = getRandomNumber(1, 2)
-console.log(`Delay: ${delay} minutos`) 
 Bun.sleep(delay)
 
-console.log(`Rodando depois de: ${delay} minutos`)
 await scrapeUrl('vaca', 'scot')
+
+delay = delay = getRandomNumber(1, 2)
+Bun.sleep(delay)
+
+await scrapeUrl('milho', 'scot')
+
+delay = delay = getRandomNumber(1, 2)
+Bun.sleep(delay)
+
+await scrapeUrl('soja', 'scot')
