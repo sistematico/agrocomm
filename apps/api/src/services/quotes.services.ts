@@ -1,31 +1,25 @@
-import { eq, and } from 'drizzle-orm'
+import { eq, and, sql } from 'drizzle-orm'
 import { db } from '-/db/index'
 import * as schema from '-/db/schema'
-import { scrapeUrl } from '@/services/scrape.services'
 
-// let delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
-// Bun.sleep(delay)
+export async function getQuotes(type: number) {  
+  const quotes = await db
+    .select()
+    .from(schema.prices)
+    .where(
+      and(
+        eq(schema.prices.commodityId, type),
+        // (sql`(strftime('%s'))`),
+        (sql`(abs(strftime('%s','now') - strftime('%s', ${schema.prices.createdAt})))`),
+        // (sql`(abs(strftime('%s','now') - strftime('%s', ${schema.prices.createdAt})) < 86400)`),
+      )
+    )
+  // await db.select().from(users).orderBy(users.name, users.name2);
+  // await db.select().from(users).orderBy(asc(users.name), desc(users.name2));
 
-const arrobaDoBoi = await scrapeUrl('boi', 'scot')
+  return quotes
+}
 
-// await db.insert(schema.prices)
-//   .values(arrobaDoBoi)
-//   .onConflictDoNothing({ target: [schema.prices.id, schema.prices.createdAt, schema.prices.price, schema.prices.state, schema.prices.city] })
+const q = await getQuotes(1)
 
-await db.insert(schema.prices)
-  .values(arrobaDoBoi)
-  .onConflictDoNothing()
-
-// for (const item of arrobaDoBoi) {
-  // console.log(item)
-
-  // await db
-  //   .insert(schema.prices)
-  //   .values(item)
-  //   .onConflictDoUpdate({
-  //     target: [schema.prices.id, schema.prices.createdAt, schema.prices.price, schema.prices.state, schema.prices.city],
-  //     set: { 
-  //       price: item.price 
-  //     }
-  //   })
-// }
+console.log(q)

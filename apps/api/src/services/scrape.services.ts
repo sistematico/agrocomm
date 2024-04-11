@@ -1,4 +1,6 @@
 import * as cheerio from 'cheerio'
+import { db } from '-/db/index'
+import * as schema from '-/db/schema'
 import { extractCityAndState } from '@/services/region.services'
 import { convertStringToFormattedDateString, stringToNumber } from '@/utils'
 import type { Quote, ProviderInfo, QuoteType } from '@/types'
@@ -18,8 +20,14 @@ const providers: { [key in string]: ProviderInfo } = {
       datetag: 'table:nth-of-type(2) thead tr th'
     },
     milho: {
-      id: 2,
-      url: 'https://www.scotconsultoria.com.br/cotacoes/vaca-gorda/?ref=smnb',
+      id: 3,
+      url: 'https://www.scotconsultoria.com.br/cotacoes/graos/?ref=smnb',
+      tag: 'table:nth-of-type(1) tbody tr',
+      datetag: 'table:nth-of-type(2) thead tr th'
+    },
+    soja: {
+      id: 4,
+      url: 'https://www.scotconsultoria.com.br/cotacoes/graos/?ref=smnb',
       tag: 'table:nth-of-type(3) tbody tr',
       datetag: 'table:nth-of-type(2) thead tr th'
     },
@@ -36,7 +44,7 @@ async function loadUrl(url: string): Promise<string> {
   return data
 }
 
-export async function scrapeUrl(type: QuoteType, provider: string = 'scot'): Promise<Quote[]> {  
+async function scrapeUrl(type: QuoteType, provider: string = 'scot') {  
   const data: Quote[] = [] 
   
   const providerDetails = providers[provider][type]
@@ -58,5 +66,15 @@ export async function scrapeUrl(type: QuoteType, provider: string = 'scot'): Pro
     }
   })
 
-  return data
+  if (data.length > 0) await db.insert(schema.prices).values(data).onConflictDoNothing()
 }
+
+let delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
+Bun.sleep(delay)
+
+await scrapeUrl('boi', 'scot')
+
+delay = Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
+Bun.sleep(delay)
+
+await scrapeUrl('vaca', 'scot')

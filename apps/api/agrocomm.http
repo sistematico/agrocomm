@@ -1,1 +1,5 @@
-GET http://localhost:4000
+GET http://localhost:4000/quotes/boi
+
+###
+
+GET http://localhost:4000/quotes/vaca
