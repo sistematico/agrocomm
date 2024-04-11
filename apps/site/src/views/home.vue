@@ -1,46 +1,70 @@
-<script setup lang="ts">
-// import { Ref, ref } from 'vue'
-import Sidebar from '@/components/sidebar.vue'
-import json from '@/data/sidebar.json'
-
-// const videoPlayer = ref(null)
-// const videoImage = ref(null)
-
-// function fallback(video: Ref | null) {
-//   if (video) {
-//     const img = video.querySelector('img')
-//     if (img) videoPlayer.replaceChild(img, video)
-//   }
-// }
-</script>
 <template>
   <div class="row">
-    <div class="col-md-10">
-
-      <!-- <video ref="videoPlayer" autoplay loop muted playsinline>
-        <source src="https://cdn.agrocomm.com.br/video/2758322-uhd_3840_2160_30fps.mp4" type="video/mp4">
-        <source src="https://cdn.agrocomm.com.br/video/2758322-uhd_3840_2160_30fps.webm" type="video/webm" :onerror="fallback(videoPlayer)">
-        <img ref="videoImage" src="https://cdn.agrocomm.com.br/images/poster.jpg">
-      </video> -->
-
-
-      <video id="background-video" preload="auto" disable-picture-in-picture autoplay loop muted poster="https://cdn.agrocomm.com.br/images/poster.jpg">
-        <source src="https://cdn.agrocomm.com.br/video/2758322-uhd_3840_2160_30fps.mp4" type="video/mp4">
-      </video>
+    <div class="col-md-6 p-3">
+      <router-link to="/soja">        
+        <div class="card text-bg-dark">
+          <img 
+            src="https://cdn.agrocomm.com.br/images/banner/plantas-verdes-frescas-crescem-na-natureza-vibrante-gerada-pela-ia.jpg" 
+            class="card-img img-fluid" 
+            alt="Soja"
+            style="width: auto; max-height: 300px;"
+          >
+          <div class="card-img-overlay">
+            <h5 class="card-title">Soja</h5>
+            <p class="card-text">Preço da saca de soja</p>
+            <!-- <p class="card-text"><small>Last updated 3 mins ago</small></p> -->
+          </div>
+        </div>
+      </router-link>
     </div>
-    <div class="col-md-2">
-      <Sidebar :json="json" />
+    <div class="col-md-6 p-3">
+      <router-link to="/milho">        
+        <div class="card text-bg-dark">
+          <img 
+            src="https://cdn.agrocomm.com.br/images/banner/plantas-verdes-frescas-crescem-na-natureza-vibrante-gerada-pela-ia.jpg" 
+            class="card-img img-fluid" 
+            alt="Milho"
+            style="width: auto; max-height: 300px;"
+          >
+          <div class="card-img-overlay">
+            <h5 class="card-title">Milho</h5>
+            <p class="card-text">Preço da saca de milho</p>
+            <!-- <p class="card-text"><small>Last updated 3 mins ago</small></p> -->
+          </div>
+        </div>
+      </router-link>
+    </div>
+    <div class="col-md-6 p-3">
+      <router-link to="/boi">
+        <div class="card text-bg-dark">
+          <img 
+            src="https://cdn.agrocomm.com.br/images/banner/pexels-jose-fagundes-10823067.jpg" 
+            class="card-img img-fluid" 
+            alt="Pecuária" 
+            style="width: auto; max-height: 300px;"
+          >
+          <div class="card-img-overlay">
+            <h5 class="card-title">Boi</h5>
+            <p class="card-text">Preço da arroba do boi</p>
+          </div>
+        </div>
+      </router-link>
+    </div>
+    <div class="col-md-6 p-3">
+      <router-link to="/vaca">
+        <div class="card text-bg-dark ">
+          <img 
+            src="https://cdn.agrocomm.com.br/images/banner/pexels-jose-fagundes-10823067.jpg" 
+            class="card-img img-fluid" 
+            alt="Pecuária"
+            style="width: auto; max-height: 300px;"
+          >
+          <div class="card-img-overlay">
+            <h5 class="card-title">Vaca</h5>
+            <p class="card-text">Preço da arroba da vaca</p>
+          </div>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
-<style scoped>
-video {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); */
-  /* box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075); */
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
-  /* box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175); */
-}
-</style>
