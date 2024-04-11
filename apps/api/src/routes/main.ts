@@ -2,8 +2,7 @@ import { Hono } from 'hono'
 
 const app = new Hono()
 
-app.get('/', (c) => c.json('list quotes'))
-app.post('/', (c) => c.json('create an quote', 201))
-app.get('/:id', (c) => c.json(`get ${c.req.param('id')}`))
+app.get('/', c => c.text('AgroComm API - Rota principal'))
+app.post('/', c => c.text('AgroComm API - POST', 201))
 
 export { app as main }

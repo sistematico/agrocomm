@@ -5,9 +5,11 @@ import { main, auth, quotes } from '@/routes'
 const app = new Hono()
 
 app.use('*', cors())
+
+app.notFound(c => c.text('AgroComm - Rota não encontrada', 404))
 app.route('/', main)
 app.route('/quotes', quotes)
 app.route('/auth', auth)
-app.get('/', c => c.text('AgroComm API'))
+// app.get('/', c => c.text('AgroComm API'))
 
 export default { port: 4000, fetch: app.fetch }

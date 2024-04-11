@@ -47,7 +47,7 @@ else
       -e POSTGRES_DB=$DB_NAME \
       -e POSTGRES_USER=$DB_USER \
       -e POSTGRES_PASSWORD=$DB_PASS \
-      -v ../files/etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf \
+      -v ../ansible/files/etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf \
       -p 5432:5432 \
       postgres:$POSTGRES_VERSION
 fi

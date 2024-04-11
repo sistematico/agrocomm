@@ -8,4 +8,4 @@ const parentDir = resolve(currentDir, '..')
 
 const sqlite = new Database(parentDir + '/data/sqlite.db')
 const db = drizzle(sqlite)
-migrate(db, { migrationsFolder: 'drizzle' })
+await migrate(db, { migrationsFolder: parentDir + '/drizzle' })

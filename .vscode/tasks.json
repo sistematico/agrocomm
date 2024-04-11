@@ -11,12 +11,7 @@
 				"runOn": "folderOpen"
 			},
 			"presentation": {
-				"echo": true,
-				"reveal": "never",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": false,
-				"clear": true
+				"reveal": "never"
 			}
 		},
 		{
@@ -27,6 +22,9 @@
 			"problemMatcher": [],
 			"runOptions": {
 				"runOn": "folderOpen"
+			},
+			"presentation": {
+				"reveal": "never"
 			}
 		},
 		{

@@ -9,8 +9,16 @@ await db.insert(schema.users).values([
     email: "agrocomm@agrocomm.com.br", 
     name: "Admin", 
     role: "admin", 
-    password: hash
+    password: hash,
+    profile: 1
   }
+]).onConflictDoNothing()
+
+await db.insert(schema.plans).values([
+  { name: "free" },
+  { name: "bronze" },
+  { name: "silver" },
+  { name: "gold" }
 ]).onConflictDoNothing()
 
 await db.insert(schema.commodities).values([
