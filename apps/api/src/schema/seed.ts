@@ -1,5 +1,5 @@
-import { db } from '-/db'
-import * as schema from '-/db/schema'
+import { db } from '@/schema'
+import * as schema from '@/schema/schema'
 
 const hash = await Bun.password.hash('password')
 

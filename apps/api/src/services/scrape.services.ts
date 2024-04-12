@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio'
-import { db } from '-/db/index'
-import * as schema from '-/db/schema'
+import { db } from '@/schema'
+import * as schema from '@/schema/schema'
 import { extractCityAndState } from '@/services/region.services'
 import { convertStringToFormattedDateString, stringToNumber, getRandomNumber } from '@/utils'
 import type { Quote, ProviderInfo, QuoteType } from '@/types'

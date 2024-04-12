@@ -1,6 +1,6 @@
 import { eq, sql, or } from 'drizzle-orm'
-import { db } from '-/db/index'
-import * as schema from '-/db/schema'
+import { db } from '@/schema'
+import * as schema from '@/schema/schema'
 import { getCurrentDate } from '@/utils'
 
 

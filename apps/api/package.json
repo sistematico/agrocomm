@@ -3,18 +3,19 @@
   "version": "1.0.2",
   "type": "module",
   "scripts": {
-    "init": "bunx drizzle-kit generate:sqlite --schema ./db/schema.ts && bun run ./db/migrate.ts && bun run ./db/seed.ts",
+    "init": "bunx drizzle-kit generate:pg --schema ./src/schema/schema.ts && bun run ./src/schema/migrate.ts && bun run ./src/schema/seed.ts",
     "reset": "rm -rf drizzle data/sqlite.db",
     "dev": "bun run --hot src/index.ts",
-    "generate": "bunx drizzle-kit generate:sqlite --schema ./db/schema.ts",
-    "migrate": "bun run db/migrate.ts",
-    "seed": "bun run db/seed.ts",
+    "generate": "bunx drizzle-kit generate:pg --schema ./src/schema/schema.ts",
+    "migrate": "bun run ./src/schema/migrate.ts",
+    "seed": "bun run ./src/schema/seed.ts",
     "scrape": "bun run src/services/scrape.services.ts",
     "studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
-    "drizzle-orm": "^0.30.6",
-    "hono": "^4.2.0"
+    "drizzle-orm": "^0.30.8",
+    "hono": "^4.2.0",
+    "postgres": "^3.4.4"
   },
   "devDependencies": {
     "@types/bun": "latest",
