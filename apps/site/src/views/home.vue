@@ -21,7 +21,7 @@
       <router-link to="/milho">        
         <div class="card text-bg-dark">
           <img 
-            src="https://cdn.agrocomm.com.br/images/banner/plantas-verdes-frescas-crescem-na-natureza-vibrante-gerada-pela-ia.jpg" 
+            src="https://cdn.agrocomm.com.br/images/banner/corn-field-organic-farming-concept.jpg" 
             class="card-img img-fluid" 
             alt="Milho"
             style="width: auto; max-height: 300px;"
