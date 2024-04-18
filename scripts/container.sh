@@ -49,6 +49,7 @@ else
 
     # Execute o contêiner com as variáveis de ambiente personalizadas
     podman run -d \
+<<<<<<< HEAD
       --name $CONTAINER \
       -e POSTGRES_DB=$DB_NAME \
       -e POSTGRES_USER=$DB_USER \
@@ -57,4 +58,14 @@ else
       postgres:$POSTGRES_VERSION
 
       # -v ../ansible/files/etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf \
+=======
+        --name $CONTAINER \
+        -e POSTGRES_DB=$DB_NAME \
+        -e POSTGRES_USER=$DB_USER \
+        -e POSTGRES_PASSWORD=$DB_PASS \
+        -e POSTGRES_HOST_AUTH_METHOD=trust \
+        -v c:/Users/siste/Desktop/agrocomm/ansible/files/etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf \
+        -p 5432:5432 \
+        postgres:$POSTGRES_VERSION
+>>>>>>> 01f537baa2f9018355c1de2934b644dc3568df9a
 fi

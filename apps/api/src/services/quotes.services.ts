@@ -21,7 +21,7 @@ export async function getQuotes(type: string) {
         sql`(abs(strftime('%s','now') - strftime('%s', '${schema.prices.createdAt}')))`
       )
     )
-    .orderBy(schema.prices.state)
+    .orderBy(schema.prices.stateId)
 
   return quotes
 }
