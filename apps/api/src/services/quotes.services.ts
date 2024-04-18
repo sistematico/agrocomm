@@ -1,6 +1,6 @@
 import { eq, sql, or } from 'drizzle-orm'
-import { db } from '-/db/index'
-import * as schema from '-/db/schema'
+import { db } from '@/drizzle'
+import * as schema from '@/drizzle/schema'
 import { getCurrentDate } from '@/utils'
 
 export async function getQuotes(type: string) {  

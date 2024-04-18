@@ -3,22 +3,22 @@
   "version": "1.0.2",
   "type": "module",
   "scripts": {
-    "init": "bunx drizzle-kit generate:sqlite --schema ./db/schema.ts && bun run ./db/migrate.ts && bun run ./db/seed.ts",
-    "reset": "rm -rf drizzle data/sqlite.db",
     "dev": "bun run --hot src/index.ts",
-    "generate": "bunx drizzle-kit generate:sqlite --schema ./db/schema.ts",
-    "migrate": "bun run db/migrate.ts",
-    "seed": "bun run db/seed.ts",
-    "scrape": "bun run src/services/scrape.services.ts",
-    "studio": "bunx drizzle-kit studio"
+    "db:init": "bunx drizzle-kit generate:pg --schema ./src/drizzle/schema.ts --out ./src/drizzle/migrations && bun run ./src/drizzle/migrate.ts && bun run ./src/drizzle/seed.ts",
+    "db:generate": "bunx drizzle-kit generate:pg --schema ./src/drizzle/schema.ts --out ./src/drizzle/migrations",
+    "db:migrate": "bun ./src/drizzle/migrate.ts",
+    "db:seed": "bun ./src/drizzle/seed.ts",
+    "db:scrape": "bun src/services/scrape.services.ts",
+    "db:studio": "bunx drizzle-kit studio",
+    "db:reset": "bun ./src/drizzle/reset.ts"
   },
   "dependencies": {
-    "drizzle-orm": "^0.30.6",
-    "hono": "^4.2.0"
+    "drizzle-orm": "^0.30.8",
+    "hono": "^4.2.0",
+    "postgres": "^3.4.4"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "better-sqlite3": "^9.4.3",
     "drizzle-kit": "^0.20.14"
   }
 }

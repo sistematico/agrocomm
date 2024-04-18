@@ -1,15 +1,15 @@
-import { db } from '-/db'
-import * as schema from '-/db/schema'
+import { db } from '@/drizzle'
+import * as schema from '@/drizzle/schema'
 
 const hash = await Bun.password.hash('password')
 
 await db.insert(schema.users).values([
   { 
+    name: "Admin", 
     username: "admin", 
     email: "agrocomm@agrocomm.com.br", 
-    name: "Admin", 
-    role: "admin", 
     password: hash,
+    role: "admin", 
     profile: 1
   }
 ]).onConflictDoNothing()

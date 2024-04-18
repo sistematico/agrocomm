@@ -1,19 +1,7 @@
 import { eq, sql, or } from 'drizzle-orm'
-import { db } from '-/db/index'
-import * as schema from '-/db/schema'
+import { db } from '@/drizzle'
+import * as schema from '@/drizzle/schema'
 import { getCurrentDate } from '@/utils'
-
-
-// export const users = sqliteTable('users', {
-//   id: integer('id').primaryKey({ autoIncrement: true }),
-//   username: text('username').unique().notNull(),
-//   email: text('email').unique().notNull(),
-//   name: text('name').notNull(),
-//   role: text('role').notNull().default('user'),
-//   password: text('password').notNull(),
-//   createdAt: text('created_at').notNull().default(now)
-// })
-
 
 export async function login(identifier: string, password: string) {  
   const user = await db
