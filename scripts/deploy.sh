@@ -21,7 +21,7 @@ $BUN run clean
 cd $PROJECT_PATH/apps/api
 [ ! -f .env ] && cp .env.production .env
 $BUN install
-$BUN run generate && $BUN run migrate && $BUN run seed
+$BUN run db:generate && $BUN run db:migrate && $BUN run db:seed
 
 cd $PROJECT_PATH/apps/site
 [ ! -f .env ] && cp .env.production .env
