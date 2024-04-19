@@ -33,6 +33,7 @@
 			"script": "studio",
 			"path": "apps/api",
 			"problemMatcher": [],
+			"promptOnClose": false,
 			"runOptions": {
 				"runOn": "folderOpen"
 			},
@@ -51,6 +52,7 @@
 			"script": "scrape",
 			"path": "apps/api",
 			"problemMatcher": [],
+			"promptOnClose": false,
 			"presentation": {
 				"echo": true,
 				"reveal": "never",
@@ -66,7 +68,10 @@
 			"command": "${workspaceFolder}/scripts/container.sh",
 			"problemMatcher": [],
 			"isBackground": true,
-			"promptOnClose": false
+			"promptOnClose": false,
+			"runOptions": {
+				"runOn": "folderOpen"
+			},
 		},
 		{
 			"label": "Run Ansible Playbook",

@@ -1,60 +1,47 @@
-// import { sqliteTable, text, integer, uniqueIndex } from 'drizzle-orm/sqlite-core'
-import { integer, serial, text, timestamp, pgTable, uniqueIndex } from 'drizzle-orm/pg-core'
+import { pgTable, integer, serial, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { getCurrentDate } from '@/utils'
 
-const now = getCurrentDate()
+// Enums
+const roles = ['user', 'admin', 'superadmin'] as const
+export type Roles = (typeof roles)[number]
 
+const planTypes = ['free', 'bronze', 'silver', 'gold', 'diamond'] as const
+export type PlanTypes = (typeof planTypes)[number]
+
+// Tables
 export const users: any = pgTable('users', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   username: text('username').unique().notNull(),
   email: text('email').unique().notNull(),
   password: text('password').notNull(),
-  role: text('role').notNull().default('user'),
-  createdAt: text('created_at').notNull().default(now),
-  profile: integer('profile').references(() => profiles.id),
-  }, (table) => {
-    return {
-      userIdx: uniqueIndex('unique_user_per_username_email').on(table.username, table.email)
-    }
+  role: text('role', { enum: roles }).notNull().default('user'),
+  createdAt: timestamp('created_at').notNull().defaultNow()
 })
 
 export const profiles = pgTable('profiles', {
-  id: serial('id'),
-  userId: serial('user_id').references(() => users.id),
-  subscription: text('subscription').references(() => plans.name).default('free'),
-  // userId: serial('user_id').references(() => users.id)
+  id: serial('id').primaryKey(),
+  verified: integer('verified').notNull().default(0),
+  userId: integer('user_id').notNull().references(() => users.id),
+  // subscription: text('subscription', { enum: planTypes }).notNull().references(() => plans.name),
+  subscription: text('subscription', { enum: planTypes }).notNull().default('free'),
+  validAt: timestamp('valid_at')
 })
 
-export const usersRelations = relations(users, ({ one }) => ({
-  profile: one(profiles, {
-    fields: [users.id],
-    references: [profiles.id],
-    relationName: 'users_profiles'
-  }),
-  subscription: one(plans, {
-    fields: [users.id],
-    references: [plans.name],
-    relationName: 'users_subscriptions'
-  }),
-  // posts: many(posts, { relationName: "users_posts" })
-}))
-
 export const plans = pgTable('plans', {
-  id: serial('id'),
-  name: text('name').unique().notNull(),
+  id: serial('id').primaryKey(),
+  name: text('name', { enum: planTypes }).notNull().default('free'),
 })
 
 export const states = pgTable('states', {
-  id: serial('id'),
+  id: serial('id').primaryKey(),
   abbr: text('state_abbr').unique().notNull(),
   name: text('state_name').unique().notNull()
 })
 
 export const cities = pgTable('cities', {
-  id: serial('id'),
-  name: text('city_name'),
+  id: serial('id').primaryKey(),
+  name: text('city_name').notNull(),
   state: text('state').references(() => states.abbr),
   }, (table) => {
     return {
@@ -70,7 +57,7 @@ export const commodities = pgTable('commodities', {
 export const prices = pgTable('prices', {
   id: serial('id'),
   price: integer('price').notNull(),
-  createdAt: text('created_at').notNull().default(now),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
   commodity: text('commodity').references(() => commodities.name),
   cityId: integer('city').references(() => cities.id),
   stateId: integer('state').references(() => states.id), // Novo campo adicionado
@@ -80,3 +67,17 @@ export const prices = pgTable('prices', {
   }
 })
 
+// Relations
+export const usersRelations = relations(users, ({ one }) => ({
+  profile: one(profiles, {
+    fields: [users.id],
+    references: [profiles.userId]
+  })
+}))
+
+export const profilesRelations = relations(profiles, ({ one }) => ({
+  subscription: one(plans, {
+    fields: [profiles.subscription],
+    references: [plans.name]
+  })
+}))

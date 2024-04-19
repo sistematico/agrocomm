@@ -3,7 +3,6 @@
 [ -f /etc/os-release ] && . /etc/os-release
 [ "$NAME" == "Arch Linux" ] && ENV_FILE="/home/lucas/code/agrocomm/apps/api/.env" || ENV_FILE="/var/www/agrocomm/apps/api/.env"
 
-# Defina suas variáveis personalizadas aqui
 NAME="agrocomm"
 POSTGRES_VERSION=15.0
 DB_NAME="$NAME"
@@ -30,42 +29,29 @@ echo "DB_HOST: $DB_HOST"
 echo "DB_PORT: $DB_PORT"
 echo "DB_NAME: $DB_NAME"
 
-# Verifica se o contêiner já existe
 if podman container exists $CONTAINER; then
     echo "Contêiner $CONTAINER já existe."
 
-    # Verifica se o contêiner está rodando
-    if ! podman container inspect -f '{{.State.Running}}' $CONTAINER | grep true; then
-        echo "Iniciando o contêiner $CONTAINER."
-        podman start $CONTAINER
-    else
-        echo "Contêiner $CONTAINER já está em execução."
+    if podman container inspect -f '{{.State.Running}}' $CONTAINER | grep true; then
+        echo "Parando o contêiner $CONTAINER."
+        podman stop $CONTAINER
     fi
-else
-    echo "Criando e iniciando contêiner $CONTAINER."
 
-    # Puxe a imagem do PostgreSQL 14.0
-    podman pull postgres:$POSTGRES_VERSION
-
-    # Execute o contêiner com as variáveis de ambiente personalizadas
-    podman run -d \
-<<<<<<< HEAD
-      --name $CONTAINER \
-      -e POSTGRES_DB=$DB_NAME \
-      -e POSTGRES_USER=$DB_USER \
-      -e POSTGRES_PASSWORD=$DB_PASS \
-      -p 5432:5432 \
-      postgres:$POSTGRES_VERSION
-
-      # -v ../ansible/files/etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf \
-=======
-        --name $CONTAINER \
-        -e POSTGRES_DB=$DB_NAME \
-        -e POSTGRES_USER=$DB_USER \
-        -e POSTGRES_PASSWORD=$DB_PASS \
-        -e POSTGRES_HOST_AUTH_METHOD=trust \
-        -v c:/Users/siste/Desktop/agrocomm/ansible/files/etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf \
-        -p 5432:5432 \
-        postgres:$POSTGRES_VERSION
->>>>>>> 01f537baa2f9018355c1de2934b644dc3568df9a
+    echo "Removendo o contêiner $CONTAINER."
+    podman rm $CONTAINER
 fi
+
+echo "Instalando a imagem postgres:$POSTGRES_VERSION"
+podman inspect postgres:$POSTGRES_VERSION >/dev/null 2>&1 || podman pull postgres:$POSTGRES_VERSION
+
+echo "Iniciando o contêiner $CONTAINER."
+podman run -d \
+    --name $CONTAINER \
+    -e POSTGRES_DB=$DB_NAME \
+    -e POSTGRES_USER=$DB_USER \
+    -e POSTGRES_PASSWORD=$DB_PASS \
+    -p 5432:5432 \
+    postgres:$POSTGRES_VERSION
+
+    # -v ../ansible/files/etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf \
+

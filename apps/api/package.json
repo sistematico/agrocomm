@@ -6,11 +6,11 @@
     "dev": "bun run --hot src/index.ts",
     "db:init": "bunx drizzle-kit generate:pg --schema ./src/drizzle/schema.ts --out ./src/drizzle/migrations && bun run ./src/drizzle/migrate.ts && bun run ./src/drizzle/seed.ts",
     "db:generate": "bunx drizzle-kit generate:pg --schema ./src/drizzle/schema.ts --out ./src/drizzle/migrations",
-    "db:migrate": "bun ./src/drizzle/migrate.ts",
-    "db:seed": "bun ./src/drizzle/seed.ts",
-    "db:scrape": "bun src/services/scrape.services.ts",
+    "db:migrate": "bun run ./src/drizzle/migrate.ts",
+    "db:seed": "bun run ./src/drizzle/seed.ts",
+    "db:scrape": "bun run ./src/services/scrape.services.ts",
     "db:studio": "bunx drizzle-kit studio",
-    "db:reset": "bun ./src/drizzle/reset.ts"
+    "db:reset": "bun run ./src/drizzle/reset.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.30.8",

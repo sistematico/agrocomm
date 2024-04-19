@@ -80,21 +80,16 @@ async function scrapeUrl(type: QuoteType, provider: string = 'scot') {
 
 let delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-// console.log(`Delay: ${delay}ms`) 
-
 await scrapeUrl('boi', 'scot')
 
 delay = delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-
 await scrapeUrl('vaca', 'scot')
 
 delay = delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-
 await scrapeUrl('milho', 'scot')
 
 delay = delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-
 await scrapeUrl('soja', 'scot')

@@ -4,5 +4,8 @@ import postgres from 'postgres'
 
 const sql = postgres(process.env.DATABASE_URL!, { max: 1 })
 const db = drizzle(sql)
+
 await migrate(db, { migrationsFolder: './src/drizzle/migrations' })
 await sql.end()
+
+// process.exit(0)
