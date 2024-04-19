@@ -9,11 +9,11 @@ export interface States {
 }
 
 export interface Quote {
-  date: string
   price: number
   state?: string
   city?: string
   commodity: string
+  createdAt: Date
 }
 
 interface ProviderDetails {

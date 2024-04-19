@@ -1,5 +1,6 @@
 import { pgTable, integer, serial, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
+import { primaryKey } from 'drizzle-orm/mysql-core'
 
 // Enums
 const roles = ['user', 'admin', 'superadmin'] as const
@@ -35,14 +36,14 @@ export const plans = pgTable('plans', {
 
 export const states = pgTable('states', {
   id: serial('id').primaryKey(),
-  abbr: text('state_abbr').unique().notNull(),
-  name: text('state_name').unique().notNull()
+  abbr: text('abbr').unique(),
+  name: text('name')
 })
 
 export const cities = pgTable('cities', {
   id: serial('id').primaryKey(),
-  name: text('city_name').notNull(),
-  state: text('state').references(() => states.abbr),
+  name: text('name').unique(),
+  state: text('state').unique().references(() => states.abbr),
   }, (table) => {
     return {
       cityIdx: uniqueIndex('unique_city_per_name_state').on(table.name, table.state)
@@ -50,21 +51,24 @@ export const cities = pgTable('cities', {
 })
 
 export const commodities = pgTable('commodities', {
-  id: serial('id'),
-  name: text('name').unique().notNull()
+  id: serial('id').primaryKey(),
+  name: text('name')
 })
 
 export const prices = pgTable('prices', {
   id: serial('id'),
   price: integer('price').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  commodity: text('commodity').references(() => commodities.name),
-  cityId: integer('city').references(() => cities.id),
-  stateId: integer('state').references(() => states.id), // Novo campo adicionado
-}, (table) => {
-  return {
-    priceIdx: uniqueIndex('unique_price_per_day_state_city').on(table.createdAt, table.commodity, table.stateId, table.cityId)
-  }
+  // commodity: text('commodity').references(() => commodities.name),
+  commodity: text('commodity'),
+  // city: text('city').references(() => cities.name),
+  city: text('city'),
+  // state: text('state').references(() => states.abbr), // Novo campo adicionado
+  state: text('state'), // Novo campo adicionado
+  }, (table) => {
+    return {
+      priceIdx: uniqueIndex('unique_price_per_day_state_city').on(table.createdAt, table.commodity, table.state, table.city)
+    }
 })
 
 // Relations
@@ -79,5 +83,12 @@ export const profilesRelations = relations(profiles, ({ one }) => ({
   subscription: one(plans, {
     fields: [profiles.subscription],
     references: [plans.name]
+  })
+}))
+
+export const pricesRelations = relations(prices, ({ one }) => ({
+  commodity: one(commodities, {
+    fields: [prices.commodity],
+    references: [commodities.name]
   })
 }))

@@ -7,6 +7,6 @@ export default defineConfig({
   dbCredentials: {
     connectionString: process.env.DATABASE_URL!,
   },
-  verbose: true,
-  strict: true,
+  verbose: process.env.NODE_ENV === 'development' ? true : false,
+  strict: process.env.NODE_ENV === 'development' ? true : false,
 })

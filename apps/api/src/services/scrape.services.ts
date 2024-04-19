@@ -2,7 +2,8 @@ import * as cheerio from 'cheerio'
 import { db } from '@/drizzle'
 import * as schema from '@/drizzle/schema'
 import { extractCityAndState } from '@/services/region.services'
-import { convertStringToFormattedDateString, stringToNumber, getRandomNumber } from '@/utils'
+import { convertStringToFormattedDate } from '@/services/dates.services'
+import { stringToNumber, getRandomNumber } from '@/utils'
 import type { Quote, ProviderInfo, QuoteType } from '@/types'
 
 const providers: { [key in string]: ProviderInfo } = {
@@ -54,7 +55,7 @@ async function scrapeUrl(type: QuoteType, provider: string = 'scot') {
   const $ = cheerio.load(body)
   const tr = $(providerDetails.tag)
   const tableDate = $(providerDetails.datetag).text().replace(/(\s+)/g, ' ')
-  const date = convertStringToFormattedDateString(tableDate)
+  const createdAt = convertStringToFormattedDate(tableDate)
   let location: string, tempLocation: string = ''
 
   tr.each((idx, el) => {
@@ -67,29 +68,51 @@ async function scrapeUrl(type: QuoteType, provider: string = 'scot') {
         location = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
       }
 
-      const loc = extractCityAndState(location)
+      const { state, city } = extractCityAndState(location)
       const rawPrice = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
       const price = stringToNumber(rawPrice)
       
-      if (loc && loc.state) data.push({ date, price, city: loc.city || '-', state: loc.state, commodity: type })
+      if ((typeof price === 'number' && !isNaN(price)) && state) {
+        data.push({ createdAt, price, city: city ?? '-', state, commodity: type })
+      }
     }
   })
 
-  if (data.length > 0) await db.insert(schema.prices).values(data).onConflictDoNothing()
+  if (data.length > 0) {
+    await db
+      .insert(schema.prices)
+      .values(data)
+      .onConflictDoNothing({ 
+        target: [
+          schema.prices.createdAt, 
+          schema.prices.commodity, 
+          schema.prices.city, 
+          schema.prices.state
+        ]          
+      })
+  }
 }
 
 let delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-await scrapeUrl('boi', 'scot')
+const boi = scrapeUrl('boi', 'scot').then(_ => "🐂 Scrape Boi complete.").catch(e => e)
 
 delay = delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-await scrapeUrl('vaca', 'scot')
+const vaca = scrapeUrl('vaca', 'scot').then(_ => "🐄 Scrape Vaca complete.").catch(e => e)
 
 delay = delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-await scrapeUrl('milho', 'scot')
+const milho = scrapeUrl('milho', 'scot').then(_ => "🌽 Scrape Milho complete.").catch(e => e)  
 
 delay = delay = getRandomNumber(1, 2)
 Bun.sleep(delay)
-await scrapeUrl('soja', 'scot')
+const soja = scrapeUrl('soja', 'scot').then(_ => "🌱 Scrape Soja complete.").catch(e => e)
+
+Promise.all([boi, vaca, milho, soja]).then((values) => {
+  console.log(values)
+  process.exit(0)
+}).catch(e => {
+  console.error(e)
+  process.exit(0)
+})

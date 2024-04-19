@@ -1,12 +1,40 @@
-import { states } from '@/utils'
+function formatDateToDDMMYYYY(date: Date): string {
+  const day = date.getUTCDate().toString().padStart(2, '0')
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0') // Meses são 0-indexados
+  const year = date.getUTCFullYear().toString()
+  return `${day}/${month}/${year}`
+}
 
-export function extractCityAndState(location: string) {
-  let stateFound = states.find((state) => location === state.abbr || location.includes(state.name))
-  if (stateFound) return { state: stateFound.abbr, city: location === stateFound.abbr ? '-' : null }  
+export function convertStringToFormattedDateString(dateString: string): string {
+  const regex = /(\d{2})\/(\d{2})\/(\d{4})/
+  const matches = dateString.match(regex)
 
-  const stateAbbr = location.substring(0, 2)
-  stateFound = states.find((state) => stateAbbr === state.abbr)
+  if (!matches) throw new Error(`Formato de data inválido: ${dateString}`)
 
-  if (stateFound) return { state: stateFound.abbr, city: location.length > 2 ? location.substring(3) : '-' }
-  return { state: '-', city: '-' }
+  const day = parseInt(matches[1], 10)
+  const month = parseInt(matches[2], 10) - 1
+  const year = parseInt(matches[3], 10)
+
+  let date = new Date(Date.UTC(year, month, day))
+  date.setUTCHours(date.getUTCHours() + 3)
+
+  return formatDateToDDMMYYYY(date)
+}
+
+export function convertStringToFormattedDate(dateString: string): Date {
+  const regex = /(\d{2})\/(\d{2})\/(\d{4})/
+  const matches = dateString.match(regex)
+
+  if (!matches) throw new Error(`Formato de data inválido: ${dateString}`)
+
+  const day = parseInt(matches[1], 10)
+  const month = parseInt(matches[2], 10) - 1
+  const year = parseInt(matches[3], 10)
+
+  let date = new Date(Date.UTC(year, month, day))
+  // date.setUTCHours(date.getUTCHours() + 3)
+  date.setUTCHours(date.getUTCHours())
+
+  // Usa a função auxiliar para formatar a data
+  return date
 }
