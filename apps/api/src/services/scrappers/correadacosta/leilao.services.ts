@@ -15,8 +15,9 @@ export async function scrapeLeilao() {
   const $ = cheerio.load(body)
   
   const tr = $('table:nth-of-type(2) tbody tr')
-  const tableDate = $('table:nth-of-type(2) thead tr th').text().replace(/(\s+)/g, ' ')
-  const commodity = $('.medias-machos > strong:nth-child(1)').text().replace(/(\s+)/g, ' ').trim().toLowerCase() 
+  const tableDate = $('div.mt-3:nth-child(3) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1) > h3:nth-child(1)').text().replace(/(\s+)/g, ' ')
+  const commodity = $('.col-sm .col-12 > strong:nth-child(1)').text().replace(/(\s+)/g, ' ').trim().toLowerCase() 
+  console.log(commodity)
   const createdAt = convertStringToFormattedDate(tableDate)
 
   tr.each((idx, el) => {
