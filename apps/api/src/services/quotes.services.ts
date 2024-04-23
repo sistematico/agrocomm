@@ -9,6 +9,8 @@ export async function getQuotes(type: string) {
     .orderBy(sql`ABS(EXTRACT(EPOCH FROM AGE(NOW(), ${schema.prices.createdAt})))`)
     .limit(1)
 
+  if (closest.length < 1) return { message: 'No quotes' }
+
   const quotes = await db
     .select()
     .from(schema.prices)

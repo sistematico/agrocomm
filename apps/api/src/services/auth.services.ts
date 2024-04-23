@@ -31,7 +31,7 @@ export async function register(username: string, email: string, password: string
   const now = getCurrentDate()
 
   const user = await db.insert(schema.users)
-    .values({ name, username, email, password, createdAt: now })
+    .values({ username, email, password, createdAt: now })
     .onConflictDoNothing()
 
   return user

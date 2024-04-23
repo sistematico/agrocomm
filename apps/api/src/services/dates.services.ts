@@ -42,16 +42,15 @@ export function convertStringToFormattedDate(dateString: string): Date {
   const regex = /(\d{2})\/(\d{2})\/(\d{4})/
   const matches = dateString.match(regex)
 
-  if (!matches) throw new Error(`Formato de data inválido: ${dateString}`)
+  // if (!matches) throw new Error(`Formato de data inválido: ${dateString}`)
+  if (!matches) return getCurrentDate()
 
   const day = parseInt(matches[1], 10)
   const month = parseInt(matches[2], 10) - 1
   const year = parseInt(matches[3], 10)
 
   let date = new Date(Date.UTC(year, month, day))
-  // date.setUTCHours(date.getUTCHours() + 3)
-  date.setUTCHours(date.getUTCHours())
+  date.setUTCHours(date.getUTCHours()) // date.setUTCHours(date.getUTCHours() + 3)
 
-  // Usa a função auxiliar para formatar a data
   return date
 }

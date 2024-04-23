@@ -65,7 +65,7 @@
 		{
 			"label": "podman:start",
 			"type": "shell",
-			"command": "${workspaceFolder}/scripts/container.sh",
+			"command": "${workspaceFolder}/scripts/podman/start.sh",
 			"problemMatcher": [],
 			"isBackground": true,
 			"promptOnClose": false,
