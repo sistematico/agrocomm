@@ -21,7 +21,12 @@ $BUN run clean
 cd $PROJECT_PATH/apps/api
 [ ! -f .env ] && cp .env.production .env
 $BUN install
-$BUN run db:generate && $BUN run db:migrate && $BUN run db:seed
+rm -rf ./src/drizzle/migrations/ 
+$BUNX drizzle-kit generate:pg --schema ./src/drizzle/schema.ts --out ./src/drizzle/migrations 
+$BUN run ./src/drizzle/migrate.ts 
+$BUN run ./src/drizzle/seed.ts
+$BUN run ./src/services/scrape.services.ts
+#$BUN run db:generate && $BUN run db:migrate && $BUN run db:seed
 
 cd $PROJECT_PATH/apps/site
 [ ! -f .env ] && cp .env.production .env
