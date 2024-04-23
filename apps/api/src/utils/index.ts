@@ -34,14 +34,6 @@ export function stringToNumber(price: string): number {
   return parseInt(price.replace(',', ''), 10)
 }
 
-export function getCurrentDate(): string {
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  const timezoneOffset = now.getTimezoneOffset() * 60000; // getTimezoneOffset() retorna em minutos
-  const utcDate = new Date(now.getTime() - timezoneOffset);
-  return utcDate.toISOString()
-}
-
 export function getRandomNumber(min: number, max: number) {
   // Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
   // return Math.random() * (max - min) + min;

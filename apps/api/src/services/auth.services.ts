@@ -1,7 +1,7 @@
 import { eq, sql, or } from 'drizzle-orm'
 import { db } from '@/drizzle'
 import * as schema from '@/drizzle/schema'
-import { getCurrentDate } from '@/utils'
+import { getCurrentDate } from '@/services/dates.services'
 
 export async function login(identifier: string, password: string) {  
   const user = await db

@@ -1,3 +1,20 @@
+export function getCurrentDate(): Date {
+  const now = new Date()
+  now.setHours(0, 0, 0, 0)
+  const timezoneOffset = now.getTimezoneOffset() * 60000 // getTimezoneOffset() retorna em minutos
+  const utcDate = new Date(now.getTime() - timezoneOffset)
+  // return utcDate.toISOString()
+  return utcDate
+}
+
+export function getCurrentDateString(): string {
+  const now = new Date()
+  now.setHours(0, 0, 0, 0)
+  const timezoneOffset = now.getTimezoneOffset() * 60000 // getTimezoneOffset() retorna em minutos
+  const utcDate = new Date(now.getTime() - timezoneOffset)
+  return utcDate.toISOString()
+}
+
 function formatDateToDDMMYYYY(date: Date): string {
   const day = date.getUTCDate().toString().padStart(2, '0')
   const month = (date.getUTCMonth() + 1).toString().padStart(2, '0') // Meses são 0-indexados

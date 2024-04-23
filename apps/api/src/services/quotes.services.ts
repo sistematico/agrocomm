@@ -1,27 +1,24 @@
-import { eq, sql, or } from 'drizzle-orm'
+import { eq, and, sql } from 'drizzle-orm'
 import { db } from '@/drizzle'
 import * as schema from '@/drizzle/schema'
-import { getCurrentDate } from '@/utils'
 
-export async function getQuotes(type: string) {  
-  const now = getCurrentDate()
-  
-  const prices = db
+export async function getQuotes(type: string) {
+  const closest = await db
     .select()
     .from(schema.prices)
-    .where(eq(schema.prices.commodity, type))
-    .as('prices')
+    .orderBy(sql`ABS(EXTRACT(EPOCH FROM AGE(NOW(), ${schema.prices.createdAt})))`)
+    .limit(1)
 
   const quotes = await db
     .select()
-    .from(prices)
+    .from(schema.prices)
     .where(
-      or(
-        eq(schema.prices.createdAt, now),
-        sql`(abs(strftime('%s','now') - strftime('%s', '${schema.prices.createdAt}')))`
+      and(
+        eq(schema.prices.commodity, type),
+        eq(schema.prices.createdAt, closest[0].createdAt)
       )
     )
-    .orderBy(schema.prices.stateId)
+    .orderBy(schema.prices.state, schema.prices.city)
 
   return quotes
 }

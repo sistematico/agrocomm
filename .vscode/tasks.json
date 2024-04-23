@@ -30,7 +30,7 @@
 		{
 			"label": "bun:studio - api",
 			"type": "npm",
-			"script": "studio",
+			"script": "db:studio",
 			"path": "apps/api",
 			"problemMatcher": [],
 			"promptOnClose": false,
@@ -49,7 +49,7 @@
 		{
 			"label": "bun:scrape - api",
 			"type": "npm",
-			"script": "scrape",
+			"script": "db:scrape",
 			"path": "apps/api",
 			"problemMatcher": [],
 			"promptOnClose": false,
