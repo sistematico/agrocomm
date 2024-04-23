@@ -40,3 +40,13 @@ export function getRandomNumber(min: number, max: number) {
   return ((Math.floor(Math.random() * (max - min + 1)) + min) * 1000) * 60
 }
 
+export async function loadUrl(url: string): Promise<string> {
+  const data = await fetch(url)
+    .then(response => response.arrayBuffer())
+    .then(buffer => {
+      const decoder = new TextDecoder('iso-8859-1' as any)
+      return decoder.decode(buffer)
+    })
+  return data
+}
+

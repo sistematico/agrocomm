@@ -8,6 +8,10 @@ export interface States {
   abbr: string
 }
 
+export interface Commodity {
+  commodity: 'boi' | 'vaca' | 'soja' | 'milho' | 'machos' | 'femeas'
+}
+
 export interface Quote {
   price: number
   state?: string
