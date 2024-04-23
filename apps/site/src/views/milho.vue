@@ -26,7 +26,7 @@ function formatCurrency(numero: string | number): string {
 }
 
 watchEffect(async () => {
-  const url = `${apiUrl}/quotes/boi`
+  const url = `${apiUrl}/quotes/milho`
   quotes.value = await (await fetch(url)).json()
 })
 </script>
