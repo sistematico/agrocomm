@@ -19,14 +19,14 @@ import Icon from '@/components/icon.vue'
 
   <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
     <li>
-      <router-link to="/" class="nav-link px-2 link-secondary">
+      <router-link to="/" class="nav-link px-2">
         <Icon name="home" />
         Início
       </router-link>
     </li>
     <li>
       <div>
-        <a href="#" class="nav-link btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="nav-link btn dropdown-toggle px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <Icon name="tractor" size="20" />
           Agricultura
         </a>
@@ -42,7 +42,7 @@ import Icon from '@/components/icon.vue'
     </li>
     <li>
       <div>
-        <a href="#" class="nav-link btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a href="#" class="nav-link btn dropdown-toggle px-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <Icon name="cow" size="20" />
           Pecuária
         </a>
@@ -64,3 +64,12 @@ import Icon from '@/components/icon.vue'
     </li>
   </ul>
 </template>
+<style scoped>
+.dropdown-toggle::after {
+  display: none;
+}
+
+a {
+  color: #fff;
+}
+</style>

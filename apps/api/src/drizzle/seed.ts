@@ -15,13 +15,6 @@ async function seed() {
     }
   ]).onConflictDoNothing()
 
-  // await db.insert(schema.plans).values([
-  //   { name: "free" },
-  //   { name: "bronze" },
-  //   { name: "silver" },
-  //   { name: "gold" }
-  // ]).onConflictDoNothing()
-
   await db.insert(schema.commodities).values([
     { name: "Arroba do Boi" },
     { name: "Arroba da Vaca" },

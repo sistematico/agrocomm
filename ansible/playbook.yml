@@ -1,8 +1,13 @@
 ---
 - name: Update systemd unit and reload daemon
-  hosts: all
+  hosts: all 
   become: true
   remote_user: root
+
+  vars:
+    #ansible_ssh_user: 'rohit'
+    #ansible_password: '123456'
+    ansible_port: '2200'
 
   tasks:
     - name: "Alterar as unidades do systemd"

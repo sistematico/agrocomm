@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=nginx
-WorkingDirectory=/var/www/agrocomm
+WorkingDirectory=/var/www/agrocomm/apps/api
 ExecStart=/home/nginx/.bun/bin/bun /var/www/agrocomm/apps/api/src/index.ts
 #Restart=on-failure
 Restart=always

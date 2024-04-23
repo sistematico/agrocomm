@@ -12,6 +12,9 @@ if [ -f "$ENV_FILE" ]; then
 
     if [ ! -z "$MAXMIND_LICENSE_KEY_LINE" ]; then
       MAXMIND_LICENSE_KEY=$(echo $MAXMIND_LICENSE_KEY_LINE | awk -F= '$1 == "MAXMIND_LICENSE_KEY" {print $2}')
+
+      echo "$MAXMIND_LICENSE_KEY License"
+
       node ${PROJECT_PATH}/node_modules/geoip-lite/scripts/updatedb.js license_key=${MAXMIND_LICENSE_KEY}
     fi
 fi
