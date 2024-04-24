@@ -14,8 +14,8 @@ const appName = import.meta.env.VITE_APP_NAME
       </div>
       <Navbar />
       <div class="col-md-3 text-end">
-        <router-link to="/auth/signin" class="btn btn-outline-primary me-2">Entrar</router-link>
-        <router-link to="/auth/signup" class="btn btn-primary">Cadastrar</router-link>
+        <router-link to="/auth/signin" class="btn btn-outline-green me-2">Entrar</router-link>
+        <router-link to="/auth/signup" class="btn btn-outline-green">Cadastrar</router-link>
       </div>
     </header>
   </div>

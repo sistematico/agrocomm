@@ -3,11 +3,19 @@ a.nav-link {
   transition: all 300ms ease-in-out;
 }
 
-a span,
-a.nav-link:hover {
+a span {
   color: #fff;
 }
 
 a {
   color: inherit;
+}
+
+a.active,
+a:visited, 
+a:active,
+.nav-link.active,
+.nav-link:hover, 
+.nav-link:focus {
+  color: #B5C18E;
 }

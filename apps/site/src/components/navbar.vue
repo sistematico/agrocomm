@@ -65,8 +65,18 @@ import Icon from '@/components/icon.vue'
   </ul>
 </template>
 <style scoped>
+.dropdown-menu {
+  min-width: 0;
+}
+
 .dropdown-toggle::after {
   display: none;
+}
+
+.dropdown-item.active, 
+.dropdown-item:active {
+  color: black;
+  background-color: #B5C18E;
 }
 
 a {
