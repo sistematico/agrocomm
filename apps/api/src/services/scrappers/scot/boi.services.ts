@@ -20,11 +20,17 @@ export async function scrapeBoi() {
   const createdAt = convertStringToFormattedDate(tableDate)
 
   tr.each((idx, el) => {
-    if (idx > 2) {
+    if (idx > 2) {      
+      const kgRegex = /\(?\bkg\b\)?/i // Regex para identificar a presença de 'kg' ou 'KG' (em qualquer combinação de maiúsculas e minúsculas), com ou sem parênteses
       const location = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
-      const { state, city } = extractCityAndState(location)
+      let { state, city } = extractCityAndState(location)
       const rawPrice = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
-      const price = stringToNumber(rawPrice)
+      let price = stringToNumber(rawPrice)
+
+      if (city && kgRegex.test(city)) {
+        city = city.replace(kgRegex, '').trim()
+        price *= 15
+      }      
       
       if ((typeof price === 'number' && !isNaN(price)) && state) {
         data.push({ createdAt, price, city: city ?? '-', state, commodity: 'boi' })

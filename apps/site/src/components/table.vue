@@ -1,22 +1,23 @@
+<script setup lang="ts">
+defineProps({
+  data: { type: Object, required: true }
+})
+</script>
 <template>
-  <table class="table table-dark table-striped table-hover">
+  <table class="table table-hover">
     <thead>
-      <!-- <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr> -->
-      <slot name="header" />
+      <tr>
+        <th scope="col" v-for="(value, key) in data[0]" :key="key">
+          {{ key }}
+        </th>
+      </tr>
     </thead>
     <tbody>
-      <!-- <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr> -->
-      <slot />
+      <tr v-for="item in data" :key="item.id">
+        <td v-for="(value, key) in item" :key="key">
+          {{ value }}
+        </td>
+      </tr>
     </tbody>
   </table>
 </template>
