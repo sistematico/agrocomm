@@ -6,7 +6,7 @@ defineProps({
 })
 </script>
 <template>
-  <table class="table table-hover">
+  <table class="table table-hover border border-3 border-green">
     <thead>
       <tr>
         <th scope="col" v-for="(_, key) in data[0]" :key="key">
@@ -48,6 +48,10 @@ defineProps({
 .btn-sm, .btn-group-sm > .btn {
   padding: 0.15rem 0.35rem;
   font-size: 0.80rem;
+}
+
+tr {
+  border: 3px solid #B5C18E;
 }
 
 #first{
