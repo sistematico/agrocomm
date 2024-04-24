@@ -18,7 +18,7 @@ export async function scrapeLeilao() {
   const tableDate = $('div.mt-3:nth-child(3) > div:nth-child(1) > div:nth-child(1) > a:nth-child(1) > h3:nth-child(1)').text().replace(/(\s+)/g, ' ')
   const commodity = $('.col-sm .col-12 > strong:nth-child(1)').text().replace(/(\s+)/g, ' ').trim().toLowerCase() 
   console.log(commodity)
-  const createdAt = convertStringToFormattedDate(tableDate)
+  const createdAt = convertStringToFormattedDate(tableDate)  
 
   tr.each((idx, el) => {
     if (idx > 2) {

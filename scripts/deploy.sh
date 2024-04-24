@@ -19,22 +19,17 @@ if [ -f "$ENV_FILE" ]; then
     fi
 fi
 
-$BUN run clean
+#$BUN run clean
+$PROJECT_PATH/scripts/database/reset.sh
 
 cd $PROJECT_PATH/apps/api
 [ ! -f .env ] && cp .env.production .env
 $BUN install
 
-#rm -rf ./src/drizzle/migrations/ 
-#$BUNX drizzle-kit generate:pg --schema ./src/drizzle/schema.ts --out ./src/drizzle/migrations 
-#$BUN run ./src/drizzle/migrate.ts 
-#$BUN run ./src/drizzle/seed.ts
-#$BUN run ./src/services/scrape.services.ts
-
-#$BUN run db:generate && $BUN run db:migrate && $BUN run db:seed
 
 cd $PROJECT_PATH/apps/site
 [ ! -f .env ] && cp .env.production .env
 $BUN install && $BUN run build
 
 sudo /usr/bin/systemctl restart agrocomm-hono.service
+sudo /usr/bin/systemctl restart agrocomm-scrape.timer

@@ -9,7 +9,7 @@ import type { Quote } from '@/types'
 const url = 'https://www.scotconsultoria.com.br/cotacoes/graos/?ref=smnb'
 
 export async function scrapeMilho() {  
-  let location: string, tempLocation: string = ''
+  let state: string, tempState: string
   const data: Quote[] = [] 
   
   const body = await loadUrl(url)
@@ -22,15 +22,15 @@ export async function scrapeMilho() {
 
   tr.each((idx, el) => {
     if (idx > 2) {
-      tempLocation = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
-      if (tempLocation !== '') {
-        location = tempLocation
+      tempState = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
+      if (tempState !== '') {
+        state = tempState
       } else {
-        tempLocation = location
+        tempState = state
       }
 
-      const { state, city } = extractCityAndState(location)
-      const rawPrice = $(el).children().eq(3).text().replace(/(\s+)/g, ' ')
+      const city = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
+      const rawPrice = $(el).children().eq(2).text().replace(/(\s+)/g, ' ')
       const price = stringToNumber(rawPrice)
       
       if ((typeof price === 'number' && !isNaN(price)) && state) {

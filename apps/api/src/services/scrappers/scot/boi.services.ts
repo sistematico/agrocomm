@@ -23,7 +23,7 @@ export async function scrapeBoi() {
     if (idx > 2) {
       const location = $(el).children().eq(0).text().replace(/(\s+)/g, ' ')
       const { state, city } = extractCityAndState(location)
-      const rawPrice = $(el).children().eq(3).text().replace(/(\s+)/g, ' ')
+      const rawPrice = $(el).children().eq(1).text().replace(/(\s+)/g, ' ')
       const price = stringToNumber(rawPrice)
       
       if ((typeof price === 'number' && !isNaN(price)) && state) {
@@ -39,9 +39,9 @@ export async function scrapeBoi() {
       .onConflictDoNothing({ 
         target: [
           schema.prices.createdAt, 
-          schema.prices.commodity, 
           schema.prices.city, 
-          schema.prices.state
+          schema.prices.state,
+          schema.prices.commodity
         ]          
       })
   }
