@@ -1,32 +1,23 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import BaseLayout from '@/layouts/base.vue'
+import { getIp } from '@/composables/ip'
+import { getGeo } from '@/composables/geo'
+
+onMounted(async () => {
+  const ip = await getIp()
+  const geo = await getGeo(ip)
+  alert(geo)
+})
 </script>
 <template>
-  <!-- <BaseLayout>
+  <BaseLayout>
     <router-view v-slot="{ Component, route }">
       <transition name="fade" mode="out-in">
         <component :is="Component" :key="route.path" />
       </transition>
     </router-view>
-  </BaseLayout> -->
-
-  <base-layout>
-    <router-view v-slot="{ Component, route }">
-      <template v-if="Component">
-        <transition name="fade" mode="out-in">
-          <keep-alive>
-            <suspense>
-              <component :is="Component" :key="route.path" />
-              <template #fallback>
-                Carregando...
-              </template>
-            </suspense>
-          </keep-alive>
-        </transition>
-      </template>
-    </router-view>
-  </base-layout>
-
+  </BaseLayout> 
 </template>
 <style>
 .fade-enter-active,

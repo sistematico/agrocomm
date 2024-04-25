@@ -17,6 +17,7 @@
     "clean": "rm -rf node_modules bun.lockb apps/*/node_modules apps/*/bun.lockb"
   },
   "devDependencies": {
+    "@types/geoip-lite": "^1.4.4",
     "bun-types": "latest"
   },
   "peerDependencies": {
@@ -26,6 +27,7 @@
     "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.10",
     "geoip-lite": "^1.4.10",
+    "geoip2-lite": "^1.0.11",
     "pg": "^8.11.5"
   }
 }

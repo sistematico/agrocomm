@@ -6,7 +6,7 @@ defineProps({
 })
 </script>
 <template>
-  <table class="table table-hover border border-3 border-green">
+  <table class="table table-hover" v-if="data">
     <thead>
       <tr>
         <th scope="col" v-for="(_, key) in data[0]" :key="key">
@@ -17,23 +17,19 @@ defineProps({
     <tbody>
       <tr v-for="item in data" :key="item.id">
         <td v-for="(value, key) in item" :key="key">
-          <!-- <div class="input-group">
-            <div class="input-group-text" id="btnGroupAddon">R$</div>
-            <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="btnGroupAddon">
-          </div> -->
-
+        <!-- <td v-for="({ price, createdAt, city, state }, index) in items" :key="key"> -->
           <template v-if="String(key) === 'Preco'">
             <div class="btn-group" role="group" aria-label="Price Group">
-              <button type="button" class="btn btn-sm btn-outline-green" disabled>R$</button>
-              <button type="button" class="btn btn-sm btn-green" disabled>{{ value }}</button>
+              <button type="button" class="btn btn-sm btn-outline-green">R$ </button>
+              <button type="button" class="btn btn-sm btn-green">{{ value }}</button>
             </div>
           </template>
           <template v-else-if="String(key) === 'Estado'">
             <div class="btn-group" role="group" aria-label="Price Group">
-              <button type="button" class="btn btn-sm btn-outline-green">
+              <button type="button" class="btn btn-sm">
                 <img width="20" height="20" :src="`https://cdn.agrocomm.com.br/images/bandeiras/square-rounded/${value.toLowerCase()}.svg`" :alt="value" /> 
               </button>
-              <button type="button" class="btn btn-sm btn-green">{{ useState(value) }}</button>
+              <button type="button" class="btn btn-sm">{{ useState(value) }}</button>
             </div>
           </template>
           <template v-else>
@@ -50,8 +46,9 @@ defineProps({
   font-size: 0.80rem;
 }
 
-tr {
-  border: 3px solid #B5C18E;
+table, tr {
+  /* border: 1px solid #B5C18E; */
+  border: 1px solid #495057;
 }
 
 #first{
