@@ -32,10 +32,10 @@ import Icon from '@/components/icon.vue'
         </a>
         <ul class="dropdown-menu">
           <li>
-            <router-link to="/milho" class="dropdown-item" href="#">Milho</router-link>
+            <router-link to="/cotacoes/milho" class="dropdown-item">Milho</router-link>
           </li>
           <li>
-            <router-link to="/soja" class="dropdown-item" href="#">Soja</router-link>
+            <router-link to="/cotacoes/soja" class="dropdown-item">Soja</router-link>
           </li>
         </ul>
       </div>
@@ -48,10 +48,13 @@ import Icon from '@/components/icon.vue'
         </a>
         <ul class="dropdown-menu">
           <li>
-            <router-link to="/boi" class="dropdown-item" href="#">Arroba do Boi</router-link>
+            <router-link to="/cotacoes/boi" class="dropdown-item">Arroba do Boi</router-link>
           </li>
           <li>
-            <router-link to="/vaca" class="dropdown-item" href="#">Arroba da Vaca</router-link>
+            <router-link to="/cotacoes/vaca" class="dropdown-item">Arroba da Vaca</router-link>
+          </li>
+          <li>
+            <router-link to="/cotacoes/leiloes" class="dropdown-item">Leilões</router-link>
           </li>
         </ul>
       </div>

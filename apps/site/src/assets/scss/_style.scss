@@ -19,3 +19,8 @@ a:active,
 .nav-link:focus {
   color: #B5C18E;
 }
+
+.form-control,
+.form-control:focus {
+  border: 1px solid #B5C18E;
+}

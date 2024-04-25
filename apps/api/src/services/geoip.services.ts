@@ -1,5 +1,5 @@
-import geoIp from 'geoip-lite'
+import geo from 'geoip-lite'
 
-export function geo(ip: string) {
-  return geoIp.lookup(ip)
+export function geoIp(ip: string) {
+  return geo.lookup(ip)
 }

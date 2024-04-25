@@ -7,7 +7,7 @@ NAME="agrocomm"
 POSTGRES_VERSION=15.0
 DB_NAME="$NAME"
 DB_USER="$NAME"
-DB_PASSWORD="password"
+DB_PASS="password"
 CONTAINER="${NAME}_postgres"
 
 if [ -f "$ENV_FILE" ]; then

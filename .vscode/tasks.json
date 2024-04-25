@@ -2,7 +2,8 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "bun:dev - site",
+			"label": "bun:dev",
+			"detail": "Start the site in development mode.",
 			"type": "npm",
 			"script": "dev",
 			"path": "apps/site",
@@ -15,7 +16,8 @@
 			}
 		},
 		{
-			"label": "bun:dev - api",
+			"label": "api:dev",
+			"detail": "Start the api in development mode.",
 			"type": "npm",
 			"script": "dev",
 			"path": "apps/api",
@@ -24,11 +26,17 @@
 				"runOn": "folderOpen"
 			},
 			"presentation": {
-				"reveal": "never"
+				"echo": true,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
 			}
 		},
 		{
-			"label": "bun:studio - api",
+			"label": "db:studio",
+			"detail": "Start the Drizzle Studio.",
 			"type": "npm",
 			"script": "db:studio",
 			"path": "apps/api",
@@ -47,23 +55,66 @@
 			}
 		},
 		{
-			"label": "bun:scrape - api",
+			"label": "db:seed",
+			"detail": "Seed database",
+			"type": "npm",
+			"script": "db:seed",
+			"path": "apps/api",
+			"promptOnClose": false,
+			"presentation": {
+				"reveal": "never",
+				"close": true
+			}
+		},
+		{
+			"label": "db:scrape",
+			"detail": "Scrape data",
 			"type": "npm",
 			"script": "db:scrape",
+			"path": "apps/api",
+			"promptOnClose": false,
+			"presentation": {
+				"reveal": "never",
+				"close": true
+			}
+		},
+		{
+			"label": "db:init",
+			"detail": "Initialize the database.",
+			"type": "npm",
+			"script": "db:init",
 			"path": "apps/api",
 			"problemMatcher": [],
 			"promptOnClose": false,
 			"presentation": {
-				"echo": true,
+				"echo": false,
 				"reveal": "never",
 				"focus": false,
 				"panel": "shared",
-				"showReuseMessage": true,
-				"clear": false
+				"showReuseMessage": false,
+				"clear": true
+			}
+		},
+		{
+			"label": "db:reset",
+			"detail": "Initialize the database.",
+			"type": "npm",
+			"script": "db:reset",
+			"path": "apps/api",
+			"problemMatcher": [],
+			"promptOnClose": false,
+			"presentation": {
+				"echo": false,
+				"reveal": "never",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
 			}
 		},
 		{
 			"label": "podman:start",
+			"detail": "Start the podman postgresql container.",
 			"type": "shell",
 			"command": "${workspaceFolder}/scripts/podman/start.sh",
 			"problemMatcher": [],
@@ -74,7 +125,8 @@
 			},
 		},
 		{
-			"label": "Run Ansible Playbook",
+			"label": "ansible",
+			"detail": "Run the ansible playbook.",
 			"type": "shell",
 			"command": "ansible-playbook",
 			"args": [

@@ -1,13 +1,6 @@
 #!/bin/bash
 
-[ -f /etc/os-release ] && . /etc/os-release
-if [ "$NAME" == "Arch Linux" ]; then
-  ENV_FILE="/home/lucas/code/agrocomm/apps/api/.env"
-  VARS_FILE="/home/lucas/code/agrocomm/scripts/podman/vars"
-  [ -f $VARS_FILE ] && . $VARS_FILE || exit
-else
-  exit 
-fi
+. /home/lucas/code/agrocomm/scripts/podman/vars
 
 function startContainer() {
   if podman container inspect -f '{{.State.Running}}' $CONTAINER | grep false; then
@@ -18,6 +11,11 @@ function startContainer() {
 
 function createContainer() {
   echo "Iniciando o contêiner $CONTAINER."
+
+  echo $DB_NAME
+  echo $DB_USER
+  echo $DB_PASS
+
   podman run -d \
     --name $CONTAINER \
     -e POSTGRES_DB=$DB_NAME \
@@ -28,4 +26,5 @@ function createContainer() {
 }
 
 podman inspect postgres:$POSTGRES_VERSION >/dev/null 2>&1 || podman pull postgres:$POSTGRES_VERSION
+# podman container exists $CONTAINER >/dev/null 2>&1 && startContainer || createContainer
 podman container exists $CONTAINER >/dev/null 2>&1 && startContainer || createContainer

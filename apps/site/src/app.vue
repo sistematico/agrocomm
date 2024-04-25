@@ -2,12 +2,12 @@
 import { onMounted } from 'vue'
 import BaseLayout from '@/layouts/base.vue'
 import { getIp } from '@/composables/ip'
-import { getGeo } from '@/composables/geo'
+import { useFetch } from '@/composables/fetch'
 
 onMounted(async () => {
   const ip = await getIp()
-  const geo = await getGeo(ip)
-  alert(geo)
+  const geo = await useFetch(import.meta.env.VITE_API_URL + '/geo/' + ip)
+  console.info(JSON.stringify(geo, null, 2))
 })
 </script>
 <template>
