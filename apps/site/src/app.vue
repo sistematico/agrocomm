@@ -2,9 +2,7 @@
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import BaseLayout from '@/layouts/base.vue'
-import { getIp } from '@/composables/ip'
-import { useFetch } from '@/composables/fetch'
-import { states } from '@/composables/states'
+import { getIp, useFetch, states } from '@/composables'
 
 const route = useRoute()
 

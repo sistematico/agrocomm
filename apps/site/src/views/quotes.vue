@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { useDay } from '@/composables/day'
-import { useCurrency } from '@/composables/currency'
+import { useDay, useCurrency } from '@/composables'
 import Table from '@/components/table.vue'
 import { type Quote } from '@/types'
 
