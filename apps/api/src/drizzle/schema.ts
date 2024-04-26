@@ -1,48 +1,48 @@
-import { pgTable, integer, serial, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import { pgTable, boolean, integer, serial, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { primaryKey } from 'drizzle-orm/mysql-core'
 
 // Enums
-const roles = ['user', 'admin', 'superadmin'] as const
-export type Roles = (typeof roles)[number]
-
-const planTypes = ['free', 'bronze', 'silver', 'gold', 'diamond'] as const
-export type PlanTypes = (typeof planTypes)[number]
+// const planTypes = ['free', 'bronze', 'silver', 'gold', 'diamond'] as const
+// export type PlanTypes = (typeof planTypes)[number]
 
 // Tables
-export const users: any = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: text('name').notNull(),
+export const users = pgTable('users', {
+  id: serial('id'),
+  name: text('name'),
   username: text('username').unique().notNull(),
   email: text('email').unique().notNull(),
   password: text('password').notNull(),
-  role: text('role', { enum: roles }).notNull().default('user'),
+  role: text('role').$type<'user' | 'admin' | 'superadmin'>().default('user'),
   createdAt: timestamp('created_at').notNull().defaultNow()
 })
 
 export const profiles = pgTable('profiles', {
   id: serial('id').primaryKey(),
-  verified: integer('verified').notNull().default(0),
-  userId: integer('user_id').notNull().references(() => users.id),
-  // subscription: text('subscription', { enum: planTypes }).notNull().references(() => plans.name),
-  subscription: text('subscription', { enum: planTypes }).notNull().default('free'),
-  validAt: timestamp('valid_at')
+  verified: boolean('verified').notNull().default(false),
+  userId: serial('user_id').references(() => users.id),
+  // subscription: text('subscription', { enum: planTypes }).notNull().default('free'),
+  subscription: text('subscription').unique().references(() => plans.name),
+  validAt: timestamp('valid_at'),
+  }, (table) => {
+    return {
+      profileIdx: uniqueIndex('unique_subscription_per_user_id').on(table.subscription, table.userId)
+    }
 })
 
 export const plans = pgTable('plans', {
   id: serial('id').primaryKey(),
-  name: text('name', { enum: planTypes }).notNull().default('free'),
+  name: text('subscription').$type<'free' | 'bronze' | 'silver' | 'gold' | 'platinum'>().default('free').unique(),
 })
 
 export const states = pgTable('states', {
-  id: serial('id').primaryKey(),
+  id: serial('id'),
   abbr: text('abbr').unique(),
   name: text('name')
 })
 
 export const cities = pgTable('cities', {
-  id: serial('id').primaryKey(),
-  name: text('name').unique(),
+  id: serial('id'),
+  name: text('name'),
   state: text('state').unique().references(() => states.abbr),
   }, (table) => {
     return {
@@ -51,19 +51,16 @@ export const cities = pgTable('cities', {
 })
 
 export const commodities = pgTable('commodities', {
-  id: serial('id').primaryKey(),
-  name: text('name')
+  id: serial('id'),
+  name: text('name').unique()
 })
 
 export const prices = pgTable('prices', {
   id: serial('id'),
   price: integer('price').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  // commodity: text('commodity').references(() => commodities.name),
   commodity: text('commodity'),
-  // city: text('city').references(() => cities.name),
   city: text('city'),
-  // state: text('state').references(() => states.abbr), // Novo campo adicionado
   state: text('state'), // Novo campo adicionado
   }, (table) => {
     return {
@@ -75,14 +72,16 @@ export const prices = pgTable('prices', {
 export const usersRelations = relations(users, ({ one }) => ({
   profile: one(profiles, {
     fields: [users.id],
-    references: [profiles.userId]
+    references: [profiles.userId],
+    relationName: 'user_profile'
   })
 }))
 
 export const profilesRelations = relations(profiles, ({ one }) => ({
   subscription: one(plans, {
     fields: [profiles.subscription],
-    references: [plans.name]
+    references: [plans.id],
+    relationName: 'profile_subscription'
   })
 }))
 

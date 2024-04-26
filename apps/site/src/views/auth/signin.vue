@@ -2,12 +2,15 @@
 import { ref } from 'vue'
 
 const apiUrl = import.meta.env.VITE_API_URL
-const form = ref({ email: '', password: '' })
+const form = ref({ identifier: '', password: '' })
 const response = ref(null)
 
 async function send() {
-  const url = `${apiUrl}/auth/signin`
-  response.value = await (await fetch(url)).json()
+  response.value = await (await fetch(`${apiUrl}/auth/signin`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(form.value)
+  })).json()
 }
 </script>
 <template>
@@ -16,19 +19,14 @@ async function send() {
       <div class="col-md-4">
         <h1>Entrar</h1>
         <p v-if="response">{{ response }}</p>
-        <form @submit.prevent="send">
+        <form @submit.prevent="send" v-else>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">E-mail</label>
-            <input ref="form.email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <label for="username" class="form-label">Nome de usuário ou E-mail</label>
+            <input v-model="form.identifier" type="text" class="form-control" id="username" required>
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Senha</label>
-            <input ref="form.password" type="password" class="form-control" id="exampleInputPassword1">
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Permanecer logado</label>
+            <label for="password" class="form-label">Senha</label>
+            <input v-model="form.password" type="password" class="form-control" id="password" required>
           </div>
           <button type="submit" class="btn btn-primary">Entrar</button>
         </form>

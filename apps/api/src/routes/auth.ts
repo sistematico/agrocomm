@@ -23,16 +23,15 @@ app.post('/signin', async (c) => {
 })
 
 app.post('/signup', async (c) => { 
-  try {
+  // try {
     const { username, email, password } = await c.req.json() 
     if (!username || !email || !password) throw new Error('Campos obrigatórios')
     const user = await register(username, email, password)
+    console.log(user)
     return c.text(`Sucesso ${JSON.stringify(user)}`, 201)   
-  } catch (error) {
-    return c.text('Erro ao analizar JSON', 201)    
-  }
-
-  // return c.text('Sign-up Route', 201)
+  // } catch (error) {
+    // return c.text('Erro ao analizar JSON', 201)    
+  // }
 })
 
 export { app as auth }
