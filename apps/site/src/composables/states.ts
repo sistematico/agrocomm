@@ -2,7 +2,7 @@ type StateMap = {
   [key: string]: string
 }
 
-const states: StateMap[] = [
+export const states: StateMap[] = [
   { 'AC': 'Acre' },
   { 'AL': 'Alagoas' },
   { 'AP': 'Amapá' },

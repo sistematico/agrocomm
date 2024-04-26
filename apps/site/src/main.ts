@@ -5,4 +5,6 @@ import Vue3Lottie from 'vue3-lottie'
 import App from '@/app.vue'
 import 'bootstrap'
 
+console.log('Hello from main.ts')
+
 createApp(App).use(router).use(Vue3Lottie).mount('#app')
