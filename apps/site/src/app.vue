@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+// import { onMounted } from 'vue'
+// import { useRoute } from 'vue-router'
 import BaseLayout from '@/layouts/base.vue'
-import { getIp, useFetch, states } from '@/composables'
+// import { getIp, useFetch, states } from '@/composables'
 
-const route = useRoute()
+// const route = useRoute()
 
-onMounted(async () => {
-  const ip = await getIp()
-  const geo = await useFetch(import.meta.env.VITE_API_URL + '/geo/' + ip)
-  const urlRedirect = 'https://' + geo.region.toLocaleLowerCase() + '.' + import.meta.env.VITE_APP_URL.replace(/(^\w+:|^)\/\//, '') + route.path
+// onMounted(async () => {
+  // const ip = await getIp()
+  // const geo = await useFetch(import.meta.env.VITE_API_URL + '/geo/' + ip)
+  // const urlRedirect = 'https://' + geo.region.toLocaleLowerCase() + '.' + import.meta.env.VITE_APP_URL.replace(/(^\w+:|^)\/\//, '') + route.path
 
-  console.log(urlRedirect)
+  // console.log(urlRedirect)
 
-  if (geo && geo.region) {
-    const state = states.find(s => s[geo.region] || null) 
-    // const obj = Object(state)
-    // const first = Object.keys(obj)[0]
+  // if (geo.hasOwnProperty('region')) {
+  //   const state = states.find(s => s[geo.region] || null) 
+  //   // const obj = Object(state)
+  //   // const first = Object.keys(obj)[0]
 
-    if (state && import.meta.env.NODE_ENV === 'production') {
-      // const urlRedirect = 'https://' + first.toLocaleLowerCase() + '.' + import.meta.env.VITE_APP_URL.replace(/(^\w+:|^)\/\//, '') + route.path
-      window.location.href = urlRedirect
-    }
-  }
-})
+  //   if (state && import.meta.env.NODE_ENV === 'production') {
+  //     // const urlRedirect = 'https://' + first.toLocaleLowerCase() + '.' + import.meta.env.VITE_APP_URL.replace(/(^\w+:|^)\/\//, '') + route.path
+  //     window.location.href = urlRedirect
+  //   }
+  // }
+// })
 </script>
 <template>
   <BaseLayout>
