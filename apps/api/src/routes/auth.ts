@@ -7,7 +7,7 @@ const app = new Hono()
 app.get('*', (c) => c.text('AgroComm API - Rota de autenticação'))
 
 // app.use('/auth/*', (c, next) => {
-//   const jwtMiddleware = jwt({ secret: Bun.env.JWT_SECRET! })
+//   const jwtMiddleware = jwt({ secret: Bun.env.JWT_ACCESS_SECRET! })
 //   return jwtMiddleware(c, next)
 // })
 

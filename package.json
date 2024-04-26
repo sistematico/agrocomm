@@ -8,9 +8,9 @@
   "scripts": {
     "site:dev": "bun run --cwd apps/site dev",
     "api:dev": "bun run --hot apps/api/src/index.ts",
-    "api:init": "cd apps/api && bun run init",
-    "api:reset": "cd apps/api && bun run reset",
-    "api:scrape": "cd apps/api && bun run scrape",
+    "api:init": "cd apps/api && bun run db:init",
+    "api:reset": "cd apps/api && bun run db:reset",
+    "api:scrape": "cd apps/api && bun run db:scrape",
     "api:install": "cd apps/api && bun install",
     "site:install": "cd apps/site && bun install",
     "site:build": "cd apps/site && bun run build",
