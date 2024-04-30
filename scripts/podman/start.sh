@@ -11,11 +11,6 @@ function startContainer() {
 
 function createContainer() {
   podman inspect postgres:$POSTGRES_VERSION >/dev/null 2>&1 || podman pull postgres:$POSTGRES_VERSION
-
-  echo $DB_USER
-  echo $DB_PASS
-  echo $DB_NAME
-  
   echo "Criando o contêiner $CONTAINER."
   podman run -d \
     --name $CONTAINER \

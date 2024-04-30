@@ -14,7 +14,7 @@ export interface Commodity {
 
 export interface Quote {
   price: number
-  state?: string
+  state: string
   city?: string
   commodity: string
   createdAt: Date

@@ -1,4 +1,4 @@
-import { pgTable, pgEnum, serial, integer, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import { pgTable, pgEnum, serial, integer, text, timestamp, uniqueIndex, unique } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
 export const roleEnum = pgEnum('role', ['user', 'admin', 'superadmin'])
@@ -31,11 +31,6 @@ export const plans = pgTable('plans', {
   name: planEnum('plan').default('free').unique().notNull()
 })
 
-export const commodities = pgTable('commodities', {
-  id: serial('id').primaryKey(),
-  name: text('name').unique()
-})
-
 export const states = pgTable('states', {
   id: serial('id').primaryKey(),
   abbr: text('abbr').unique().notNull(),
@@ -56,18 +51,23 @@ export const cities = pgTable('cities', {
     }
 })
 
+export const commodities = pgTable('commodities', {
+  id: serial('id').primaryKey(),
+  name: text('name').notNull()
+})
+
 export const prices = pgTable('prices', {
-  id: serial('id'),
+  id: serial('id').primaryKey(),
   price: integer('price').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  commodity: text('commodity').notNull().references(() => commodities.name),
-  city: text('city').references(() => cities.name),
+  // commodity: text('commodity').references(() => commodities.name),
+  commodity: text('commodity').notNull(),
+  city: text('city'),
   state: text('state').notNull().references(() => states.abbr),
-  }, (table) => {
-    return {
-      priceIdx: uniqueIndex('unique_price_per_day_state_city').on(table.createdAt, table.commodity, table.state, table.city)
-    }
-})
+  }, (t) => ({
+    uniquePrice: unique('unique_price_per_commodity_date_state_city').on(t.createdAt, t.commodity, t.city, t.state)
+  })
+)
 
 export const usersRelations = relations(users, ({ one }) => ({
   profile: one(profiles),
@@ -80,4 +80,16 @@ export const profilesRelations = relations(profiles, ({ one }) => ({
 
 export const citiesRelations = relations(cities, ({ one }) => ({
   state: one(states)
+}))
+
+export const pricesRelations = relations(prices, ({ one }) => ({
+  commodity: one(commodities, {
+    fields: [prices.commodity],
+    references: [commodities.name],
+    relationName: 'price_commodity'
+  }),
+  city: one(cities, {
+    fields: [prices.city, prices.state],
+    references: [cities.name, cities.state]
+  })
 }))

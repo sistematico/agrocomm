@@ -31,6 +31,9 @@ $light:     $gray-100;
 $dark:      $gray-900;
 
 $agreen:    #B5C18E;
+$abrown:    #2A2420;
+$bbrown:    #201d1c;
+$ctext:   #c5bab5;
 
 $theme-colors: (
   "primary":    $primary,
@@ -42,6 +45,8 @@ $theme-colors: (
   "light":      $light,
   "dark":       $dark,
   "green":      $agreen,
+  "brown":      $abrown,
+  "dark-brown": $bbrown
 );
 
 $font-family-sans-serif: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -59,10 +64,19 @@ $font-size-sm:                .85rem;
 $font-size-md:                $font-size-base * 1.05;
 $font-size-lg:                $font-size-base * 1.25;
 
-
 $focus-ring-width:      0;
 $focus-ring-opacity:    0;
 $focus-ring-color:      rgba($primary, $focus-ring-opacity);
 $focus-ring-blur:       0;
 $focus-ring-box-shadow: none;
+
+[data-bs-theme="dark"] {
+  --bs-primary: #{$primary};
+  --bs-primary-bg-subtle: #{$primary};
+  --bs-primary-bg-subtle-dark: #{$primary};
+  
+  .btn-primary {
+    --bs-btn-bg: #{$primary};
+  }
+}
 

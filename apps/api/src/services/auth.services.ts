@@ -4,6 +4,7 @@ import * as schema from '@/drizzle/schema'
 
 export async function login(identifier: string, password: string) { 
   const hash = await Bun.password.hash(password)
+
   const user = (await db
     .select()
     .from(schema.users)
@@ -15,13 +16,15 @@ export async function login(identifier: string, password: string) {
 }
 
 export async function register(username: string, email: string, password: string) {  
+  const hash = await Bun.password.hash(password)
+
   const user = (await db
     .insert(schema.users)
-    .values({ username, email, password })
+    .values({ username, email, password: hash })
     .onConflictDoNothing()
     .returning())[0]
 
-  if (!user) throw new Error('Usuário já existe')
+  if (!user) return 'Usuário já existe'
   
   const profile = await db
     .insert(schema.profiles)
@@ -29,5 +32,5 @@ export async function register(username: string, email: string, password: string
     .onConflictDoNothing()
     .returning()
 
-  return user
+  return JSON.stringify(user) + JSON.stringify(profile)
 }

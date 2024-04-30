@@ -125,6 +125,13 @@
 			},
 		},
 		{
+			"label": "podman:destroy",
+			"detail": "Destroy the podman postgresql container.",
+			"type": "shell",
+			"command": "${workspaceFolder}/scripts/podman/destroy.sh",
+			"problemMatcher": [],
+		},
+		{
 			"label": "ansible",
 			"detail": "Run the ansible playbook.",
 			"type": "shell",
