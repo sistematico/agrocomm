@@ -3,6 +3,6 @@ import BaseLayout from '@/layouts/base.vue'
 </script>
 <template>
   <BaseLayout>
-    Teste
+    <RouterView />
   </BaseLayout>
 </template>

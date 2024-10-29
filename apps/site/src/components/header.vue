@@ -1,16 +1,20 @@
+<script setup lang="ts">
+const appName = import.meta.env.VITE_APP_NAME!
+</script>
 <template>
   <nav class="bg-dark fixed w-full top-0 z-10 border-b-2 border-[#fff3]">
     <!-- <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"> -->
     <div class="container mx-auto">
       <div class="relative flex h-16 items-center justify-between">
-        <a href="/" class="flex items-center">
-          <img class="h-10 w-auto" src="/images/logo.svg" alt={site.title}>
-          <span class="mt-1 ml-2 text-white text-3xl font-extrabold">{site.title}</span>
-        </a>
+        <router-link to="/" class="flex items-center">
+          <img class="h-12 w-auto" src="/images/logo.svg" :alt="appName" />
+          <span class="-mt-1 ml-2 text-white text-3xl font-extrabold">{{ appName }}</span>
+        </router-link>
         <div class="flex flex-1 items-center justify-end sm:items-stretch sm:justify-end">
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a href="/" class="font-lato text-lg rounded-md bg-zinc-500 px-3 py-2 text-white hover:text-white">Início</a>
+              <router-link to="/" class="font-lato text-lg rounded-md bg-zinc-500 px-3 py-2 text-white hover:text-white">Início</router-link>
+              <router-link to="/entrar" class="font-lato text-lg rounded-md bg-zinc-500 px-3 py-2 text-white hover:text-white">Entrar</router-link>
             </div>
           </div>
         </div>
@@ -33,7 +37,8 @@
     </div>
     <div data-mobile-menu class="sm:hidden hidden" id="mobile-menu" data-state="close">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <a href="/" class="font-lato text-base block rounded-md bg-monokai-dark px-3 py-2 font-medium text-monokai-comment hover:bg-monokai-bg hover:text-white">Início</a>
+        <router-link to="/" class="font-lato text-base block rounded-md bg-monokai-dark px-3 py-2 font-medium text-monokai-comment hover:bg-monokai-bg hover:text-white">Início</router-link>
+        <router-link to="/entrar" class="font-lato text-base block rounded-md bg-monokai-dark px-3 py-2 font-medium text-monokai-comment hover:bg-monokai-bg hover:text-white">Entrar</router-link>
       </div>
     </div>
   </nav>
