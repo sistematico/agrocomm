@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Nunito';
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    src: url('/fonts/nunito/Nunito.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-family: 'Lato';
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    src: url(/fonts/lato/Lato-Regular.woff2) format('woff2');
+  }
+
+  body {
+    @apply font-nunito text-white bg-monokai-dark antialiased;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+  
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  p {
+    @apply block text-lg;
+  }
+
+  a {
+    @apply transition ease-in-out text-monokai-red hover:text-monokai-blue duration-300;
+  }
+}

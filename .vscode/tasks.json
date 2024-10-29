@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "bun: dev",
+			"detail": "bun: dev - apps/site",
+			"type": "npm",
+			"script": "dev",
+			"path": "apps/site",
+			"problemMatcher": []
+		},
+		{
+			"label": "bun: dev",
+			"detail": "bun: dev - apps/api",
+			"type": "npm",
+			"script": "dev",
+			"path": "apps/api",
+			"problemMatcher": []
+		}
+	]
+}
