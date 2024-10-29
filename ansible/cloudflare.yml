@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: true
+
+  vars:
+    domain:    "{{ lookup('env','DOMAIN') }}"
+    cf_email:  "{{ lookup('env','CF_EMAIL') }}"
+    cf_token:  "{{ lookup('env','CF_TOKEN') }}"
+    packages:
+      - certbot
+      - python3-certbot-dns-cloudflare
+  
+  tasks:
+    - name: Install required system packages
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+      with_items: "{{ packages }}"
+
+    - name: "Create /etc/cloudflare.ini"
+      template:
+        src: cloudflare/cloudflare.ini.j2
+        dest: "/etc/cloudflare.ini"
+        force: no
+
+    - name: Check if the cert exists
+      stat:
+        path: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+      register: cert_file_result
+
+    - name: "Run certbot command for {{ domain }}"
+      command: certbot certonly --non-interactive --agree-tos --dns-cloudflare --dns-cloudflare-credentials /etc/cloudflare.ini -d "{{ domain }}" -d "*.{{ domain }}"
+      when: 
+        - not cert_file_result.stat.exists
