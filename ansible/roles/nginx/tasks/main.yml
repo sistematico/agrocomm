@@ -1,0 +1,92 @@
+- name: Install required packages
+  ansible.builtin.package:
+    name:
+      - nginx
+    state: present
+
+
+- name: Replace all occurrences from www-data to nginx
+  ansible.builtin.replace:
+    path: "{{ item }}"
+    regexp: 'www-data'
+    replace: 'nginx'
+  with_items:
+    - "/etc/nginx/nginx.conf"
+    - "/etc/logrotate.d/nginx"
+    - "/etc/nginx/nginx.conf"
+
+- name: Ensure group nginx exists
+  ansible.builtin.group:
+    name: nginx
+    state: present
+
+- name: Create a 2048-bit SSH key for user nginx in ~/nginx/.ssh/id_rsa
+  ansible.builtin.user:
+    name: nginx
+    shell: /bin/bash
+    home: /home/nginx
+    generate_ssh_key: true
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+    state: present
+
+- name: Change nginx permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: nginx
+    group: nginx
+  loop:
+    - /var/log/nginx
+    - /var/lib/nginx
+
+- name: Copy nginx snippets
+  ansible.builtin.template:
+    src: "files/etc/nginx/conf.d/{{ item }}.j2"
+    dest: "/etc/nginx/conf.d/{{ item }}"
+    mode: '0644'
+  with_items:
+    - cache.conf
+    - agrocomm-errors.conf
+    - errors.map
+
+- name: Configure /etc/nginx/sites-available/ files
+  ansible.builtin.template:
+    src: "files/etc/nginx/sites.d/{{ item }}"
+    dest: "/etc/nginx/sites.d/{{ item }}"
+    mode: '0644'
+    force: true
+  with_items: "{{ sites }}"
+
+# - name: Enables sites
+#   ansible.builtin.file:
+#     src: "/etc/nginx/sites-available/{{ item.idx }}-{{ item.url }}"
+#     dest: "/etc/nginx/sites-enabled/{{ item.idx }}-{{ item.url }}"
+#     state: link
+#   with_items: "{{ sites }}"
+
+# - name: Remove /etc/nginx/sites-enabled/default link
+#   ansible.builtin.file:
+#     path: /etc/nginx/sites-enabled/default
+#     state: absent
+
+# - name: Remove /etc/nginx/sites-available/default file
+#   ansible.builtin.file:
+#     path: /etc/nginx/sites-available/default
+#     state: absent
+
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+    enabled: true
+
+- name: Restart php
+  ansible.builtin.service:
+    name: "php{{ php_version }}-fpm"
+    state: restarted
+    enabled: true
+
+- name: Delete /run/nologin if it exists
+  ansible.builtin.file:
+    path: /run/nologin
+    state: absent

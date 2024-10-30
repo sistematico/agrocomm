@@ -1,45 +1,60 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import UserBar from '@/components/userbar.vue'
+
 const appName = import.meta.env.VITE_APP_NAME!
+const open = ref(false)
 </script>
 <template>
-  <nav class="bg-dark fixed w-full top-0 z-10 border-b-2 border-[#fff3]">
-    <!-- <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"> -->
-    <div class="container mx-auto">
+  <header class="fixed w-full top-0 z-10 bg-sonokai-bg_dim border-0 border-b-2 border-sonokai-border">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
-        <router-link to="/" class="flex items-center">
-          <img class="h-12 w-auto" src="/images/logo.svg" :alt="appName" />
-          <span class="-mt-1 ml-2 text-white text-3xl font-extrabold">{{ appName }}</span>
-        </router-link>
-        <div class="flex flex-1 items-center justify-end sm:items-stretch sm:justify-end">
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <router-link to="/" class="font-lato text-lg rounded-md bg-zinc-500 px-3 py-2 text-white hover:text-white">Início</router-link>
-              <router-link to="/entrar" class="font-lato text-lg rounded-md bg-zinc-500 px-3 py-2 text-white hover:text-white">Entrar</router-link>
-            </div>
-          </div>
-        </div>
-        <div class="absolute inset-y-0 right-0 me-2 flex items-center sm:hidden">
-          <!-- Mobile menu button-->
-          <button data-mobile-button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-monokai-comment hover:bg-monokai-bg hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <button @click="open = !open" type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white outline-none" aria-controls="mobile-menu" aria-expanded="false">
             <span class="absolute -inset-0.5"></span>
             <span class="sr-only">Open main menu</span>
-            
-            <svg data-mobile-closed class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+            <svg class="h-6 w-6" :class="{ 'block': !open, 'hidden': open }" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
-            
-            <svg data-mobile-open class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+            <svg class="h-6 w-6" :class="{ 'block': open, 'hidden': !open }" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <router-link to="/" class="flex flex-shrink-0 items-center logo">
+            <img class="h-10 w-auto md:me-2" src="/images/navbar.svg" :alt="appName">
+            <span class="hidden md:block font-extrabold text-2xl text-sonokai-fg hover:text-sonokai-fg bg-transparent">{{ appName }}</span>
+          </router-link>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <router-link to="/" class="rounded-md bg-sonokai-black px-3 py-2 font-bold text-sonokai-fg hover:text-sonokai-fg">
+                <font-awesome-icon icon="fa-solid fa-house" />
+                Início
+              </router-link>
+              <!-- <router-link to="/" class="rounded-md px-3 py-2 font-bold text-gray-300 hover:bg-gray-700 hover:text-white">Team</router-link> -->
+            </div>
+          </div>
+        </div>
+        <user-bar />
       </div>
     </div>
-    <div data-mobile-menu class="sm:hidden hidden" id="mobile-menu" data-state="close">
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="sm:hidden" :class="{ 'block': open, 'hidden': !open }" id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <router-link to="/" class="font-lato text-base block rounded-md bg-monokai-dark px-3 py-2 font-medium text-monokai-comment hover:bg-monokai-bg hover:text-white">Início</router-link>
-        <router-link to="/entrar" class="font-lato text-base block rounded-md bg-monokai-dark px-3 py-2 font-medium text-monokai-comment hover:bg-monokai-bg hover:text-white">Entrar</router-link>
+        <router-link to="/" class="block rounded-md bg-sonokai-black px-3 py-2 text-base font-medium text-white">Início</router-link>
+        <!-- <router-link to="/" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</router-link> -->
       </div>
     </div>
-  </nav>
+  </header>
 </template>
+<style scoped lang="scss">
+.active {
+  @apply transition ease-in-out bg-sonokai-black duration-300 hover:text-sonokai-fg;
+}
+
+.logo.active {
+  @apply transition ease-in-out bg-transparent duration-300 hover:text-sonokai-fg;
+}
+</style>

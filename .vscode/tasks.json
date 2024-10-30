@@ -2,8 +2,7 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "SITE - bun:dev",
-			"detail": "bun: dev - apps/site",
+			"label": "bun:dev - site",
 			"type": "npm",
 			"script": "dev",
 			"path": "apps/site",
@@ -16,10 +15,22 @@
 			}
 		},
 		{
-			"label": "API - bun:dev",
-			"detail": "bun: dev - apps/api",
+			"label": "bun:dev - api",
 			"type": "npm",
 			"script": "dev",
+			"path": "apps/api",
+			"problemMatcher": [],
+			"runOptions": {
+				"runOn": "folderOpen"
+			},
+			"presentation": {
+				"reveal": "never"
+			}
+		},
+		{
+			"label": "bun:studio - api",
+			"type": "npm",
+			"script": "db:studio",
 			"path": "apps/api",
 			"problemMatcher": [],
 			"runOptions": {

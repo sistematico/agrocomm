@@ -1,0 +1,27 @@
+- name: "Alterar as unidades do systemd"
+  ansible.builtin.copy:
+    src: "files/etc/systemd/system/{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - agrocomm-hono.service
+    - agrocomm-scrape.service
+    - agrocomm-scrape.timer
+  notify: Reload systemd
+
+- name: "Aguardar a unidade estar disponível"
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+  loop:
+    - agrocomm-hono.service
+    - agrocomm-scrape.service
+    - agrocomm-scrape.timer
+
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true

@@ -9,13 +9,13 @@ export default {
     extend: {
       fontFamily: {
         nunito: '"Nunito", system-ui, sans-serif',
-        lato: '"Lato", system-ui, sans-serif'
       },
       colors: {
         monokai: {
           dark: '#272822',
           fg: '#f8f8f2',
           bg: '#49483e',
+          border: '#fff3',
           comment: '#75715e',
           yellow: '#e6db74',
           orange: '#fd971f',
@@ -30,6 +30,10 @@ export default {
           dark: '#242120',
           fg: '#E4E3E1',
           bg: '#312C2B',
+          border: '#fff3',
+          bg_dim: '#242120',
+          bg0: '#312C2B',
+          bg1: '#393230',
           comment: '#75715e',
           yellow: '#F0C66F',
           orange: '#F08D71',

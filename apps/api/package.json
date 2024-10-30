@@ -5,10 +5,12 @@
     "db:push": "bunx drizzle-kit push",
     "db:generate": "bunx drizzle-kit generate",
     "db:migrate": "bunx drizzle-kit migrate",
-    "db:seed": "bun ./src/db/seed.ts"
+    "db:seed": "bun ./src/db/seed.ts",
+    "db:studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
+    "cheerio": "^1.0.0",
     "drizzle-orm": "^0.35.3",
     "hono": "^4.6.7"
   },

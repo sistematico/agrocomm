@@ -1,0 +1,6 @@
+---
+- name: Executa múltiplas roles
+  hosts: all
+  gather_facts: false
+  roles:
+    - systemd
