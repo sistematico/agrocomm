@@ -1,5 +1,5 @@
 import { db } from '@/db'
-// import { eq } from 'drizzle-orm'
+import { eq, or } from 'drizzle-orm'
 import { users } from '@/db/schema'
 
 type User = typeof users.$inferInsert
@@ -9,29 +9,54 @@ export async function list() {
 }
 
 export async function add(user: User) {
-  const userId = await db.insert(users).values(user).returning({ id: users.id })
-  return userId
+  const data = await db.insert(users).values(user).returning()
+  return data
 }
 
-// async function main() {
-  // const user: typeof users.$inferInsert = {
-  //   fullname: 'Lucas Brum',
-  //   username: 'lucas',
-  //   email: 'john@example.com',
-  //   password: '123'
-  // };
+export async function findId(identifier: string) {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(
+      or(
+        eq(users.username, identifier),
+        eq(users.email, identifier)
+      )
+    )
+    .limit(1)
+    
+  if (!user) return null
+  return user.id
+}
 
-  // await db.insert(users).values(user)
-  // console.log('New user created!')
+export async function findByIdentifier(identifier: string, password: string) {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(
+      or(
+        eq(users.username, identifier),
+        eq(users.email, identifier)
+      )
+    )
+    
+  if (!user) return null
+  if (await Bun.password.verify(password, user.password)) return null
+  
+  return user
+}
 
-  // const allUsers = await db.select().from(users)
-  // console.log('Getting all users from the database: ', allUsers)
-
-  // await db.update(users).set({ username: 'test' }).where(eq(users.email, user.email))
-  // console.log('User info updated!')
-
-  // await db.delete(users).where(eq(users.email, user.email));
-  // console.log('User deleted!')
-// }
-
-// main()
+export async function findByEmailOrUsername(username: string, email: string) {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(
+      or(
+        eq(users.username, username),
+        eq(users.email, email)
+      )
+    )
+    
+  if (!user) return false  
+  return true
+}

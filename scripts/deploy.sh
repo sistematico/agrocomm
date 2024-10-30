@@ -5,7 +5,7 @@ PATH=$PATH:/home/nginx/.bun/bin
 git clean -fxd
 
 cd ./apps/api
-# [ ! -f .env ] && cp .env.production .env
+rm -rf ./src/db/meta/ ./src/db/*.sql *.db
 cp .env.production .env
 bun install
 

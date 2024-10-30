@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import UserBar from '@/components/userbar.vue'
+import EstadosDropdown from '@/components/estados.vue'
 
 const appName = import.meta.env.VITE_APP_NAME!
 const open = ref(false)
@@ -27,12 +28,13 @@ const open = ref(false)
             <span class="hidden md:block font-extrabold text-2xl text-sonokai-fg hover:text-sonokai-fg bg-transparent">{{ appName }}</span>
           </router-link>
           <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
+            <div class="flex items-center space-x-4">
               <router-link to="/" class="rounded-md bg-sonokai-black px-3 py-2 font-bold text-sonokai-fg hover:text-sonokai-fg">
                 <font-awesome-icon icon="fa-solid fa-house" />
                 Início
               </router-link>
               <!-- <router-link to="/" class="rounded-md px-3 py-2 font-bold text-gray-300 hover:bg-gray-700 hover:text-white">Team</router-link> -->
+              <estados-dropdown />
             </div>
           </div>
         </div>

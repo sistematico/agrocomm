@@ -5,14 +5,14 @@ const app = new Hono()
 
 app.get('/', async (c) => {
   const data = await users()
-  return c.json({ users: data }, 200)
+  return c.json(data, 200)
 })
 
 app.post('/signup', async (c) => {
   try {
-    const { username, password, email } = await c.req.json()
-    const data = signup(username, password, email)
-    return c.json({ message: 'User created', user: data }, 201)
+    const { username, email, password } = await c.req.json()
+    const data = await signup(username, email, password)
+    return c.json(data, 201)
   } catch (error) {
     return c.json({ message: 'Error creating user' }, 400)    
   }
@@ -21,8 +21,8 @@ app.post('/signup', async (c) => {
 app.post('/signin', async (c) => {
   try {
     const { identifier, password } = await c.req.json()
-    const data = signin(identifier, password)
-    return c.json({ message: 'User logged', data }, 201)
+    const data = await signin(identifier, password)
+    return c.json(data, 200)
   } catch (error) {
     return c.json({ message: 'Error logging', error }, 400)    
   }

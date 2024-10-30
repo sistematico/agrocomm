@@ -15,6 +15,14 @@ export const profiles = sqliteTable('profiles', {
   userId: int('user_id').references(() => users.id, { onDelete: 'cascade' })
 })
 
+export const tokens = sqliteTable('tokens', {
+  id: int().primaryKey({ autoIncrement: true }),
+  token: text('token').notNull(),
+  expiry: text('expiry').notNull(),
+  userId: int('user_id').references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: text('created_at').notNull().default(sql`(current_timestamp)`)
+})
+
 export const plans = sqliteTable('plans', {
   id: int().primaryKey({ autoIncrement: true }),
   name: text('plan').default('free').unique().notNull()
@@ -49,10 +57,10 @@ export const commodities = sqliteTable('commodities', {
 export const prices = sqliteTable('prices', {
   id: int().primaryKey({ autoIncrement: true }),
   price: int('price').notNull(),
-  createdAt: text('timestamp').notNull().default(sql`(current_timestamp)`),
   commodity: text('commodity').references(() => commodities.slug),
-  city: text('city'),
   state: text('state').notNull().references(() => states.abbr),
+  city: text('city'),
+  createdAt: text('created_at').notNull().default(sql`(current_timestamp)`),
   }, (t) => ({
     uniquePrice: unique('unique_price_per_commodity_date_state_city').on(t.createdAt, t.commodity, t.city, t.state)
   })

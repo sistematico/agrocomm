@@ -1,11 +1,15 @@
-import { add, list } from '@/models/quote'
+import { add, listAll, listByState } from '@/models/quote'
 
-export async function addQuote(price: number, commodity: string, city: string, state: string) {
+export async function addPrice(price: number, commodity: string, city: string, state: string) {
   const quote = add({ price, commodity, city, state })
   if (!quote) return { message: 'Error creating quote' }
   return { message: 'Quote created', quote }
 }
 
-export async function quotes(commodity: string, state = 'all') {
-  return await list(commodity, state)
+export async function pricesByState(commodity: string, state: string) {
+  return await listByState(commodity, state)
+}
+
+export async function allPrices(commodity: string) {
+  return await listAll(commodity)
 }
