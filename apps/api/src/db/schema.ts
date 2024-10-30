@@ -42,14 +42,15 @@ export const cities = sqliteTable('cities', {
 
 export const commodities = sqliteTable('commodities', {
   id: int().primaryKey({ autoIncrement: true }),
-  name: text('name').notNull()
+  name: text('name').notNull(),
+  slug: text('slug').notNull()
 })
 
 export const prices = sqliteTable('prices', {
   id: int().primaryKey({ autoIncrement: true }),
   price: int('price').notNull(),
   createdAt: text('timestamp').notNull().default(sql`(current_timestamp)`),
-  commodity: text('commodity').references(() => commodities.name),
+  commodity: text('commodity').references(() => commodities.slug),
   city: text('city'),
   state: text('state').notNull().references(() => states.abbr),
   }, (t) => ({

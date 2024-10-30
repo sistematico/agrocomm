@@ -22,6 +22,19 @@
     - agrocomm-scrape.timer
 
 
+- name: >-
+    Allow the alice user to run sudo /bin/systemctl restart agrocomm-hono.service or
+    sudo /usr/bin/systemctl reload agrocomm-hono.service, password is not required
+  community.general.sudoers:
+    name: agrocomm-hono
+    user: nginx
+    commands:
+      - /usr/bin/systemctl stop agrocomm-hono.service
+      - /usr/bin/systemctl start agrocomm-hono.service
+      - /usr/bin/systemctl restart agrocomm-hono.service
+    nopassword: true
+
+
 - name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true

@@ -1,34 +1,38 @@
----
-- hosts: all
-  become: true
-
-  vars:
-    domain:    "{{ lookup('env','DOMAIN') }}"
-    cf_email:  "{{ lookup('env','CF_EMAIL') }}"
-    cf_token:  "{{ lookup('env','CF_TOKEN') }}"
-    packages:
+- name: Install required packages
+  ansible.builtin.package:
+    name:
       - certbot
       - python3-certbot-dns-cloudflare
-  
-  tasks:
-    - name: Install required system packages
-      apt:
-        pkg: "{{ item }}"
-        state: latest
-      with_items: "{{ packages }}"
+    state: present
 
-    - name: "Create /etc/cloudflare.ini"
-      template:
-        src: cloudflare/cloudflare.ini.j2
-        dest: "/etc/cloudflare.ini"
-        force: no
+- name: Create /etc/cloudflare.ini
+  ansible.builtin.template:
+    src: cloudflare/cloudflare.ini.j2
+    dest: /etc/cloudflare.ini
+    mode: '0600'
+    force: false
 
-    - name: Check if the cert exists
-      stat:
-        path: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
-      register: cert_file_result
+- name: Check if the cert exists
+  ansible.builtin.stat:
+    path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+  register: cert_file_result
 
-    - name: "Run certbot command for {{ domain }}"
-      command: certbot certonly --non-interactive --agree-tos --dns-cloudflare --dns-cloudflare-credentials /etc/cloudflare.ini -d "{{ domain }}" -d "*.{{ domain }}"
-      when: 
-        - not cert_file_result.stat.exists
+- name: Check certificate expiration date
+  ansible.builtin.command: openssl x509 -enddate -noout -in /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+  register: cert_expiry
+  failed_when: false
+  changed_when: false
+  when: cert_file_result.stat.exists
+
+- name: Run certbot command for domain
+  ansible.builtin.command: >-
+    certbot certonly \
+      --non-interactive \
+      --agree-tos \
+      --dns-cloudflare \
+      --dns-cloudflare-credentials \
+      /etc/cloudflare.ini -d "{{ domain }}" -d "*.{{ domain }}"
+  creates: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+  when: not cert_file_result.stat.exists or 
+        (cert_expiry.stdout is defined and 
+         (cert_expiry.stdout | regex_replace('^notAfter=', '') | strptime('%b %d %H:%M:%S %Y %Z') | to_datetime).diff(now(), 'days') < 30)

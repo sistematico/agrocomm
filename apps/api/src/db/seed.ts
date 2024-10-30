@@ -19,10 +19,10 @@ async function seed() {
   if (admin.length > 0) await db.insert(profiles).values({ userId: admin[0].id, bio: 'Admin' })
 
   await db.insert(commodities).values([
-    { name: 'Arroba do Boi' },
-    { name: 'Arroba da Vaca' },
-    { name: 'Saca de Milho' },
-    { name: 'Saca de Soja' }
+    { name: 'Arroba do Boi', slug: 'boi' },
+    { name: 'Arroba da Vaca', slug: 'vaca' },
+    { name: 'Saca de Milho', slug: 'milho' },
+    { name: 'Saca de Soja', slug: 'soja' }
   ]).onConflictDoNothing()
 
   await db.insert(states).values([

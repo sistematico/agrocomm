@@ -2,5 +2,11 @@
 - name: Executa múltiplas roles
   hosts: all
   gather_facts: false
+
+  vars:
+    domain: "{{ lookup('env','DOMAIN') }}"
+    cf_email: "{{ lookup('env','CF_EMAIL') }}"
+    cf_token: "{{ lookup('env','CF_TOKEN') }}"
+
   roles:
     - systemd
