@@ -4,21 +4,40 @@ import type { Quote } from '@/types'
 
 const url = `${import.meta.env.VITE_API_URL}/quotes/boi`
 const quotes = ref([] as Quote[])
+const title = ref('Cotações')
+const subtitle = ref('')
 
 function insertDecimal(num: number) {
    return (num / 100).toFixed(2)
 }
 
+const commodities: { [key: string]: string } = {
+  boi: 'Arroba do Boi',
+  vaca: 'Arroba da Vaca',
+  milho: 'Saca de Milho',
+  soja: 'Saca de Soja'
+};
+
 onMounted(async () => {
+  let commodity = commodities.boi
+  
   const { quotes: data } = await (await fetch(url)).json()
-  if (data.length > 0) quotes.value = data
+  if (data.length > 0) {
+    commodity = commodities[data[0].commodity]
+    quotes.value = data
+    title.value = `Cotações da ${commodity}`
+    subtitle.value = data[0].createdAt
+  }
 })
 </script>
 <template>
+  <div class="flex items-center justify-between mb-3">
+    <h3>{{ title }}</h3>
+    <p class="text-md font-bold">{{ subtitle }}</p>
+  </div>
   <div class="flex items-center justify-center min-h-[450px]">
     <!-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg"> -->
       <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-        <h3 class="mb-3">Cotações</h3>
         <table class="w-full text-left text-gray-200">
           <thead class="uppercase bg-sonokai-black text-gray-300">
             <tr>

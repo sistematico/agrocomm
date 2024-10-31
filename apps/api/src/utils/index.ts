@@ -1,7 +1,7 @@
-import type { States } from '@/types'
+import type { State } from '@/types'
 
 // REGION
-export const states: States[] = [
+export const states: State[] = [
   { abbr: 'AC', name: 'Acre' },
   { abbr: 'AL', name: 'Alagoas' },
   { abbr: 'AP', name: 'Amapá' },

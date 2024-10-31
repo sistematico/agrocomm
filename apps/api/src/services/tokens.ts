@@ -1,5 +1,5 @@
 import { sign, verify, decode } from 'hono/jwt'
-import { add } from '@/models/token'
+import { add, update } from '@/models/token'
 import { findId } from '@/models/user'
 
 const accessSecret = Bun.env.ACCESS_TOKEN_SECRET!
@@ -22,4 +22,12 @@ export async function verifyToken(token: string) {
 
 export function decodeToken(token: string) {
   return decode(token)
+}
+
+export function refreshToken(token: string) {
+  return decode(token)
+}
+
+export function revokeToken(token: string) {
+  return update(token, { token, expiry: new Date().toISOString(), revoked: true })
 }

@@ -47,7 +47,7 @@ const states = ref<State[]>([
   <div>
     <!-- <label id="listbox-label" class="block text-sm/6 font-medium text-gray-900">Estado</label> -->
     <div class="relative">
-      <button @click="open = !open" type="button" class="relative w-full cursor-default rounded-md bg-sonokai-black py-2 pl-3 pr-10 text-left text-white shadow-sm outline-none sm:text-sm/6" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+      <button @click="open = !open" type="button" class="relative w-full rounded-md bg-sonokai-black py-2 pl-3 pr-10 text-left text-white shadow-sm outline-none sm:text-sm/6 cursor-pointer" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
         <span class="flex items-center">
           <img :src="`/images/flags/${selected.abbr.toLowerCase()}.svg`" :alt="selected.name" class="h-5 w-5 flex-shrink-0" />
           <span class="ml-3 block truncate">{{ selected.name }}</span>
@@ -61,7 +61,7 @@ const states = ref<State[]>([
       <!-- Select popover, show/hide based on select state. Entering: "" From: "" To: "" Leaving: "transition ease-in duration-100" From: "opacity-100" To: "opacity-0" -->
       <ul class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-sonokai-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" :class="{ 'hidden': !open }" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
         <!-- Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation. Highlighted: "bg-indigo-600 text-white", Not Highlighted: "text-gray-900" -->
-        <li class="relative cursor-default select-none py-2 pl-3 pr-9 text-white" id="listbox-option-0" role="option" v-for="state in states" @click="selected = state; open = !open">
+        <li class="relative select-none py-2 pl-3 pr-9 text-white cursor-pointer" id="listbox-option-0" role="option" v-for="state in states" @click="selected = state; open = !open">
           <div class="flex items-center">
             <img :src="`/images/flags/${state.abbr.toLowerCase()}.svg`" :alt="state.abbr" class="h-5 w-5 flex-shrink-0 rounded-full" />
             <span class="ml-3 block truncate" :class="{ 'text-white font-bold': selected.abbr === state.abbr, 'text-sonokai-fg font-normal': selected.abbr !== state.abbr }">{{ state.abbr }}</span>

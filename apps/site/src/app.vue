@@ -1,14 +1,12 @@
 <script setup lang="ts">
+import { Notivue, Notification } from 'notivue'
 import BaseLayout from '@/layouts/base.vue'
-
-var host = window.location.host
-var subdomain = host.split('.')[0]
-
-console.log('host:', host)
-console.log('subdomain:', subdomain)
 </script>
 <template>
   <BaseLayout>
+    <Notivue v-slot="item">
+      <Notification :item="item" />
+    </Notivue>    
     <RouterView />
   </BaseLayout>
 </template>

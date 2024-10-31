@@ -3,7 +3,7 @@ export interface Cities {
   name: string
 }
 
-export interface States {
+export interface State {
   name: string
   abbr: string
 }
