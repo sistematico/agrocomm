@@ -3,16 +3,23 @@ import { addPrice, allPrices, pricesByState } from '@/services/quotes'
 
 const app = new Hono()
 
-app.get('/:commodity/:state?', async c => {
-  const { commodity, state } = c.req.param()
+app.get('/:commodity', async c => {
+  const { commodity } = c.req.param()
+  const state = c.req.query('estado')
 
   if (state) {
     const data = await pricesByState(commodity, state)
-    return c.json({ quotes: data }, 200)
+    return c.json(data, 200)
   } else {
     const data = await allPrices(commodity)
-    return c.json({ quotes: data }, 200)
+    return c.json(data, 200)
   }  
+})
+
+app.get('/:commodity/:state', async c => {
+  const { commodity, state } = c.req.param()
+  const data = await pricesByState(commodity, state)
+  return c.json(data, 200)
 })
 
 app.post('/', async c => {

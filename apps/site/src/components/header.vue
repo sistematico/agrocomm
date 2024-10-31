@@ -7,11 +7,12 @@ const appName = import.meta.env.VITE_APP_NAME!
 const open = ref(false)
 </script>
 <template>
-  <header class="fixed w-full top-0 z-10 bg-sonokai-bg_dim border-0 border-b-2 border-sonokai-border">
+  <!-- <header class="fixed w-full top-0 z-10 bg-sonokai-bg_dim border-0 border-b-2 border-sonokai-border"> -->
+  <header class="fixed top-0 z-10 w-full bg-sonokai-bg_dim border-0 border-b-2 border-sonokai-border">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-          <button @click="open = !open" type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white outline-none" aria-controls="mobile-menu" aria-expanded="false">
+          <button @click="open = !open" type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:text-white outline-none" aria-controls="mobile-menu" aria-expanded="false">
             <span class="absolute -inset-0.5"></span>
             <span class="sr-only">Open main menu</span>
             <svg class="h-6 w-6" :class="{ 'block': !open, 'hidden': open }" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
