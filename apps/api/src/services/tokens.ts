@@ -1,4 +1,4 @@
-import { sign, verify } from 'hono/jwt'
+import { sign, verify, decode } from 'hono/jwt'
 import { add } from '@/models/token'
 import { findId } from '@/models/user'
 
@@ -17,6 +17,9 @@ export async function createToken(sub: string, role = 'user') {
 }
 
 export async function verifyToken(token: string) {
-  const decodedPayload = await verify(token, refreshSecret)
-  console.log(decodedPayload)
+  return await verify(token, refreshSecret)
+}
+
+export function decodeToken(token: string) {
+  return decode(token)
 }

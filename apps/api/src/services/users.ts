@@ -1,4 +1,5 @@
 import { add, list, findByIdentifier, findByEmailOrUsername } from '@/models/user'
+import { createToken, decodeToken, verifyToken } from '@/services/tokens'
 
 export async function signup(username: string, email: string, password: string, fullname = '') {
   const userExists = await findByEmailOrUsername(username, email)
@@ -14,7 +15,14 @@ export async function signup(username: string, email: string, password: string, 
 export async function signin(identifier: string, password: string) {
   const user = await findByIdentifier(identifier, password)
   if (!user) return { message: 'User not found' }
-  return { message: 'User found', user }
+
+  const token = await createToken(user.username, user.id === 1 ? 'admin' : 'user')
+  // const decoded = decodeToken(token)
+  const decoded = await verifyToken(token)
+
+  console.log(decoded)
+
+  return { message: 'User found', user, token: decoded }
 }
 
 export async function users() {

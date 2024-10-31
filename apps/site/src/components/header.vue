@@ -46,6 +46,7 @@ const open = ref(false)
     <div class="sm:hidden" :class="{ 'block': open, 'hidden': !open }" id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2">
         <router-link to="/" class="block rounded-md bg-sonokai-black px-3 py-2 text-base font-medium text-white">Início</router-link>
+        <estados-dropdown />
         <!-- <router-link to="/" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</router-link> -->
       </div>
     </div>
