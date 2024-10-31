@@ -8,15 +8,14 @@
 
 ## Ecossistema
 
-| Seção | Produção | Repositório |
-| --- | --- | --- |
+| Seção | Produção | Repositório | 
+| --- | --- | --- | 
 | Frontend | https://agrocomm.com.br | https://github.com/sistematico/agrocomm/tree/main/apps/site |
 | Backend | https://api.agrocomm.com.br | https://github.com/sistematico/agrocomm/tree/main/apps/api |
 
 ## Stack
 
-| Seção | Produção | 
-| --- | --- | --- |
+| --- | --- | 
 | Banco de Dados | [Drizzle ORM](https://orm.drizzle.team/) | 
 | API | [Bun](https://bun.sh) & [Hono](https://hono.dev) |
 | Front | [Vue.js](https://vuejs.org), [Vite](https://vite.dev/) & [Tailwind CSS](https://tailwindcss.com) |
@@ -39,6 +38,11 @@
 - [https://bun.sh/docs/install/workspaces](https://bun.sh/docs/install/workspaces)
 - [https://github.com/colinhacks/bun-workspaces](https://github.com/colinhacks/bun-workspaces)
 - [https://docs.npmjs.com/cli/v10/using-npm/workspaces](https://docs.npmjs.com/cli/v10/using-npm/workspaces)
+
+## Temas e configurações
+
+- [VSCode](https://code.visualstudio.com/)
+  - [Monokai](https://marketplace.visualstudio.com/items?itemName=monokai.theme-monokai-pro-vscode)
 
 ## 🕐 ChangeLog
 
