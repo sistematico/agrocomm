@@ -1,18 +1,26 @@
-# AgroComm (Monorepo)
+# AgroComm
 
 <p align="center">
-  <img src="./assets/logo.svg" alt="AgroComm" width="320" />
+  <img src="./apps/site/public/images/logo.svg" alt="AgroComm" width="320" />
 </p>
 
-[![CD](https://github.com/sistematico/agrocomm/actions/workflows/cd.yml/badge.svg)](https://github.com/sistematico/agrocomm/actions/workflows/cd.yml)
-[![CI](https://github.com/sistematico/agrocomm/actions/workflows/ci.yml/badge.svg)](https://github.com/sistematico/agrocomm/actions/workflows/ci.yml)
+[![Deploy](https://github.com/sistematico/agrocomm/actions/workflows/deploy.yml/badge.svg)](https://github.com/sistematico/agrocomm/actions/workflows/deploy.yml)
 
-- [AgroComm](https://github.com/sistematico/agrocomm/tree/main/apps/site) | [Site](https://agrocomm.com.br)
-- [AgroComm API](https://github.com/sistematico/agrocomm/tree/main/apps/api) | [Site](https://api.agrocomm.com.br)
+## Ecossistema
 
-## Banco de Dados
+| Seção | Produção | Repositório |
+| --- | --- | --- |
+| Frontend | https://agrocomm.com.br | https://github.com/sistematico/agrocomm/tree/main/apps/site |
+| Backend | https://api.agrocomm.com.br | https://github.com/sistematico/agrocomm/tree/main/apps/api |
 
-![AgroComm](./assets/prisma-erd.svg "AgroComm")
+## Stack
+
+| Seção | Produção | 
+| --- | --- | --- |
+| Banco de Dados | [Drizzle ORM](https://orm.drizzle.team/) | 
+| API | [Bun](https://bun.sh) & [Hono](https://hono.dev) |
+| Front | [Vue.js](https://vuejs.org), [Vite](https://vite.dev/) & [Tailwind CSS](https://tailwindcss.com) |
+| Scrapping | [Cheerio](https://cheerio.js.org/) |
 
 ## Dependências
 
@@ -21,7 +29,8 @@
 - [Vite](https://vitejs.dev)
 - [Vue.js](https://vuejs.org)
 - [Hono](https://hono.dev)
-- [Twitter Bootstrap](https://getbootstrap.com)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Cheerio](https://cheerio.js.org/)
 
 ## 📰 Referências
 

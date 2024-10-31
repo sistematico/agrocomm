@@ -12,7 +12,6 @@ bun install
 bun run db:push
 bun run db:generate
 bun run db:seed
-bun run db:scrape
 
 sudo /usr/bin/systemctl restart agrocomm-hono.service
 
