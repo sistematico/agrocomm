@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import type { Quote } from '@/types'
 
-const url = `${import.meta.env.VITE_API_URL}/quotes/boi`
+const route = useRoute()
 const quotes = ref([] as Quote[])
 const title = ref('Cotações')
 const subtitle = ref('')
@@ -19,11 +20,14 @@ const commodities: { [key: string]: string } = {
 };
 
 onMounted(async () => {
-  let commodity = commodities.boi
+  const url = `${import.meta.env.VITE_API_URL}/quotes${route.path}`
+  const commodity = commodities[route.path.replace(/\//g, '')]
   
-  const { quotes: data } = await (await fetch(url)).json()
+  const data = await (await fetch(url)).json()
+
+  console.log(data, url)
+
   if (data.length > 0) {
-    commodity = commodities[data[0].commodity]
     quotes.value = data
     title.value = `Cotações da ${commodity}`
     subtitle.value = data[0].createdAt

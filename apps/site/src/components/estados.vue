@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 import type { State } from '@/types'
 
+const route = useRoute()
 const open = ref(false)
 const selected = ref({ abbr: 'BR', name: 'Brasil' })
-
-// <select v-model="selected">
-//   <option disabled value="">Please select one</option>
-//   <option>A</option>
-//   <option>B</option>
-//   <option>C</option>
-// </select>
 
 const states = ref<State[]>([
   { abbr: 'BR', name: 'Brasil' },
@@ -42,6 +37,15 @@ const states = ref<State[]>([
   { abbr: 'SE', name: 'Sergipe' },
   { abbr: 'TO', name: 'Tocantins' }
 ])
+
+function goToUrl(url: string) {
+  if (url === 'BR') return
+  if (import.meta.env.DEV) return
+
+  if (states.value.some(e => e.abbr === url.toUpperCase())) {
+    window.location.href = `https://${url}.${import.meta.env.VITE_APP_DOMAIN}${route.path}`.toLowerCase()
+  }
+}
 </script>
 <template>
   <div>
@@ -58,12 +62,11 @@ const states = ref<State[]>([
           </svg>
         </span>
       </button>
-      <!-- Select popover, show/hide based on select state. Entering: "" From: "" To: "" Leaving: "transition ease-in duration-100" From: "opacity-100" To: "opacity-0" -->
       <ul class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-sonokai-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" :class="{ 'hidden': !open }" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
         <!-- Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation. Highlighted: "bg-indigo-600 text-white", Not Highlighted: "text-gray-900" -->
-        <li class="relative select-none py-2 pl-3 pr-9 text-white cursor-pointer" id="listbox-option-0" role="option" v-for="state in states" @click="selected = state; open = !open">
+        <li class="relative select-none py-2 pl-3 pr-9 text-white cursor-pointer" id="listbox-option-0" role="option" v-for="state in states" @click="selected = state; open = !open; goToUrl(state.abbr)">
           <div class="flex items-center">
-            <img :src="`/images/flags/${state.abbr.toLowerCase()}.svg`" :alt="state.abbr" class="h-5 w-5 flex-shrink-0 rounded-full" />
+            <img :src="`/images/flags/${state.abbr.toLowerCase()}.svg`" :alt="state.abbr" class="h-5 w-5 flex-shrink-0" />
             <span class="ml-3 block truncate" :class="{ 'text-white font-bold': selected.abbr === state.abbr, 'text-sonokai-fg font-normal': selected.abbr !== state.abbr }">{{ state.abbr }}</span>
           </div>
           <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600" v-if="selected.abbr === state.abbr">
