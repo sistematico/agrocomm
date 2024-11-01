@@ -14,7 +14,6 @@ export async function scrapeBoi() {
   const $ = cheerio.load(body)
   
   const tr = $('div.conteudo_centro:nth-child(4) > table:nth-child(5) tbody tr')
-  // const tableDate = $('div.conteudo_centro:nth-child(4) > table:nth-child(3) thead tr th').text().replace(/(\s+)/g, ' ')
   const tableDate = $('div.conteudo_centro:nth-child(4) > table:nth-child(5) > thead:nth-child(1) > tr:nth-child(1) > th:nth-child(1)').text().replace(/(\s+)/g, ' ')
   const createdAt = convertStringToFormattedDateString(tableDate)
 
@@ -30,8 +29,6 @@ export async function scrapeBoi() {
       }
     }
   })
-
-  console.log(JSON.stringify(data,null,2))
 
   if (data.length > 0) {
     await db
@@ -151,8 +148,6 @@ export async function scrapeMilho() {
       }
     }
   })
-
-  console.log(JSON.stringify(data,null,2))
 
   if (data.length > 0) {
     await db
