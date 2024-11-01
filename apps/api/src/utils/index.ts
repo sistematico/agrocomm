@@ -65,30 +65,6 @@ export function extractCityAndState(location: string) {
   return { state: null, city: null }
 }
 
-// export async function findOrCreateCity(stateName: string, cityName: string) {
-//   let city = await db
-//     .select()
-//     .from(schema.cities)
-//     .where(
-//       and(
-//         eq(schema.cities.stateAbbr, stateName),
-//         eq(schema.cities.name, cityName)
-//       )
-//     )
-
-//   // const { field1, field2 } = result[0]
-
-//   if (!city) {
-//     city = await db
-//       .insert(schema.cities)
-//       .values({ name: cityName, stateAbbr: stateName })
-//       .onConflictDoNothing()
-//       .returning()
-//   }  
-  
-//   return { city, state: stateName }
-// }
-
 // DATE
 export function getCurrentDate(): Date {
   const now = new Date()
@@ -145,4 +121,25 @@ export function convertStringToFormattedDate(dateString: string): Date {
   date.setUTCHours(date.getUTCHours()) // date.setUTCHours(date.getUTCHours() + 3)
 
   return date
+}
+
+export function getExpiryInSeconds(expiry: string): number {
+  const match = expiry.match(/^(\d+)([dhms])$/);
+  if (!match) throw new Error("Formato de expiração inválido. Use '1d', '2h', '60m' ou '30s'.");
+
+  const value = Number(match[1])
+  const unit = match[2]
+
+  switch (unit) {
+    case 'd':
+      return value * 24 * 60 * 60;  // Dias para segundos
+    case 'h':
+      return value * 60 * 60;       // Horas para segundos
+    case 'm':
+      return value * 60;            // Minutos para segundos
+    case 's':
+      return value                  // Segundos
+    default:
+      throw new Error("Unidade de expiração inválida.")
+  }
 }

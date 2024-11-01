@@ -4,12 +4,12 @@ import { refreshToken, revokeToken } from '@/services/tokens'
 
 const app = new Hono()
 
-app.get('/', async (c) => {
+app.get('/', async c => {
   const data = await users()
   return c.json(data, 200)
 })
 
-app.post('/signup', async (c) => {
+app.post('/signup', async c => {
   try {
     const { username, email, password } = await c.req.json()
     const data = await signup(username, email, password)
@@ -19,7 +19,7 @@ app.post('/signup', async (c) => {
   }
 })
 
-app.post('/signin', async (c) => {
+app.post('/signin', async c => {
   try {
     const { identifier, password } = await c.req.json()
     const data = await signin(identifier, password)
@@ -29,7 +29,7 @@ app.post('/signin', async (c) => {
   }
 })
 
-app.post('/revoke-token', async (c) => {
+app.post('/revoke-token', async c => {
   try {
     const { token } = await c.req.json()
     const data = await revokeToken(token)
@@ -39,7 +39,7 @@ app.post('/revoke-token', async (c) => {
   }
 })
 
-app.post('/refresh-token', async (c) => {
+app.post('/refresh-token', async c => {
   try {
     const { token } = await c.req.json()
     const data = await refreshToken(token)

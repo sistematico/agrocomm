@@ -1,5 +1,5 @@
 import { add, list, findByIdentifier, findByEmailOrUsername } from '@/models/user'
-import { createToken } from '@/services/tokens'
+import { createTokens } from '@/services/tokens'
 
 export async function signup(username: string, email: string, password: string, fullname = '') {
   const userExists = await findByEmailOrUsername(username, email)
@@ -12,11 +12,14 @@ export async function signup(username: string, email: string, password: string, 
   return { message: 'Usuário criado', ok: true }
 }
 
-export async function signin(identifier: string, password: string) {
-  const user = await findByIdentifier(identifier, password)
-  if (!user) return { message: 'Usuário não encontrado', ok: false }
-  const token = await createToken(user.username, user.id === 1 ? 'admin' : 'user')
-  return { message: 'Usuário logado no sistema', user, token, ok: true }
+export async function signin(identifier: string, passwd: string) {
+  const data = await findByIdentifier(identifier, passwd)
+  if (!data) return { message: 'Usuário não encontrado', ok: false }
+  
+  const { password, ...user } = data
+  const { accessToken, refreshToken } = await createTokens(user.username, user.id === 1 ? 'admin' : 'user')
+  
+  return { message: 'Usuário logado no sistema', user, accessToken, refreshToken, ok: true }
 }
 
 export async function users() {

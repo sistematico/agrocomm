@@ -18,7 +18,7 @@ export const profiles = sqliteTable('profiles', {
 export const tokens = sqliteTable('tokens', {
   id: int().primaryKey({ autoIncrement: true }),
   token: text('token').notNull(),
-  expiry: text('expiry').notNull(),
+  expiry: int('expiry').notNull(),
   userId: int('user_id').references(() => users.id, { onDelete: 'cascade' }),
   createdAt: text('created_at').notNull().default(sql`(current_timestamp)`),
   revoked: int({ mode: 'boolean' }).default(false)

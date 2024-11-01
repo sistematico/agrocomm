@@ -7,7 +7,8 @@
     "db:migrate": "bunx drizzle-kit migrate",
     "db:studio": "bunx drizzle-kit studio",
     "db:seed": "bun ./src/db/seed.ts",
-    "db:scrape": "bun ./src/services/scrape.ts"
+    "db:scrape": "bun ./src/services/scrape.ts",
+    "db:reset": "rm -rf ./src/db/meta/ ./src/db/*.sql *.db && bunx drizzle-kit push && bunx drizzle-kit generate && bun ./src/db/seed.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
