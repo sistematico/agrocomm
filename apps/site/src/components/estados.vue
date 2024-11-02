@@ -49,7 +49,6 @@ function goToUrl(url: string) {
 </script>
 <template>
   <div>
-    <!-- <label id="listbox-label" class="block text-sm/6 font-medium text-gray-900">Estado</label> -->
     <div class="relative">
       <button @click="open = !open" type="button" class="relative w-full rounded-md bg-sonokai-black py-2 pl-3 pr-10 text-left text-white shadow-sm outline-none sm:text-sm/6 cursor-pointer" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
         <span class="flex items-center">
@@ -63,11 +62,10 @@ function goToUrl(url: string) {
         </span>
       </button>
       <ul class="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-sonokai-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm" :class="{ 'hidden': !open }" tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
-        <!-- Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation. Highlighted: "bg-indigo-600 text-white", Not Highlighted: "text-gray-900" -->
         <li class="relative select-none py-2 pl-3 pr-9 text-white cursor-pointer" id="listbox-option-0" role="option" v-for="state in states" @click="selected = state; open = !open; goToUrl(state.abbr)">
           <div class="flex items-center">
             <img :src="`/images/flags/${state.abbr.toLowerCase()}.svg`" :alt="state.abbr" class="h-5 w-5 flex-shrink-0" />
-            <span class="ml-3 block truncate" :class="{ 'text-white font-bold': selected.abbr === state.abbr, 'text-sonokai-fg font-normal': selected.abbr !== state.abbr }">{{ state.abbr }}</span>
+            <span class="ml-3 block truncate" :class="{ 'text-white font-bold': selected.abbr === state.abbr, 'text-sonokai-fg font-normal': selected.abbr !== state.abbr }">{{ state.name }}</span>
           </div>
           <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600" v-if="selected.abbr === state.abbr">
             <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">

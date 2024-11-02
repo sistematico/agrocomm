@@ -33,13 +33,19 @@ export async function verifyToken(token: string) {
   return await verify(token, refreshSecret)
 }
 
-export function decodeToken(token: string) {
-  return decode(token)
+export async function decodeToken(token: string) {
+  const decoded = decode(token)
+  return decoded.payload
 }
 
-export async function refreshToken(token: string) {
-  const expiry = Math.floor(Date.now() / 1000) + getExpiryInSeconds(refreshExpiry)
-  return await update(token, { token, expiry, revoked: false })
+export async function refreshTokens(token: string) {
+  // const expiry = Math.floor(Date.now() / 1000) + getExpiryInSeconds(refreshExpiry)
+  // return await update(token, { token, expiry, revoked: false })
+  
+  const { username, role } = await decodeToken(token) as { username: string, role: string }
+  const { accessToken, refreshToken } = await createTokens(username, role)
+
+  return { accessToken, refreshToken }
 }
 
 export async function revokeToken(token: string) {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import SideBar from '@/components/sidebar.vue'
 import type { Quote } from '@/types'
 
 const route = useRoute()
@@ -66,7 +67,7 @@ onMounted(async () => {
       </div>
     </div>
     <div>
-      Sidebar
+      <side-bar />
     </div>
   </div>
 </template>

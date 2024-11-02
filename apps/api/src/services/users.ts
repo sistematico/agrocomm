@@ -19,7 +19,7 @@ export async function signin(identifier: string, passwd: string) {
   const { password, ...user } = data
   const { accessToken, refreshToken } = await createTokens(user.username, user.id === 1 ? 'admin' : 'user')
   
-  return { message: 'Usuário logado no sistema', user, accessToken, refreshToken, ok: true }
+  return { message: 'Usuário logado no sistema', user: { ...user, tokens: { accessToken, refreshToken } }, ok: true }
 }
 
 export async function users() {

@@ -30,7 +30,6 @@ export async function findId(identifier: string) {
 }
 
 export async function findByIdentifier(identifier: string, password: string) {
-  const hash = await Bun.password.hash(password)
   const [user] = await db
     .select()
     .from(users)
@@ -42,7 +41,7 @@ export async function findByIdentifier(identifier: string, password: string) {
     )
     
   if (!user) return null
-  if (await Bun.password.verify(hash, user.password)) return null
+  if (!await Bun.password.verify(password, user.password)) return null
   
   return user
 }

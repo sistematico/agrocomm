@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import UserBar from '@/components/userbar.vue'
+import PricesBar from '@/components/pricesbar.vue'
 import EstadosDropdown from '@/components/estados.vue'
 
 const appName = import.meta.env.VITE_APP_NAME!
@@ -35,9 +36,11 @@ const open = ref(false)
                 Início
               </router-link>
               <!-- <router-link to="/" class="rounded-md px-3 py-2 font-bold text-gray-300 hover:bg-gray-700 hover:text-white">Team</router-link> -->
-              <estados-dropdown />
             </div>
           </div>
+        </div>
+        <div class="hidden sm:block">
+          <estados-dropdown />
         </div>
         <user-bar />
       </div>

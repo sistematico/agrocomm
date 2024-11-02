@@ -26,7 +26,7 @@ export interface User {
   fullname: string
   username: string
   email: string
-  token?: Token | string
+  tokens?: { accessToken: Token | string, refreshToken: Token | string }
   profile?: Profile
 }
 

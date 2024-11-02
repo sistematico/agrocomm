@@ -108,8 +108,6 @@ export async function scrapeSoja() {
     }
   })
 
-  console.log(JSON.stringify(data,null,2))
-
   if (data.length > 0) {
     await db
       .insert(prices)

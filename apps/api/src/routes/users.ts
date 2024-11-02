@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { signup, signin, users } from '@/services/users'
-import { refreshToken, revokeToken } from '@/services/tokens'
+import { refreshTokens, revokeToken } from '@/services/tokens'
 
 const app = new Hono()
 
@@ -42,7 +42,7 @@ app.post('/revoke-token', async c => {
 app.post('/refresh-token', async c => {
   try {
     const { token } = await c.req.json()
-    const data = await refreshToken(token)
+    const data = await refreshTokens(token)
     return c.json(data, 200)
   } catch (error) {
     return c.json({ message: 'Error logging', error }, 400)    
