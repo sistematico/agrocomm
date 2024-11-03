@@ -8,26 +8,22 @@ import Card from '@/components/card.vue'
     <!-- <div class="flex justify-center items-center"> -->
     <div class="flex flex-wrap justify-between mt-5 gap-5">
       <Card 
-        href="/soja"
-        label="Soja"
+        name="Soja"
         desc="saca de soja"
         bg="/images/bg/dan-meyers-IQVFVH0ajag-unsplash.jpg" 
       />
       <Card 
-        href="/milho"
-        label="Milho"
+        name="Milho"
         desc="saca de milho"
         bg="/images/bg/adrian-infernus-BN6iQEVN0ZQ-unsplash.jpg" 
       />
       <Card 
-        href="/boi"
-        label="Boi"
+        name="Boi"
         desc="arroba do boi"
         bg="/images/bg/juliana-e-mariana-amorim-PidIm_k0Un8-unsplash.jpg" 
       />
       <Card 
-        href="/vaca"
-        label="Vaca"
+        name="Vaca"
         desc="arroba da vaca"
         bg="/images/bg/luca-basili-0vVQWN_D26c-unsplash.jpg" 
       />

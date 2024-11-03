@@ -1,7 +1,7 @@
 import { db } from '@/db'
 import { users, profiles, commodities, states } from '@/db/schema'
 
-const hash = await Bun.password.hash('password')
+const hash = await Bun.password.hash('123')
 
 async function seed() {
   const admin = await db.insert(users).values([

@@ -9,24 +9,16 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, _, next) => {
+router.beforeEach(async (to, _, next) => {
   const authStore = useAuthStore()
-  const publicPages = ['/', '/entrar', '/cadastro', '/recuperar']
-  const authRequired = !publicPages.includes(to.path)
- 
-  // if (states.some(e => e.abbr === subdomain.toUpperCase())) {
-  //   next({ name: 'PricesByState', params: { state: subdomain.toUpperCase() } })
-  // } else if (to.name !== 'Login' && !isAuthenticated) {
-  //   next({ name: 'Login' }) 
-  // } else {
-  //   next()
-  // }
+  // const publicPages = ['/', '/entrar', '/cadastro', '/recuperar']
+  // const authRequired = !publicPages.includes(to.path)
 
-  if (authRequired && !authStore.user) {
-    next({ path: '/entrar', query: { return: to.path } })
+  if (to.name !== 'Login' && to.meta.requiresAuth === true && !authStore.user) {
+    next({ name: 'Login', query: { return: to.path } })
   } else {
     next()
-  } 
+  }
 })
 
 export { router }

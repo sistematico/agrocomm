@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import SideBar from '@/components/sidebar.vue'
 import type { Quote } from '@/types'
@@ -20,13 +20,25 @@ const commodities: { [key: string]: string } = {
   soja: 'Saca de Soja'
 };
 
-onMounted(async () => {
-  const url = `${import.meta.env.VITE_API_URL}/quotes${route.path}`
-  const commodity = commodities[route.path.replace(/\//g, '')]
-  
+watch(() => route.fullPath, fetchData, { immediate: true })
+
+async function fetchData() {
+  const url = `${import.meta.env.VITE_API_URL}/quotes/${route.name.toLowerCase()}`
+  const commodity = commodities[route.name.toLowerCase()]
   const data = await (await fetch(url)).json()
 
-  console.log(data, url)
+  if (data.length > 0) {
+    quotes.value = data
+    title.value = `Cotações da ${commodity}`
+    subtitle.value = data[0].createdAt
+  }
+}
+
+onMounted(async () => {
+  const url = `${import.meta.env.VITE_API_URL}/quotes/${route.name.toLowerCase()}`
+  // const commodity = commodities[route.path.replace(/\//g, '')]
+  const commodity = commodities[route.name.toLowerCase()]
+  const data = await (await fetch(url)).json()
 
   if (data.length > 0) {
     quotes.value = data

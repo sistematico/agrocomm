@@ -1,3 +1,11 @@
+export interface EmailMessage {
+  fullname?: string
+  username: string
+  message?: string
+  url?: string
+  otp?: string
+}
+
 export interface Cities {
   id: number
   name: string

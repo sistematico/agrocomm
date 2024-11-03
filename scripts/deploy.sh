@@ -6,7 +6,7 @@ git clean -fxd
 
 cd ./apps/api
 #rm -rf ./src/db/meta/ ./src/db/*.sql *.db
-#cp .env.production .env
+cp .env.production .env
 bun install
 
 #bun run db:push
@@ -17,6 +17,6 @@ sudo /usr/bin/systemctl restart agrocomm-hono.service
 
 cd ../site
 # [ ! -f .env ] && cp .env.production .env
-#cp .env.production .env
+cp .env.production .env
 bun install
 bun run build

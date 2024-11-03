@@ -7,6 +7,7 @@ export const users = sqliteTable('users', {
   username: text().notNull().unique(),
   email: text().notNull().unique(),
   password: text().notNull(),
+  otp: text(),
 })
 
 export const profiles = sqliteTable('profiles', {
