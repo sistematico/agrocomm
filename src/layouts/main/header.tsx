@@ -14,12 +14,12 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 bg-green-800 text-white z-50 h-16">
       <div className="container mx-auto px-4 h-full flex items-center justify-between">
         {/* Logo - left on desktop, centered on mobile */}
-        <div className="flex-1 md:flex-none">
+        <div className="flex-1 md:flex-none pr-0 md:pr-5">
           <Link
             href="/"
             className="flex items-center justify-center md:justify-start"
           >
-            <div className="relative h-10 w-10 mr-2">
+            <div className="relative h-10 w-10 mr-0 md:mr-2">
               <Image
                 src="/images/favicon.svg"
                 alt={process.env.NEXT_PUBLIC_APP_NAME!}
@@ -27,7 +27,7 @@ export default function Header() {
                 className="object-contain"
               />
             </div>
-            <h2 className="text-2xl font-bold invisible md:visible">AgroComm</h2>
+            <h2 className="text-2xl font-bold hidden md:inline">AgroComm</h2>
           </Link>
         </div>
 
