@@ -11,8 +11,8 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-green-800 text-white z-50 h-16">
-      <div className="container mx-auto px-4 h-full flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 bg-[#171717] text-white z-50 h-16 border-b-2 border-black">
+      <div className="px-4 h-full flex items-center justify-between">
         {/* Logo - left on desktop, centered on mobile */}
         <div className="flex-1 md:flex-none pr-0 md:pr-5">
           <Link

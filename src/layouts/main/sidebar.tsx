@@ -2,13 +2,13 @@ import Link from 'next/link'
 
 export default function Sidebar() {
   return (
-    <aside className="w-full md:w-80 bg-gray-50 p-4 border-l border-gray-200">
+    <aside className="w-full md:w-80 bg-background p-4 border-l border-black">
       <div className="sticky top-20">
         {' '}
         {/* top-20 accounts for header + small gap */}
         {/* Cotações */}
         <div className="mb-6">
-          <h3 className="text-lg font-semibold text-green-800 mb-3 pb-2 border-b border-gray-200">
+          <h3 className="text-lg font-semibold mb-3 pb-2 border-b border-black">
             Cotações do Dia
           </h3>
           <ul className="space-y-3">
@@ -28,14 +28,14 @@ export default function Sidebar() {
           </ul>
           <Link
             href="/cotacoes"
-            className="block mt-3 text-sm text-green-700 hover:text-green-900 font-medium"
+            className="block mt-3 text-sm hover:text-green-900 font-medium"
           >
             Ver todas as cotações →
           </Link>
         </div>
         {/* Notícias */}
         <div className="mb-6">
-          <h3 className="text-lg font-semibold text-green-800 mb-3 pb-2 border-b border-gray-200">
+          <h3 className="text-lg font-semibold mb-3 pb-2 border-b border-gray-200">
             Últimas Notícias
           </h3>
           <ul className="space-y-3">

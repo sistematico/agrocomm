@@ -4,8 +4,8 @@ export default function Home() {
   return (
     <Layout>
       <div className="space-y-6">
-        <section className="bg-green-50 p-6 rounded-lg border border-green-100">
-          <h1 className="text-3xl font-bold text-green-800 mb-4">
+        <section className="bg-background p-6 rounded-lg border border-black">
+          <h1 className="text-3xl font-bold mb-4">
             Bem-vindo à AgroComm
           </h1>
           <p className="text-gray-700 mb-4">
@@ -30,7 +30,7 @@ export default function Home() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-green-800 mb-4">
+          <h2 className="text-2xl font-bold mb-4">
             Principais Commodities
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -38,7 +38,7 @@ export default function Home() {
               (commodity) => (
                 <div
                   key={commodity}
-                  className="bg-white p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
+                  className="bg-background p-4 rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
                 >
                   <h3 className="text-lg font-semibold mb-2">{commodity}</h3>
                   <p className="text-gray-600 text-sm mb-3">
@@ -58,7 +58,7 @@ export default function Home() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-green-800 mb-4">
+          <h2 className="text-2xl font-bold mb-4">
             Últimas Análises de Mercado
           </h2>
           <div className="space-y-4">
@@ -69,7 +69,7 @@ export default function Home() {
             ].map((title, index) => (
               <div
                 key={index}
-                className="bg-white p-4 rounded-lg border border-gray-200"
+                className="bg-background p-4 rounded-lg border border-gray-200"
               >
                 <h3 className="text-lg font-semibold mb-2">{title}</h3>
                 <p className="text-gray-600 mb-3">
