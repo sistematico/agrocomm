@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 export function Sidebar() {
   return (
-    <aside className="w-full md:w-80 bg-background p-4 border-l border-black">
-      <div className="sticky top-20">
+    <aside className="w-full md:w-80 bg-background p-4 border-l-2 border-monokai-red">
+      <div className="sticky top-0">
         {' '}
         {/* top-20 accounts for header + small gap */}
         {/* Cotações */}
