@@ -2,10 +2,8 @@ import Link from 'next/link'
 
 export function Sidebar() {
   return (
-    <aside className="w-full mt-4 md:w-80 bg-background p-4 border border-black/20 rounded-lg">
-      <div className="sticky top-0">
-        {' '}
-        {/* top-20 accounts for header + small gap */}
+    <aside className="w-full mt-4 md:w-80 bg-background p-4 border border-black/20 rounded-lg md:sticky md:self-start" style={{ top: '80px' }}>
+      <div>
         {/* Cotações */}
         <div className="mb-6">
           <h3 className="text-lg font-semibold mb-3 pb-2 border-b border-black/20">
@@ -28,7 +26,7 @@ export function Sidebar() {
           </ul>
           <Link
             href="/cotacoes"
-            className="block mt-3 text-sm hover:text-green-900 font-medium"
+            className="block mt-3 text-sm text-green-700 hover:text-green-900 font-medium"
           >
             Ver todas as cotações →
           </Link>

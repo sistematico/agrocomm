@@ -19,8 +19,8 @@ export function Header() {
   }
 
   return (
-    <header>
-      <nav className="bg-background text-foreground border-b-2 border-black/20 px-2 md:px-0 py-2.5">
+    <header className="w-full bg-background">
+      <nav className="bg-background text-foreground border-b-2 border-black/20 px-2 md:px-0 py-2.5 shadow-sm">
         <div className="flex flex-wrap justify-between items-center mx-auto container">
           <Link href="/" className="flex items-center">
             <Image
@@ -42,8 +42,13 @@ export function Header() {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
-                    aria-current={pathname === item.href ? 'page' : 'false'}                    
+                    className={`block py-2 pr-4 pl-3 lg:bg-transparent lg:p-0 dark:text-white
+                      ${
+                        pathname === item.href
+                          ? 'text-green-700 font-semibold'
+                          : 'text-gray-800 hover:text-green-700'
+                      }`}
+                    aria-current={pathname === item.href ? 'page' : 'false'}
                   >
                     {item.name}
                   </a>
@@ -62,7 +67,7 @@ export function Header() {
 
             {/* Burger menu for mobile */}
             <button
-              className="md:hidden text-white focus:outline-none"
+              className="md:hidden text-gray-800 focus:outline-none"
               onClick={toggleMenu}
               aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
             >
@@ -94,13 +99,17 @@ export function Header() {
 
           {/* Menu for mobile */}
           {isMenuOpen && (
-            <div className="md:hidden absolute w-full">
-              <div className="container mx-auto p-4">
+            <div className="md:hidden absolute top-full left-0 w-full bg-background z-20">
+              <div className="container mx-auto p-4 border-t border-black/10 shadow-lg">
                 <nav className="flex flex-col space-y-3">
                   {menuItems.map((item) => (
                     <Link
                       href={item.href}
-                      className="hover:text-green-200 transition-colors"
+                      className={`transition-colors ${
+                        pathname === item.href
+                          ? 'text-green-700 font-semibold'
+                          : 'text-gray-800 hover:text-green-700'
+                      }`}
                       key={item.name}
                     >
                       {item.name}
@@ -110,25 +119,6 @@ export function Header() {
               </div>
             </div>
           )}
-
-          {/* <div
-            className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
-            id="mobile-menu-2"
-          >
-            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-              {menuItems.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
-                  >
-                    {item.name}
-                    {pathname === item.href ? 'aria-current="page"' : ''}
-                  </a>
-                </li>
-              ))} 
-            </ul>
-          </div> */}
         </div>
       </nav>
     </header>
