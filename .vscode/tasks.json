@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "bun dev",
+			"detail": "next dev --turbopack - package.json",
+			"type": "bun",
+			"script": "dev",
+			"problemMatcher": [],
+		},
+		{
+			"label": "bun db:studio",
+			"detail": "bun drizzle-kit studio - package.json",
+			"type": "bun",
+			"script": "db:studio",
+			"problemMatcher": []
+		}
+	]
+}

@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import AccountMenu from '@/components/navbar/account'
 
 const menuItems = [
   { name: 'Início', href: '/' },
@@ -64,6 +65,7 @@ export function Header() {
             >
               Log in
             </a>
+            <AccountMenu />
 
             {/* Burger menu for mobile */}
             <button
