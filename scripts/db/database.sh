@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Importa as variáveis do arquivo .env
+source "$(dirname "$0")/read_env.sh"
+
 [ ! $1 ] && echo "Informe a senha do banco de dados" && exit 1
 
 # Define as credenciais do banco de dados
