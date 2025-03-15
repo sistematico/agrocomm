@@ -38,13 +38,13 @@ export function stringToNumber(price: string): number {
 export function getRandomNumber(min: number, max: number) {
   // Math.floor(Math.random() * (600 - 60 + 1)) + 60 * 1000
   // return Math.random() * (max - min) + min;
-  return ((Math.floor(Math.random() * (max - min + 1)) + min) * 1000) * 60
+  return (Math.floor(Math.random() * (max - min + 1)) + min) * 1000 * 60
 }
 
 export async function loadUrl(url: string): Promise<string> {
   const data = await fetch(url)
-    .then(response => response.arrayBuffer())
-    .then(buffer => {
+    .then((response) => response.arrayBuffer())
+    .then((buffer) => {
       const decoder = new TextDecoder('iso-8859-1' as string)
       return decoder.decode(buffer)
     })
@@ -54,13 +54,19 @@ export async function loadUrl(url: string): Promise<string> {
 export function extractCityAndState(location: string) {
   if (!location) return { state: null, city: null }
 
-  let stateFound = states.find((state) => location === state.abbr || location.includes(state.name))
-  if (stateFound) return { state: stateFound.abbr, city: '-' }  
+  let stateFound = states.find(
+    (state) => location === state.abbr || location.includes(state.name)
+  )
+  if (stateFound) return { state: stateFound.abbr, city: '-' }
 
   const stateAbbr = location.substring(0, 2)
   stateFound = states.find((state) => stateAbbr === state.abbr)
 
-  if (stateFound) return { state: stateFound.abbr, city: location.length > 2 ? location.substring(3) : '-' }
+  if (stateFound)
+    return {
+      state: stateFound.abbr,
+      city: location.length > 2 ? location.substring(3) : '-'
+    }
 
   return { state: null, city: null }
 }
@@ -123,24 +129,39 @@ export function convertStringToFormattedDate(dateString: string): Date {
   return date
 }
 
+export function convertStringToDate(dateString: string): Date {
+  const dateMatch = dateString.match(/(\d{2})\/(\d{2})\/(\d{4})/);
+  if (!dateMatch) throw new Error("Formato de data não encontrado. Esperado padrão: DD/MM/YYYY");
+  const [_, day, month, year] = dateMatch
+
+  const date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)))
+  date.setUTCHours(date.getUTCHours()) // date.setUTCHours(date.getUTCHours() + 3)
+
+  // return new Date(Number(year), Number(month) - 1, Number(day));
+  return date
+}
+
 export function getExpiryInSeconds(expiry: string): number {
-  const match = expiry.match(/^(\d+)([dhms])$/);
-  if (!match) throw new Error("Formato de expiração inválido. Use '1d', '2h', '60m' ou '30s'.");
+  const match = expiry.match(/^(\d+)([dhms])$/)
+  if (!match)
+    throw new Error(
+      "Formato de expiração inválido. Use '1d', '2h', '60m' ou '30s'."
+    )
 
   const value = Number(match[1])
   const unit = match[2]
 
   switch (unit) {
     case 'd':
-      return value * 24 * 60 * 60;  // Dias para segundos
+      return value * 24 * 60 * 60 // Dias para segundos
     case 'h':
-      return value * 60 * 60;       // Horas para segundos
+      return value * 60 * 60 // Horas para segundos
     case 'm':
-      return value * 60;            // Minutos para segundos
+      return value * 60 // Minutos para segundos
     case 's':
-      return value                  // Segundos
+      return value // Segundos
     default:
-      throw new Error("Unidade de expiração inválida.")
+      throw new Error('Unidade de expiração inválida.')
   }
 }
 

@@ -1,9 +1,9 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { Header } from './header'
-import { Footer } from './footer'
-import { Sidebar } from './sidebar'
+import { Header } from '@/layouts/header'
+import { Footer } from '@/layouts/footer'
+import { Sidebar } from '@/layouts/sidebar'
 
 export default function MainLayout({
   children

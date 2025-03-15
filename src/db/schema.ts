@@ -1,18 +1,22 @@
-import { integer, pgTable, varchar, text, timestamp } from 'drizzle-orm/pg-core'
+import {
+  integer,
+  pgTable,
+  varchar,
+  text,
+  timestamp,
+  pgEnum
+} from 'drizzle-orm/pg-core'
 
-// export const moodEnum = pgEnum('mood', ['sad', 'ok', 'happy']);
-
-// export const table = pgTable('table', {
-//   mood: moodEnum(),
-// });
+export const roleEnum = pgEnum('role', ['user', 'admin'])
 
 export const users = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar({ length: 255 }),
-  username: varchar({ length: 255 }),
-  email: varchar({ length: 255 }).notNull().unique(),
-  password: text(),
-  age: integer().notNull(),
+  name: text(),
+  username: text().unique(),
+  email: text().notNull().unique(),
+  password: text().notNull(),
+  role: roleEnum().default('user').notNull(),
+  createdAt: timestamp().defaultNow().notNull()
 })
 
 export const prices = pgTable('prices', {
@@ -22,6 +26,6 @@ export const prices = pgTable('prices', {
   city: text(),
   price: integer().notNull(),
   variation: integer(),
-  createdAt: timestamp({ mode: 'string' }).defaultNow().notNull(),
-  source: text().default('scot').notNull(),
+  createdAt: timestamp().defaultNow().notNull(),
+  source: text().default('scot').notNull()
 })

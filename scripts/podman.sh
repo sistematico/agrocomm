@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-[ ! $1 ] && echo "Informe a senha do banco de dados" && exit 1
+source "$(dirname "$0")/other/read_env.sh"
 
 CONTAINER_NAME=agrocomm-postgres
 POSTGRES_VERSION=16
-POSTGRES_DB=agrocomm
-POSTGRES_USER=agrocomm
-POSTGRES_PASS="$1"
+POSTGRES_DB=$DB_NAME
+POSTGRES_USER=$DB_USER
+POSTGRES_PASS="$DB_PASS"
 
 if ! podman image exists postgres:$POSTGRES_VERSION; then
   podman pull postgres:$POSTGRES_VERSION

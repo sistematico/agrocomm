@@ -7,7 +7,7 @@ PGUSER="agrocomm"
 PGDATABASE="agrocomm"
 PGPASSWORD="agrocomm"  # Alternativa: usar variável de ambiente
 
-#export PGPASSWORD
+export PGPASSWORD
 
 echo "🔄 Conectando ao PostgreSQL e limpando o banco de dados '$PGDATABASE'..."
 
