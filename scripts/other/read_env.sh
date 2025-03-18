@@ -43,7 +43,6 @@ echo "Usuário: $DB_USER"
 echo "Host: $DB_HOST"
 echo "Porta: $DB_PORT"
 echo "Banco de dados: $DB_NAME"
-echo "Senha: ****" # Por segurança, não exibimos a senha
 
 # Exporta as variáveis para uso em outros scripts
 export DB_USER

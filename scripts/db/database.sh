@@ -3,17 +3,8 @@
 # Importa as variáveis do arquivo .env
 source "$(dirname "$0")/other/read_env.sh"
 
-[ ! $1 ] && echo "Informe a senha do banco de dados" && exit 1
-
 # Define as credenciais do banco de dados
-DB_NAME="agrocomm"
-DB_USER="agrocomm"
-DB_PASS="$1"
-DB_HOST="localhost"
-DB_PORT="5432"
-
-ENV_FILE=".env.production"
-[ -f /etc/arch-release ] && ENV_FILE=".env"
+[ $1 ] && DB_PASS="$1"
 
 # Executa os comandos no PostgreSQL
 sudo -u postgres psql -c "CREATE DATABASE $DB_NAME;"

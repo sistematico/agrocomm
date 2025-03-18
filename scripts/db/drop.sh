@@ -1,11 +1,15 @@
 #!/bin/bash
 
+source "$(dirname "$0")/other/read_env.sh"
+
 # Configurações do Banco
 PGHOST="localhost"   # Ou IP do servidor
 PGPORT="5432"
 PGUSER="agrocomm"
 PGDATABASE="agrocomm"
 PGPASSWORD="agrocomm"  # Alternativa: usar variável de ambiente
+
+[ $1 ] && PGPASSWORD="$1"
 
 export PGPASSWORD
 
