@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Importa as variáveis do arquivo .env
-source "$(dirname "$0")/other/read_env.sh"
+source "$(dirname "$0")/../other/read_env.sh"
 
 # Define as credenciais do banco de dados
 [ $1 ] && DB_PASS="$1"
@@ -32,4 +32,4 @@ fi
 
 # Informa ao usuário que a operação foi concluída
 echo "Credenciais do banco de dados escritas ou atualizadas no arquivo $ENV_FILE"
-echo "🎉 Limpeza completa no banco '$PGDATABASE'."
+echo "🎉 Limpeza completa no banco '$DB_NAME'."

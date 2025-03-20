@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/other/read_env.sh"
+source "$(dirname "$0")/../other/read_env.sh"
 
 # Configurações do Banco
 PGHOST="localhost"   # Ou IP do servidor
@@ -41,4 +41,4 @@ echo "✅ Banco otimizado."
 psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -c "ANALYZE;"
 echo "✅ Estatísticas recalculadas."
 
-echo "🎉 Limpeza completa no banco '$PGDATABASE'."
+echo "🎉 Limpeza completa no banco '$DB_NAME'."
