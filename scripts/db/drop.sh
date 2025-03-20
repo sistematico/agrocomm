@@ -22,22 +22,15 @@ END \$\$;
 
 echo "✅ Dados apagados com sucesso."
 
-# Resetar os índices do banco
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "REINDEX DATABASE \"$DB_NAME\";"
+# Resetar os índices do banco - usando usuário postgres (superusuário)
+sudo -u postgres psql -c "REINDEX DATABASE \"$DB_NAME\";"
 echo "✅ Índices reconstruídos."
 
-# Otimizar espaço
-# psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "VACUUM FULL;"
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "
-DO \$\$ 
-DECLARE
-    r RECORD;
-BEGIN
-    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
-        EXECUTE 'VACUUM FULL ' || quote_ident(r.tablename);
-    END LOOP;
-END \$\$;
-"
+# Obter lista de tabelas do usuário e executar VACUUM FULL em cada uma
+echo "🔄 Otimizando espaço nas tabelas do usuário..."
+for TABLE in $(psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT tablename FROM pg_tables WHERE schemaname = 'public';"); do
+    psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "VACUUM FULL $TABLE;"
+done
 echo "✅ Banco otimizado."
 
 # Recalcular estatísticas

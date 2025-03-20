@@ -38,11 +38,11 @@ DB_PORT=$(echo "$DB_URL" | sed -n 's/^postgresql:\/\/[^:]*:[^@]*@[^:]*:\([^/]*\)
 DB_NAME=$(echo "$DB_URL" | sed -n 's/^postgresql:\/\/[^/]*\/\([^?]*\).*/\1/p')
 
 # Exibe as informações extraídas (para verificação)
-echo "Informações do banco de dados:"
-echo "Usuário: $DB_USER"
-echo "Host: $DB_HOST"
-echo "Porta: $DB_PORT"
-echo "Banco de dados: $DB_NAME"
+# echo "Informações do banco de dados:"
+# echo "Usuário: $DB_USER"
+# echo "Host: $DB_HOST"
+# echo "Porta: $DB_PORT"
+# echo "Banco de dados: $DB_NAME"
 
 # Exporta as variáveis para uso em outros scripts
 export DB_USER
@@ -50,3 +50,4 @@ export DB_PASS
 export DB_HOST
 export DB_PORT
 export DB_NAME
+export ENV_FILE
