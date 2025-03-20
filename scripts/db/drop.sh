@@ -2,21 +2,14 @@
 
 source "$(dirname "$0")/../other/read_env.sh"
 
-# Configurações do Banco
-PGHOST="localhost"   # Ou IP do servidor
-PGPORT="5432"
-PGUSER="agrocomm"
-PGDATABASE="agrocomm"
-PGPASSWORD="agrocomm"  # Alternativa: usar variável de ambiente
-
+PGPASSWORD="$DB_PASS"
 [ $1 ] && PGPASSWORD="$1"
-
 export PGPASSWORD
 
-echo "🔄 Conectando ao PostgreSQL e limpando o banco de dados '$PGDATABASE'..."
+echo "🔄 Conectando ao PostgreSQL e limpando o banco de dados '$DB_NAME'..."
 
 # Apagar todos os dados das tabelas
-psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -c "
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "
 DO \$\$ 
 DECLARE
     r RECORD;
@@ -30,15 +23,15 @@ END \$\$;
 echo "✅ Dados apagados com sucesso."
 
 # Resetar os índices do banco
-psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -c "REINDEX DATABASE \"$PGDATABASE\";"
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "REINDEX DATABASE \"$DB_NAME\";"
 echo "✅ Índices reconstruídos."
 
 # Otimizar espaço
-psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -c "VACUUM FULL;"
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "VACUUM FULL;"
 echo "✅ Banco otimizado."
 
 # Recalcular estatísticas
-psql -h "$PGHOST" -p "$PGPORT" -U "$PGUSER" -d "$PGDATABASE" -c "ANALYZE;"
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "ANALYZE;"
 echo "✅ Estatísticas recalculadas."
 
 echo "🎉 Limpeza completa no banco '$DB_NAME'."
