@@ -27,7 +27,17 @@ psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "REINDEX DATABAS
 echo "✅ Índices reconstruídos."
 
 # Otimizar espaço
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "VACUUM FULL;"
+# psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "VACUUM FULL;"
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "
+DO \$\$ 
+DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+        EXECUTE 'VACUUM FULL ' || quote_ident(r.tablename);
+    END LOOP;
+END \$\$;
+"
 echo "✅ Banco otimizado."
 
 # Recalcular estatísticas
