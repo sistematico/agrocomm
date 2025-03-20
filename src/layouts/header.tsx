@@ -23,8 +23,8 @@ export function Header() {
         <div className="flex flex-wrap justify-between items-center mx-auto container">
           <Link href="/" className="flex items-center">
             <Image
-              src="/images/favicon.svg"
-              className="mr-3 h-8 sm:h-9"
+              src="/images/ogp.png"
+              className="mr-[.35em] h-8 sm:h-9"
               alt={process.env.NEXT_PUBLIC_APP_NAME!}
               width={36}
               height={36}
@@ -41,11 +41,11 @@ export function Header() {
                 <li key={item.name}>
                   <a
                     href={item.href}
-                    className={`block py-2 pr-4 pl-3 lg:bg-transparent lg:p-0 dark:text-white
+                    className={`block py-2 pr-4 pl-3 lg:p-0 dark:text-white/50 transition-colors duration-200
                       ${
                         pathname === item.href
-                          ? 'text-green-700 font-semibold'
-                          : 'text-gray-800 hover:text-green-700'
+                          ? 'text-white font-semibold'
+                          : 'text-gray-800 hover:text-white'
                       }`}
                     aria-current={pathname === item.href ? 'page' : 'false'}
                   >

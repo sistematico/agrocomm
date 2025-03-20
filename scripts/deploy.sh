@@ -83,6 +83,7 @@ echo "Instalando dependências..."
 bun install
 
 echo "Atualizando banco de dados..."
+bun run db:generate
 bun run db:push
 bun run db:seed
 

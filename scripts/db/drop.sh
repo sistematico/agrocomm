@@ -1,43 +1,35 @@
 #!/bin/bash
 
+# Carrega variáveis de ambiente
 source "$(dirname "$0")/../other/read_env.sh"
 
+# Define senha
 PGPASSWORD="$DB_PASS"
 [ $1 ] && PGPASSWORD="$1"
 export PGPASSWORD
 
-echo "🔄 Conectando ao PostgreSQL e limpando o banco de dados '$DB_NAME'..."
+echo "🚨 ATENÇÃO: Apagando banco de dados '$DB_NAME'"
+# read -p "Pressione ENTER para continuar ou CTRL+C para cancelar..." -r
 
-# Apagar todos os dados das tabelas
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "
-DO \$\$ 
-DECLARE
-    r RECORD;
-BEGIN
-    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
-        EXECUTE 'TRUNCATE TABLE ' || quote_ident(r.tablename) || ' CASCADE';
-    END LOOP;
-END \$\$;
+# Desconecta usuários
+echo "🔄 Desconectando usuários..."
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "postgres" -c "
+  SELECT pg_terminate_backend(pid) 
+  FROM pg_stat_activity 
+  WHERE datname = '$DB_NAME' AND pid <> pg_backend_pid();
 "
 
-echo "✅ Dados apagados com sucesso."
+# Apaga e recria o banco
+echo "🗑️ Apagando banco de dados..."
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "postgres" -c "DROP DATABASE IF EXISTS \"$DB_NAME\";"
 
-# Resetar os índices do banco - usando usuário postgres (superusuário) e conectando ao banco específico
-sudo -u postgres psql -d "$DB_NAME" -c "REINDEX DATABASE \"$DB_NAME\";"
-echo "✅ Índices reconstruídos."
+echo "🔄 Recriando banco de dados..."
+psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "postgres" -c "CREATE DATABASE \"$DB_NAME\" WITH OWNER = \"$DB_USER\";"
 
-# Obter lista de tabelas do usuário e executar VACUUM FULL em cada uma
-echo "🔄 Otimizando espaço nas tabelas do usuário..."
-for TABLE in $(psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT tablename FROM pg_tables WHERE schemaname = 'public';"); do
-    psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "VACUUM FULL $TABLE;"
-done
-echo "✅ Banco otimizado."
+# Aplica schema inicial (opcional)
+if [ -f "../sql/init_schema.sql" ]; then
+  echo "🔄 Aplicando schema inicial..."
+  psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -f "../sql/init_schema.sql"
+fi
 
-# Recalcular estatísticas apenas para tabelas do usuário
-echo "🔄 Recalculando estatísticas..."
-for TABLE in $(psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT tablename FROM pg_tables WHERE schemaname = 'public';"); do
-    psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "ANALYZE $TABLE;"
-done
-echo "✅ Estatísticas recalculadas."
-
-echo "🎉 Limpeza completa no banco '$DB_NAME'."
+echo "✅ Banco '$DB_NAME' recriado com sucesso."
