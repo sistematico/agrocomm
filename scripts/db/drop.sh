@@ -22,8 +22,8 @@ END \$\$;
 
 echo "✅ Dados apagados com sucesso."
 
-# Resetar os índices do banco - usando usuário postgres (superusuário)
-sudo -u postgres psql -c "REINDEX DATABASE \"$DB_NAME\";"
+# Resetar os índices do banco - usando usuário postgres (superusuário) e conectando ao banco específico
+sudo -u postgres psql -d "$DB_NAME" -c "REINDEX DATABASE \"$DB_NAME\";"
 echo "✅ Índices reconstruídos."
 
 # Obter lista de tabelas do usuário e executar VACUUM FULL em cada uma
@@ -33,8 +33,11 @@ for TABLE in $(psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -
 done
 echo "✅ Banco otimizado."
 
-# Recalcular estatísticas
-psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "ANALYZE;"
+# Recalcular estatísticas apenas para tabelas do usuário
+echo "🔄 Recalculando estatísticas..."
+for TABLE in $(psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -t -c "SELECT tablename FROM pg_tables WHERE schemaname = 'public';"); do
+    psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "ANALYZE $TABLE;"
+done
 echo "✅ Estatísticas recalculadas."
 
 echo "🎉 Limpeza completa no banco '$DB_NAME'."

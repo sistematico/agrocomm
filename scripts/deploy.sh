@@ -75,7 +75,7 @@ git clean -fxd
 
 # Restaurar variáveis de ambiente
 [ -f /tmp/env.agrocomm ] && cp /tmp/env.agrocomm .env.production
-[ ! -f .env ] && [ -f .env.production ] && cp .env.production .env
+# [ ! -f .env ] && [ -f .env.production ] && cp .env.production .env
 
 # Instalar dependências e construir
 echo "Instalando dependências..."
