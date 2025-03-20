@@ -82,8 +82,8 @@ echo "Instalando dependências..."
 bun install
 
 echo "Atualizando banco de dados..."
-bun run db:push
-bun run db:seed
+bun run db:prod:push
+bun run db:prod:seed
 
 echo "Construindo aplicação..."
 bun run build
