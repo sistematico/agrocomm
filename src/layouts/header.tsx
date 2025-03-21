@@ -43,7 +43,7 @@ export function Header() {
                     href={item.href}
                     className={`block py-2 pr-4 pl-3 lg:p-0 dark:text-white/50 transition-colors duration-200
                       ${
-                        pathname === item.href
+                        pathname == item.href
                           ? 'text-white font-semibold'
                           : 'text-gray-800 hover:text-white'
                       }`}
