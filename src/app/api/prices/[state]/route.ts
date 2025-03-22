@@ -1,7 +1,11 @@
 import { getPricesFromLocation } from '@/app/lib/prices'
 
-export async function GET(request: Request, { params }: { params: { estado: string } }) {
-  const estado = params.estado.toUpperCase()
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ state: string }> }
+) {
+  const { state } = await params // 'a', 'b', or 'c'
+  const estado = state.toUpperCase()
 
   try {
     const precos = await getPricesFromLocation(estado)
