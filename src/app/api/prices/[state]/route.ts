@@ -9,7 +9,11 @@ export async function GET(
 
   try {
     const precos = await getPricesFromLocation(estado)
-    return Response.json({ estado, precos, timestamp: new Date().toISOString() })
+    return Response.json({
+      estado,
+      precos,
+      timestamp: new Date().toISOString()
+    })
   } catch (error) {
     console.error(`Erro ao buscar preços para ${estado}:`, error)
     return Response.json(

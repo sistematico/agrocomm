@@ -1,14 +1,13 @@
 import {
   integer,
   pgTable,
-  varchar,
   text,
   timestamp,
   pgEnum
 } from 'drizzle-orm/pg-core'
 
 export const roleEnum = pgEnum('role', ['user', 'admin'])
-export const commodityEnum = pgEnum('commodity', ['soja', 'milho', 'boi', 'vaca'])
+// export const commodityEnum = pgEnum('commodity', ['soja', 'milho', 'boi', 'vaca'])
 
 export const users = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -22,7 +21,7 @@ export const users = pgTable('users', {
 
 export const prices = pgTable('prices', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  commodity: commodityEnum().default('soja').notNull(),
+  commodity: text().default('soja').notNull(),
   state: text().notNull(),
   city: text().default('N/A').notNull(),
   price: integer().notNull(),

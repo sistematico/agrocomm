@@ -4,7 +4,8 @@ import { eq } from 'drizzle-orm'
 
 export async function getPrices() {
   const priceList = await db.select().from(prices)
-  return priceList
+  if (!priceList) return []
+  return priceList 
 }
 
 export async function getPricesFromLocation(location: string) {

@@ -13,7 +13,7 @@ echo "🚨 ATENÇÃO: Apagando banco de dados '$DB_NAME'"
 
 # Desconecta usuários
 echo "🔄 Desconectando usuários..."
-sudo -u postgres psql -h "$DB_HOST" -p "$DB_PORT" -U "postgres" -d "postgres" -c "
+psql -h "$DB_HOST" -p "$DB_PORT" -U "postgres" -d "postgres" -c "
   SELECT pg_terminate_backend(pid) 
   FROM pg_stat_activity 
   WHERE datname = '$DB_NAME' AND pid <> pg_backend_pid();
@@ -21,10 +21,10 @@ sudo -u postgres psql -h "$DB_HOST" -p "$DB_PORT" -U "postgres" -d "postgres" -c
 
 # Apaga e recria o banco
 echo "🗑️ Apagando banco de dados..."
-sudo -u postgres psql -h "$DB_HOST" -p "$DB_PORT" -U "postgres" -c "DROP DATABASE IF EXISTS \"$DB_NAME\";"
+psql -h "$DB_HOST" -p "$DB_PORT" -U "postgres" -c "DROP DATABASE IF EXISTS \"$DB_NAME\";"
 
 echo "🔄 Recriando banco de dados..."
-sudo -u postgres psql -h "$DB_HOST" -p "$DB_PORT" -U "postgres" -c "CREATE DATABASE \"$DB_NAME\" WITH OWNER = \"$DB_USER\";"
+psql -h "$DB_HOST" -p "$DB_PORT" -U "postgres" -c "CREATE DATABASE \"$DB_NAME\" WITH OWNER = \"$DB_USER\";"
 
 # Aplica schema inicial (opcional)
 # if [ -f "../sql/init_schema.sql" ]; then
