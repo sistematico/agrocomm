@@ -1,81 +1,64 @@
-// import 'server-only'
+import 'server-only'
+import { cookies } from 'next/headers'
+import { SignJWT, jwtVerify, type JWTPayload } from 'jose'
+import { cache } from 'react'
+import { redirect } from 'next/navigation'
+// import { SessionPayload } from '@/app/lib/definitions'
 
-import { NextRequest, NextResponse } from 'next/server'
-import { SignJWT, jwtVerify } from 'jose'
-// import { getUserFromDB } from './users'
-
+// export interface SessionPayload {
+//   userId: string;
+//   expiresAt: Date;
+// }
+ 
+// const secretKey = process.env.SESSION_SECRET
 const secretKey = 'secret'
-const key = new TextEncoder().encode(secretKey)
-
-export async function encrypt(payload: Record<string, unknown>) {
-  return await new SignJWT(payload)
+const encodedKey = new TextEncoder().encode(secretKey)
+ 
+export async function encrypt(payload: JWTPayload) {
+  return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('10 sec from now')
-    .sign(key)
+    .setExpirationTime('7d')
+    .sign(encodedKey)
+}
+ 
+export async function decrypt(session: string | undefined = '') {
+  try {
+    const { payload } = await jwtVerify(session, encodedKey, {
+      algorithms: ['HS256'],
+    })
+    return payload
+  } catch (error) {
+    console.log('Failed to verify session')
+  }
 }
 
-export async function decrypt(input: string): Promise<Record<string, unknown>> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ['HS256']
-  })
-  return payload
-}
-
-// export async function createSessionAction(id: number) {
-//   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
-//   const user = await getUserFromDB(id)
-//   if (!user) throw new Error('User not found')
-
-//   const sessionId = user.id
-//   const session = await encrypt({ sessionId, expiresAt })
-
-//   const cookieStore = await cookies()
-//   cookieStore.set('session', session, {
-//     httpOnly: true,
-//     secure: true,
-//     expires: expiresAt,
-//     sameSite: 'lax',
-//     path: '/'
-//   })
-// }
-
-// export async function logout() {
-//   ;(await cookies()).set('session', '', { expires: new Date(0) })
-// }
-
-// export async function getSessionAction() {
-//   const session = (await cookies()).get('session')?.value
-//   if (!session) return null
-//   return await decrypt(session)
-// }
-
-// export const verifySession = cache(async () => {
-//   const cookie = (await cookies()).get('session')?.value
-//   if (!cookie) return { isAuth: false }
-  
-//   const session = await decrypt(cookie)
-//   if (!session?.userId) redirect('/login')
-
-//   return { isAuth: true, userId: session.userId }
-// })
-
-export async function updateSession(request: NextRequest) {
-  const session = request.cookies.get('session')?.value
-  if (!session) return
-
-  // Refresh the session so it doesn't expire
-  const parsed = await decrypt(session)
-  parsed.expires = new Date(Date.now() + 10 * 1000)
-  const res = NextResponse.next()
-
-  res.cookies.set({
-    name: 'session',
-    value: await encrypt(parsed),
+export async function createSession(userId: string, username: string, role: string) {
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+  const session = await encrypt({ userId, username, role, expiresAt })
+  const cookieStore = await cookies()
+ 
+  cookieStore.set('session', session, {
     httpOnly: true,
-    expires: parsed.expires as Date
+    secure: true,
+    expires: expiresAt,
+    sameSite: 'lax',
+    path: '/',
   })
-
-  return res
 }
+
+export async function deleteSession() {
+  const cookieStore = await cookies()
+  cookieStore.delete('session')
+}
+
+export const verifySession = cache(async () => {
+  const cookie = (await cookies()).get('session')?.value
+  const session = await decrypt(cookie)
+ 
+  if (!session?.userId) {
+    redirect('/login')
+  }
+ 
+  return { isAuth: true, userId: session.userId, username: session.username, role: session.role }
+})

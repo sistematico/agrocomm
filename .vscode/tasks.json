@@ -13,7 +13,10 @@
 			"detail": "bun drizzle-kit studio - package.json",
 			"type": "bun",
 			"script": "db:studio",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "never"
+			}
 		}
 	]
 }
