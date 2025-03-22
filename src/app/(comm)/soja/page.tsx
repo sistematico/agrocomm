@@ -26,15 +26,15 @@ function formatCurrency(value: number) {
 
 export default async function Soja() {
   const data = await getPrices()
-
-  console.log(data)
+  const lastUpdate = data[0]?.createdAt.toString()
+  
 
   return (
     <Layout>
       <div className="space-y-6">
         <section className="bg-background p-6 rounded-lg border border-black/20">
           <h1 className="text-3xl font-bold mb-4">Soja</h1>
-          {(data.length > 0 && data[0].createdAt) && (
+          {(data && lastUpdate) && (
             <>
               <p className="mb-4">
                 A soja é uma das principais commodities do Brasil. Veja abaixo a
@@ -63,7 +63,9 @@ export default async function Soja() {
                 </tbody>
               </table>
             </>
-          ) || <p>Não há dados disponíveis.</p>}
+          ) || (
+            <p>Não há dados disponíveis.</p>
+          )}
           <div className="flex flex-wrap gap-3">
             <Link
               href="/"
