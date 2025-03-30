@@ -3,19 +3,45 @@
 TMUX_SESSION="agrocomm"
 bash "$(dirname "$0")/podman/init.sh"
 
-if ! \tmux has-session -t $TMUX_SESSION 2> /dev/null; then
-  \tmux new-session -A -d -s $TMUX_SESSION -n main
+# case "$OSTYPE" in
+#   solaris*) echo "SOLARIS" ;;
+#   darwin*)  echo "OSX" ;; 
+#   linux*)   echo "LINUX" ;;
+#   bsd*)     echo "BSD" ;;
+#   msys*)    echo "WINDOWS" ;;
+#   cygwin*)  echo "ALSO WINDOWS" ;;
+#   *)        echo "unknown: $OSTYPE" ;;
+# esac
 
-  \tmux new-window -t $TMUX_SESSION -n dev -d
-  \tmux send-keys -t $TMUX_SESSION:dev "bun install && bun run db:push && bun run db:seed && bun run db:scrape && bun run dev" ENTER
+function run() {
+  bun install 
+  bun run db:push 
+  bun run db:seed 
+  bun run db:scrape
+  bun run dev
+}
 
-  \tmux new-window -t $TMUX_SESSION -n studio -d
-  \tmux send-keys -t $TMUX_SESSION:studio "bun run db:studio" ENTER
+function tmux_session() {
+  if ! \tmux has-session -t $TMUX_SESSION 2> /dev/null; then
+    \tmux new-session -A -d -s $TMUX_SESSION -n main
 
-  \tmux new-window -t $TMUX_SESSION -n production -d
-  \tmux send-keys -t $TMUX_SESSION:production "ssh nginx@tyche ; cd /var/www/agrocomm" ENTER
-else 
-  \tmux attach -t $TMUX_SESSION
+    \tmux new-window -t $TMUX_SESSION -n dev -d
+    \tmux send-keys -t $TMUX_SESSION:dev "bun install && bun run db:push && bun run db:seed && bun run db:scrape && bun run dev" ENTER
+
+    \tmux new-window -t $TMUX_SESSION -n studio -d
+    \tmux send-keys -t $TMUX_SESSION:studio "bun run db:studio" ENTER
+
+    \tmux new-window -t $TMUX_SESSION -n production -d
+    \tmux send-keys -t $TMUX_SESSION:production "ssh nginx@tyche ; cd /var/www/agrocomm" ENTER
+  else 
+    \tmux attach -t $TMUX_SESSION
+  fi
+}
+
+if [ "$OSTYPE" == "linux" ]; then
+  tmux_session
+  pgrep -x code >/dev/null || code .
+else
+  run
+  code .
 fi
-
-pgrep -x code >/dev/null || code .
