@@ -56,12 +56,12 @@ export function Header() {
             </ul>
           </div>
 
-          <div className="flex items-center lg:order-2">
+          <div className="flex items-center lg:order-2 gap-x-3">
             <AccountMenu />
 
             {/* Burger menu for mobile */}
             <button
-              className="md:hidden text-gray-800 focus:outline-none"
+              className="md:hidden focus:outline-none"
               onClick={toggleMenu}
               aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
             >

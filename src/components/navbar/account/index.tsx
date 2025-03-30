@@ -8,7 +8,7 @@ export default function Account() {
     <>
       {session ? (
         <Link 
-          href="/cotacoes"
+          href="/conta"
           className="bg-green-700 text-white px-5 py-2 rounded-md hover:bg-green-800 transition-colors duration-500"
         >
           Minha conta

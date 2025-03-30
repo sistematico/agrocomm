@@ -8,13 +8,9 @@ POSTGRES_DB=$DB_NAME
 POSTGRES_USER=$DB_USER
 POSTGRES_PASS="$DB_PASS"
 
-if ! podman image exists postgres:$POSTGRES_VERSION; then
-  podman pull postgres:$POSTGRES_VERSION
-fi
+! podman image exists postgres:$POSTGRES_VERSION && podman pull postgres:$POSTGRES_VERSION
 
-# Verifica se o container existe
 if ! podman container exists $CONTAINER_NAME; then
-  echo "Creating and starting PostgreSQL container..."
   podman run -d \
     --name $CONTAINER_NAME \
     -e POSTGRES_DB=$POSTGRES_DB \
@@ -23,11 +19,7 @@ if ! podman container exists $CONTAINER_NAME; then
     -p 5432:5432 \
     postgres:$POSTGRES_VERSION
 else
-  # Verifica se o container já está rodando
-  if podman ps --filter "name=$CONTAINER_NAME" --format "{{.Names}}" | grep -q "^$CONTAINER_NAME$"; then
-    echo "Container is already running. No action needed."
-  else
-    echo "Starting existing PostgreSQL container..."
+  if ! podman ps --filter "name=$CONTAINER_NAME" --format "{{.Names}}" | grep -q "^$CONTAINER_NAME$"; then
     podman start $CONTAINER_NAME
   fi
 fi

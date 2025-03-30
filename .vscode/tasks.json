@@ -17,6 +17,24 @@
 			"presentation": {
 				"reveal": "never"
 			}
-		}
+		},
+		{
+			"label": "dev script",
+			"detail": "bash scripts/dev.sh",
+			"type": "shell",
+			"command": "bash",
+			"args": [
+				"scripts/dev.sh"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "never"
+			},
+			"runOptions": {
+				"runOn": "folderOpen"
+			},
+			"promptOnClose": false,
+			"isBackground": true
+		}		
 	]
 }
