@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -e
+
+set -eE
 
 PATH=$PATH:/home/nginx/.bun/bin
 DEPLOY_TIMESTAMP=$(date +%Y%m%d%H%M%S)
@@ -81,6 +82,11 @@ cp -f .env.production .env
 # Instalar dependências e construir
 echo "Instalando dependências..."
 bun install
+
+# Criar o banco de dados caso não exista
+echo "Criando banco de dados se não existir..."
+bash ./scripts/db/drop.sh
+bash ./scripts/db/create.sh
 
 echo "Atualizando banco de dados..."
 bun run db:generate

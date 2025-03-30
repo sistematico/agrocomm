@@ -24,7 +24,7 @@ export function Header() {
           <Link href="/" className="flex items-center">
             <Image
               src="/images/ogp.png"
-              className="mr-[.35em] h-8 sm:h-9"
+              className="mr-[.35em] w-10 h-10"
               alt={process.env.NEXT_PUBLIC_APP_NAME!}
               width={36}
               height={36}
@@ -43,8 +43,8 @@ export function Header() {
                     href={item.href}
                     className={`block py-2 pr-4 pl-3 lg:p-0 dark:text-white/50 transition-colors duration-200
                       ${
-                        pathname == item.href
-                          ? 'text-white font-semibold'
+                        (pathname === item.href)
+                          ? 'text-green font-semibold'
                           : 'text-gray-800 hover:text-white'
                       }`}
                     aria-current={pathname === item.href ? 'page' : 'false'}

@@ -1,9 +1,10 @@
 'use client'
 
+import Link from 'next/link'
 import { signup } from '@/app/actions/auth'
 import { useActionState } from 'react'
 
-export default function SignupForm() {
+export default function SigninForm() {
   const [state, action, pending] = useActionState(signup, undefined)
 
   return (
@@ -58,9 +59,17 @@ export default function SignupForm() {
 
       <div>
         <div className="flex items-center justify-between">
-          <label htmlFor="password" className="block text-sm/6 font-medium">
+          <label htmlFor="password" className="block font-medium">
             Senha
           </label>
+          <div className="text-sm">
+            <Link
+              href="/senha"
+              className="font-semibold text-green-600 hover:text-indigo-500"
+            >
+              Esqueceu a senha?
+            </Link>
+          </div>
         </div>
         <div className="mt-2">
           <input
@@ -75,30 +84,11 @@ export default function SignupForm() {
       </div>
 
       <div>
-        <div className="flex items-center justify-between">
-          <label htmlFor="password2" className="block font-medium">
-            Repita a Senha
-          </label>
-        </div>
-        <div className="mt-2">
-          <input
-            type="password"
-            name="password2"
-            id="password2"
-            autoComplete="current-password"
-            required
-            className="block w-full rounded-md bg-black/10 border-2 border-black/20 px-3 py-1.5 placeholder:text-gray-400 sm:text-sm/6 focus:outline-none"
-          />
-        </div>
-      </div>
-
-      <div>
         <button
           type="submit"
-          // className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           className="cursor-pointer bg-green-700 text-white px-5 py-2 rounded-md hover:bg-green-800 transition-colors"
         >
-          Cadastrar
+          Entrar
         </button>
       </div>
     </form>

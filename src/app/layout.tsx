@@ -1,20 +1,39 @@
 import type { Metadata } from 'next'
-import { Nunito, Geist, Geist_Mono } from 'next/font/google'
+// import { Nunito, Geist, Geist_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import '@/styles/main.scss'
 
-const nunito = Nunito({
+// const nunito = Nunito({
+//   variable: '--font-nunito-sans',
+//   subsets: ['latin']
+// })
+
+// const geistSans = Geist({
+//   variable: '--font-geist-sans',
+//   subsets: ['latin'],
+// })
+
+// const geistMono = Geist_Mono({
+//   variable: '--font-geist-mono',
+//   subsets: ['latin'],
+// })
+
+const nunito = localFont({
+  src: '../fonts/nunito/nunito.woff2',
   variable: '--font-nunito-sans',
-  subsets: ['latin']
+  display: 'swap'
 })
 
-const geistSans = Geist({
+const geistSans = localFont({
+  src: '../fonts/geist/Geist-Regular.woff2',
   variable: '--font-geist-sans',
-  subsets: ['latin'],
+  display: 'swap'
 })
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: '../fonts/geist_mono/GeistMono-Regular.woff2',
   variable: '--font-geist-mono',
-  subsets: ['latin'],
+  display: 'swap'
 })
 
 export const metadata: Metadata = {

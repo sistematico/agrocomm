@@ -10,6 +10,6 @@ export default async function Cotacoes() {
   } else if (userRole === 'user') {
     return <>User</>
   } else {
-    redirect('/login')
+    redirect('/entrar')
   }
 }

@@ -1,13 +1,8 @@
-import {
-  integer,
-  pgTable,
-  text,
-  timestamp,
-  pgEnum
-} from 'drizzle-orm/pg-core'
+import { integer, text, timestamp, pgEnum, pgTable } from 'drizzle-orm/pg-core'
+import { relations } from 'drizzle-orm'
 
-export const roleEnum = pgEnum('role', ['user', 'admin'])
-// export const commodityEnum = pgEnum('commodity', ['soja', 'milho', 'boi', 'vaca'])
+export const roles = ['user', 'admin'] as const
+const roleEnum = pgEnum('role', roles)
 
 export const users = pgTable('users', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -15,8 +10,21 @@ export const users = pgTable('users', {
   username: text().unique(),
   email: text().notNull().unique(),
   password: text().notNull(),
+  image: text().default('/images/avatar.svg'),
   role: roleEnum().default('user').notNull(),
-  createdAt: timestamp().defaultNow().notNull()
+  // createdAt: timestamp().defaultNow().notNull()
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+})
+
+export const usersRelations = relations(users, ({ one }) => ({
+	session: one(sessions)
+}))
+
+export const sessions = pgTable('sessions', {
+	id: integer().primaryKey().generatedAlwaysAsIdentity(),
+	userId: integer().references(() => users.id),
+  salt: text(),
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
 })
 
 export const prices = pgTable('prices', {
