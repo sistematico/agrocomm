@@ -8,6 +8,12 @@ PGPASSWORD="$DB_PASS"
 [ $1 ] && PGPASSWORD="$1"
 export PGPASSWORD
 
+if [ -f /etc/arch-release ]; then
+    CTRL_USER="$DB_USER"
+else 
+    CTRL_USER="postgres"
+fi
+
 echo "🚨 ATENÇÃO: Apagando banco de dados '$DB_NAME'"
 # read -p "Pressione ENTER para continuar ou CTRL+C para cancelar..." -r
 

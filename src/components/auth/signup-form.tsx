@@ -1,10 +1,29 @@
 'use client'
 
-import { signup } from '@/app/actions/auth'
+import { signup } from '@/actions'
+// import { signup } from '@/app/actions/auth'
 import { useActionState } from 'react'
+import { FormState } from '@/app/lib/definitions'
+
+import Form from 'next/form'
+// import { createPost } from '@/actions'
+
+// export default function Page() {
+//   return (
+//     <Form action={createPost}>
+//       <input name="title" />
+//       {/* ... */}
+//       <button type="submit">Create Post</button>
+//     </Form>
+//   )
+// }
 
 export default function SignupForm() {
-  const [state, action, pending] = useActionState(signup, undefined)
+  // const [state, action, pending] = useActionState(signup, undefined)
+  const [state, action, pending] = useActionState<FormState, FormData>(
+    signup,
+    undefined
+  )
 
   return (
     // <form action={action}>
@@ -39,26 +58,43 @@ export default function SignupForm() {
     //   </button>
     // </form>
 
-    <form className="space-y-6" action={action}>
-      <div>
-        <label htmlFor="email" className="block text-sm/6 font-medium">
-          Email
-        </label>
-        <div className="mt-2">
-          <input
-            type="email"
-            name="email"
-            id="email"
-            autoComplete="email"
-            required
-            className="block w-full rounded-md bg-black/10 border-2 border-black/20 px-3 py-1.5 placeholder:text-gray-400 sm:text-sm/6 focus:outline-none"
-          />
+    <Form className="space-y-6" action={action}>
+      <div className="flex gap-4">
+        <div className="w-full">
+          <label htmlFor="name" className="block font-medium">
+            Nome
+          </label>
+          <div className="mt-2">
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="block w-full rounded-md bg-black/10 border-2 border-black/20 px-3 py-1.5 placeholder:text-gray-400 sm:text-sm/6 focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div className="w-full">
+          <label htmlFor="email" className="block font-medium">
+            Email
+          </label>
+          <div className="mt-2">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              autoComplete="email"
+              required
+              className="block w-full rounded-md bg-black/10 border-2 border-black/20 px-3 py-1.5 placeholder:text-gray-400 sm:text-sm/6 focus:outline-none"
+            />
+          </div>
+          {state?.errors?.email && <p>{state.errors.email}</p>}
         </div>
       </div>
 
       <div>
         <div className="flex items-center justify-between">
-          <label htmlFor="password" className="block text-sm/6 font-medium">
+          <label htmlFor="password" className="block font-medium">
             Senha
           </label>
         </div>
@@ -92,15 +128,26 @@ export default function SignupForm() {
         </div>
       </div>
 
+      {state?.errors?.password && (
+        <div>
+          <p>Password must:</p>
+          <ul>
+            {state.errors.password.map((error) => (
+              <li key={error}>- {error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div>
         <button
           type="submit"
-          // className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           className="cursor-pointer bg-green-700 text-white px-5 py-2 rounded-md hover:bg-green-800 transition-colors"
+          disabled={pending}
         >
           Cadastrar
         </button>
       </div>
-    </form>
+    </Form>
   )
 }

@@ -6,15 +6,12 @@ import { signInSchema, signUpSchema } from '@/schemas/auth'
 import { db } from '@/db'
 import { users } from '@/db/schema'
 import { eq } from 'drizzle-orm'
-import {
-  comparePasswords,
-  generateSalt,
-  hashPassword
-} from '@/app/lib/password'
+import { comparePasswords, generateSalt, hashPassword } from '@/app/lib/password'
 import { cookies } from 'next/headers'
 import { createSession, deleteSession } from '@/app/lib/session'
+import { SignupFormSchema, FormState } from '@/app/lib/definitions'
 
-export async function signIn(unsafeData: z.infer<typeof signInSchema>) {
+export async function signin(unsafeData: z.infer<typeof signInSchema>) {
   const { success, data } = signInSchema.safeParse(unsafeData)
 
   if (!success) return 'Unable to log you in'
@@ -42,16 +39,22 @@ export async function signIn(unsafeData: z.infer<typeof signInSchema>) {
   redirect('/')
 }
 
-export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
-  const { success, data } = signUpSchema.safeParse(unsafeData)
+// export async function signup(unsafeData: z.infer<typeof signUpSchema>) {
+export async function signup(state: FormState, formData: FormData) {
+  // const { success, data } = signUpSchema.safeParse(unsafeData)
+  const { success, data } = SignupFormSchema.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+  })
 
-  if (!success) return 'Unable to create account'
+  if (!success) return { message: 'Unable to create account' }
 
   const existingUser = await db.query.users.findFirst({
     where: eq(users.email, data.email)
   })
 
-  if (existingUser != null) return 'Account already exists for this email'
+  if (existingUser != null) return { message: 'Account already exists for this email' }
 
   try {
     const salt = generateSalt()
@@ -67,16 +70,16 @@ export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
       })
       .returning({ id: users.id, role: users.role })
 
-    if (user == null) return 'Unable to create account'
+    if (user == null) return { message: 'Unable to create account' }
     await createSession(user, await cookies())
   } catch {
-    return 'Unable to create account'
+    return { message: 'Unable to create account' }
   }
 
   redirect('/')
 }
 
-export async function logOut() {
+export async function logout() {
   await deleteSession(await cookies())
   redirect('/')
 }

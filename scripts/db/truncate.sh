@@ -6,6 +6,12 @@ PGPASSWORD="$DB_PASS"
 [ $1 ] && PGPASSWORD="$1"
 export PGPASSWORD
 
+if [ -f /etc/arch-release ]; then
+    CTRL_USER="$DB_USER"
+else 
+    CTRL_USER="postgres"
+fi
+
 echo "🔄 Conectando ao PostgreSQL e limpando o banco de dados '$DB_NAME'..."
 
 # Apagar todos os dados das tabelas
