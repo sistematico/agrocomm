@@ -42,7 +42,7 @@ export default function Home() {
                     {commodity.toLowerCase()}.
                   </p>
                   <a
-                    href={`/${commodity.toLowerCase().replace(' ', '-')}`}
+                    href={`/cotacoes/${commodity.toLowerCase().replace(' ', '-')}`}
                     className="text-green-700 text-sm font-medium hover:underline"
                   >
                     Ver detalhes →

@@ -26,8 +26,7 @@ function formatCurrency(value: number) {
 
 export default async function Soja() {
   const data = await getPrices()
-  const lastUpdate = data[0]?.createdAt.toString()
-  
+  const lastUpdate = data[0]?.createdAt.toString()  
 
   return (
     <Layout>

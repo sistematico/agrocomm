@@ -14,7 +14,8 @@ HEALTH_CHECK_INTERVAL=3
 mkdir -p $BACKUP_DIR
 
 # Backup da configuração atual
-[ -f .env.production ] && [ ! -f /tmp/env.agrocomm ] && cp .env.production /tmp/env.agrocomm
+[ -f .env ] && [ ! -f /tmp/env.agrocomm ] && cp .env /tmp/env.agrocomm
+cp /tmp/env.agrocomm .env.production
 
 # Backup da versão atual funcionando
 echo "Fazendo backup da versão atual..."
