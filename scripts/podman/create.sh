@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$(dirname "$0")/../podman/vars.sh"
+source "$(dirname "$0")/vars.sh"
 
 if ! podman image exists $IMAGE_NAME; then
   echo "✅ Criando a imagem ${IMAGE_NAME}..."

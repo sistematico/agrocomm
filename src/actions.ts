@@ -1,20 +1,23 @@
 'use server'
 
-import { z } from 'zod'
 import { redirect } from 'next/navigation'
-import { signInSchema, signUpSchema } from '@/schemas/auth'
+import { cookies } from 'next/headers'
+import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { users } from '@/db/schema'
-import { eq } from 'drizzle-orm'
-import { comparePasswords, generateSalt, hashPassword } from '@/app/lib/password'
-import { cookies } from 'next/headers'
 import { createSession, deleteSession } from '@/app/lib/session'
-import { SignupFormSchema, FormState } from '@/app/lib/definitions'
+import { comparePasswords, generateSalt, hashPassword } from '@/app/lib/password'
+import { SignInSchema, SignUpSchema } from '@/schemas/auth'
+import { FormState } from '@/types'
 
-export async function signin(unsafeData: z.infer<typeof signInSchema>) {
-  const { success, data } = signInSchema.safeParse(unsafeData)
+export async function signin(state: FormState, formData: FormData) {
+  const { success, data } = SignInSchema.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+  })
 
-  if (!success) return 'Unable to log you in'
+  if (!success) return { message: 'Unable to log you in' }
 
   const user = await db.query.users.findFirst({
     columns: { id: true, password: true, email: true, role: true },
@@ -23,7 +26,7 @@ export async function signin(unsafeData: z.infer<typeof signInSchema>) {
   })
 
   if (user == null || user.password == null || user?.session?.salt == null) {
-    return 'Unable to log you in'
+    return { message: 'Unable to log you in' }
   }
 
   const isCorrectPassword = await comparePasswords({
@@ -32,17 +35,14 @@ export async function signin(unsafeData: z.infer<typeof signInSchema>) {
     salt: user.session.salt
   })
 
-  if (!isCorrectPassword) return 'Unable to log you in'
+  if (!isCorrectPassword) return { message: 'Unable to log you in' }
 
   await createSession(user, await cookies())
-
   redirect('/')
 }
 
-// export async function signup(unsafeData: z.infer<typeof signUpSchema>) {
 export async function signup(state: FormState, formData: FormData) {
-  // const { success, data } = signUpSchema.safeParse(unsafeData)
-  const { success, data } = SignupFormSchema.safeParse({
+  const { success, data } = SignUpSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),

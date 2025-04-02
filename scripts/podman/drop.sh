@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source "$(dirname "$0")/../podman/vars.sh"
+source "$(dirname "$0")/vars.sh"
 
 rm -rf drizzle/meta drizzle/*.sql
 

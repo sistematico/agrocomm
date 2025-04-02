@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Layout from '@/layouts/main'
-import SigninForm from '@/components/auth/signin-form'
+import SigninForm from '@/components/auth/signin'
 
 export default function SignIn() {
   return (
