@@ -85,11 +85,11 @@ echo "Instalando dependências..."
 bun install
 
 # Criar o banco de dados caso não exista
-echo "Criando banco de dados se não existir..."
-bash ./scripts/db/drop.sh
-bash ./scripts/db/create.sh
+# echo "Criando banco de dados se não existir..."
+# bash ./scripts/db/create.sh
 
 echo "Atualizando banco de dados..."
+bun run db:reset
 bun run db:generate
 bun run db:push
 bun run db:seed
