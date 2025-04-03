@@ -12,7 +12,7 @@ async function main() {
     role: 'admin'
   }
 
-  await db.insert(users).values(user)
+  await db.insert(users).values(user).onConflictDoNothing()
 }
 
 main()

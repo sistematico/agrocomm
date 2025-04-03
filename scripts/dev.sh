@@ -3,24 +3,6 @@
 TMUX_SESSION="agrocomm"
 bash "$(dirname "$0")/podman/init.sh"
 
-# case "$OSTYPE" in
-#   solaris*) echo "SOLARIS" ;;
-#   darwin*)  echo "OSX" ;; 
-#   linux*)   echo "LINUX" ;;
-#   bsd*)     echo "BSD" ;;
-#   msys*)    echo "WINDOWS" ;;
-#   cygwin*)  echo "ALSO WINDOWS" ;;
-#   *)        echo "unknown: $OSTYPE" ;;
-# esac
-
-function run() {
-  bun install 
-  bun run db:push 
-  bun run db:seed 
-  bun run db:scrape
-  bun run dev
-}
-
 function tmux_session() {
   if ! \tmux has-session -t $TMUX_SESSION 2> /dev/null; then
     \tmux new-session -A -d -s $TMUX_SESSION -n main
@@ -38,10 +20,8 @@ function tmux_session() {
   fi
 }
 
-if [ "$OSTYPE" == "linux" ]; then
+# if [ "$OSTYPE" == linux* ]; then
+if [[ $OSTYPE =~ "linux"* ]]; then
   tmux_session
-  pgrep -x code >/dev/null || code .
-else
-  run
-  code .
+  # pgrep -x code >/dev/null || code .
 fi

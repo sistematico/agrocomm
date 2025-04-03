@@ -14,19 +14,26 @@ export const users = pgTable('users', {
   image: text().default('/images/avatar.svg'),
   role: roleEnum().default('user').notNull(),
   // createdAt: timestamp().defaultNow().notNull()
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow()
 })
 
-export const usersRelations = relations(users, ({ one }) => ({
-	session: one(sessions)
+export const usersRelations = relations(users, ({ many }) => ({
+  sessions: many(sessions)
 }))
 
 export const sessions = pgTable('sessions', {
-	id: integer().primaryKey().generatedAlwaysAsIdentity(),
-	userId: integer().references(() => users.id),
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer().references(() => users.id),
   salt: text(),
-  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp({ withTimezone: true }).notNull().defaultNow()
 })
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+	user: one(users, {
+    fields: [sessions.userId],
+    references: [users.id],    
+  })
+}))
 
 export const prices = pgTable('prices', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
