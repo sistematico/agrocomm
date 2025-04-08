@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Layout from '@/layouts/main'
 
 export default function Home() {
@@ -12,18 +13,18 @@ export default function Home() {
             decisões para o seu negócio.
           </p>
           <div className="flex flex-wrap gap-3">
-            <a
+            <Link
               href="/mercado"
               className="bg-green-700 text-white px-5 py-2 rounded-md hover:bg-green-800 transition-colors"
             >
               Análise de Mercado
-            </a>
-            <a
+            </Link>
+            <Link
               href="/cotacoes"
               className="bg-white text-green-700 border border-green-700 px-5 py-2 rounded-md hover:bg-green-50 transition-colors"
             >
               Ver Cotações
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -41,12 +42,12 @@ export default function Home() {
                     Informações atualizadas sobre o mercado de{' '}
                     {commodity.toLowerCase()}.
                   </p>
-                  <a
+                  <Link
                     href={`/cotacoes/${commodity.toLowerCase().replace(' ', '-')}`}
                     className="text-green-700 text-sm font-medium hover:underline"
                   >
                     Ver detalhes →
-                  </a>
+                  </Link>
                 </div>
               )
             )}
@@ -78,12 +79,12 @@ export default function Home() {
                       'pt-BR'
                     )}
                   </span>
-                  <a
+                  <Link
                     href={`/analises/${index}`}
                     className="text-green-700 text-sm font-medium hover:underline"
                   >
                     Ler mais →
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
