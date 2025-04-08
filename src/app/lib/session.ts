@@ -1,20 +1,13 @@
+// src/app/lib/session.ts
 import 'server-only'
 
 import { cookies } from 'next/headers'
-import crypto from 'crypto'
+// Remove crypto import
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose'
 import { cache } from 'react'
 import { redirect } from 'next/navigation'
 import { roles } from "@/db/schema"
 import { z } from 'zod'
-
-// import { SessionPayload } from '@/app/lib/definitions'
-
-// export interface SessionPayload {
-//   userId: string;
-//   expiresAt: Date;
-// }
-
 
 const sessionSchema = z.object({
   id: z.number(),
@@ -38,7 +31,6 @@ export type Cookies = {
   delete: (key: string) => void
 }
 
-// const secretKey = process.env.SESSION_SECRET
 const secretKey = 'secret'
 const encodedKey = new TextEncoder().encode(secretKey)
  
@@ -61,13 +53,21 @@ export async function decrypt(session: string | undefined = '') {
   }
 }
 
+// Use Web Crypto API to generate a random string
+async function generateRandomString(length: number): Promise<string> {
+  const buffer = new Uint8Array(length)
+  crypto.getRandomValues(buffer)
+  return Array.from(buffer)
+    .map(byte => byte.toString(16).padStart(2, '0'))
+    .join('')
+}
+
 export async function createSession(
   user: UserSession,
   cookies: Pick<Cookies, "set">
 ) {
-  const sessionId = crypto.randomBytes(512).toString("hex").normalize()
-
-  // setCookie(sessionId, cookies)
+  // Use Web Crypto API instead of Node.js crypto
+  const sessionId = await generateRandomString(64)
 
   cookies.set('session', sessionId, {
     secure: true,
@@ -77,25 +77,6 @@ export async function createSession(
   })
 }
 
-// export async function createSession(userId: string, username: string, role: string) {
-//   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-//   const session = await encrypt({ userId, username, role, expiresAt })
-//   const cookieStore = await cookies()
- 
-//   cookieStore.set('session', session, {
-//     httpOnly: true,
-//     secure: true,
-//     expires: expiresAt,
-//     sameSite: 'lax',
-//     path: '/',
-//   })
-// }
-
-// export async function deleteSession() {
-//   const cookieStore = await cookies()
-//   cookieStore.delete('session')
-// }
-
 export async function deleteSession(
   cookies: Pick<Cookies, "get" | "delete">
 ) {
@@ -104,7 +85,6 @@ export async function deleteSession(
 
   cookies.delete('session')
 }
-
 
 export const verifySession = cache(async () => {
   const cookie = (await cookies()).get('session')?.value
