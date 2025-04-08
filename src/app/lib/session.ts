@@ -18,7 +18,7 @@ import { z } from 'zod'
 
 const sessionSchema = z.object({
   id: z.number(),
-  role: z.enum(roles),
+  role: z.enum(roles as [string, ...string[]]),
 })
 
 type UserSession = z.infer<typeof sessionSchema>

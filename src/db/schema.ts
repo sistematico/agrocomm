@@ -13,7 +13,6 @@ export const users = pgTable('users', {
   password: text().notNull(),
   image: text().default('/images/avatar.svg'),
   role: roleEnum().default('user').notNull(),
-  // createdAt: timestamp().defaultNow().notNull()
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow()
 })
 

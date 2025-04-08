@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { eq } from 'drizzle-orm'
+import { eq, desc } from 'drizzle-orm'
 import { db } from '@/db'
 import { users } from '@/db/schema'
 import { createSession, deleteSession } from '@/app/lib/session'
@@ -21,18 +21,24 @@ export async function signin(state: FormState, formData: FormData) {
 
   const user = await db.query.users.findFirst({
     columns: { id: true, password: true, email: true, role: true },
-    with: { session: true },
+    with: {
+      sessions: {
+        columns: { id: true, salt: true, createdAt: true },
+        orderBy: (sessions) => [desc(sessions.createdAt)],
+        limit: 1,
+      },
+    },
     where: eq(users.email, data.email)
   })
 
-  if (user == null || user.password == null || user?.session?.salt == null) {
+  if (!user || !user.sessions || !user?.password) {
     return { message: 'Unable to log you in' }
   }
 
   const isCorrectPassword = await comparePasswords({
     hashedPassword: user.password,
     password: data.password,
-    salt: user.session.salt
+    salt: user?.sessions[0]?.salt || '',
   })
 
   if (!isCorrectPassword) return { message: 'Unable to log you in' }
