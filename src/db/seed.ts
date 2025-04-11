@@ -1,7 +1,9 @@
 import { db } from '@/db'
 import { users } from '@/db/schema'
+import { hashPassword, generateSalt } from '@/app/lib/password'
 
-const password = await Bun.password.hash('agrocomm')
+// const password = await Bun.password.hash('agrocomm')
+const password = await hashPassword('agrocomm', generateSalt())
 
 async function main() {
   const user: typeof users.$inferInsert = {

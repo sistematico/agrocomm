@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 TMUX_SESSION="agrocomm"
-bash "$(dirname "$0")/podman/init.sh"
+# bash "$(dirname "$0")/podman/init.sh"
+bash "$(dirname "$0")/podman/create.sh"
 
 function tmux_session() {
   if ! \tmux has-session -t $TMUX_SESSION 2> /dev/null; then

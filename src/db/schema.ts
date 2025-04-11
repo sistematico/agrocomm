@@ -13,6 +13,7 @@ export const users = pgTable('users', {
   password: text().notNull(),
   image: text().default('/images/avatar.svg'),
   role: roleEnum().default('user').notNull(),
+  salt: text(),
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow()
 })
 
@@ -23,7 +24,6 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const sessions = pgTable('sessions', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer().references(() => users.id),
-  salt: text(),
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow()
 })
 

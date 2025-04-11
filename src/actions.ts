@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { eq, desc } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { users } from '@/db/schema'
 import { createSession, deleteSession } from '@/app/lib/session'
@@ -11,78 +11,109 @@ import { SignInSchema, SignUpSchema } from '@/schemas/auth'
 import { FormState } from '@/types'
 
 export async function signin(state: FormState, formData: FormData) {
-  const { success, data } = SignInSchema.safeParse({
-    name: formData.get('name'),
+  const validation = SignInSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   })
 
-  if (!success) return { message: 'Unable to log you in' }
-
-  const user = await db.query.users.findFirst({
-    columns: { id: true, password: true, email: true, role: true },
-    with: {
-      sessions: {
-        columns: { id: true, salt: true, createdAt: true },
-        orderBy: (sessions) => [desc(sessions.createdAt)],
-        limit: 1,
-      },
-    },
-    where: eq(users.email, data.email)
-  })
-
-  if (!user || !user.sessions || !user?.password) {
-    return { message: 'Unable to log you in' }
+  if (!validation.success) {
+    return { 
+      message: 'Dados de login inválidos',
+      errors: validation.error.flatten().fieldErrors
+    }
   }
 
-  const isCorrectPassword = await comparePasswords({
-    hashedPassword: user.password,
-    password: data.password,
-    salt: user?.sessions[0]?.salt || '',
-  })
+  const { email, password } = validation.data
 
-  if (!isCorrectPassword) return { message: 'Unable to log you in' }
+  try {
+    // Buscar usuário pelo email
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email)
+    })
 
-  await createSession(user, await cookies())
-  redirect('/')
+    if (!user) {
+      return { message: 'Email ou senha incorretos' }
+    }
+
+    // Verificar a senha
+    const passwordMatch = await comparePasswords({
+      password,
+      salt: user.salt || '',
+      hash: user.password
+    })
+
+    if (!passwordMatch) {
+      return { message: 'Email ou senha incorretos' }
+    }
+
+    // Criar sessão
+    await createSession(
+      { id: user.id, role: user.role },
+      await cookies()
+    )
+
+    // Redirecionar após login bem-sucedido
+    redirect('/')
+  } catch (error) {
+    console.error('Erro ao fazer login:', error)
+    return { message: 'Ocorreu um erro ao processar seu login' }
+  }
 }
 
 export async function signup(state: FormState, formData: FormData) {
-  const { success, data } = SignUpSchema.safeParse({
+  const validation = SignUpSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
   })
 
-  if (!success) return { message: 'Unable to create account' }
+  if (!validation.success) {
+    return { 
+      message: 'Dados de cadastro inválidos',
+      errors: validation.error.flatten().fieldErrors
+    }
+  }
 
-  const existingUser = await db.query.users.findFirst({
-    where: eq(users.email, data.email)
-  })
-
-  if (existingUser != null) return { message: 'Account already exists for this email' }
+  const { name, email, password } = validation.data
 
   try {
-    const salt = generateSalt()
-    const hashedPassword = await hashPassword(data.password, salt)
+    // Verificar se email já existe
+    const existingUser = await db.query.users.findFirst({
+      where: eq(users.email, email)
+    })
 
-    const [user] = await db
-      .insert(users)
+    if (existingUser) {
+      return { message: 'Este email já está em uso' }
+    }
+
+    // Gerar salt e hash da senha
+    const salt = generateSalt()
+    const hashedPassword = await hashPassword(password, salt)
+
+    // Inserir novo usuário
+    const [user] = await db.insert(users)
       .values({
-        name: data.name,
-        email: data.email,
-        password: hashedPassword
-        // salt,
+        name,
+        email,
+        password: hashedPassword,
+        salt,
+        username: email.split('@')[0] // Gerar username básico a partir do email
       })
       .returning({ id: users.id, role: users.role })
 
-    if (user == null) return { message: 'Unable to create account' }
-    await createSession(user, await cookies())
-  } catch {
-    return { message: 'Unable to create account' }
-  }
+    if (!user) {
+      return { message: 'Erro ao criar conta' }
+    }
 
-  redirect('/')
+    // Criar sessão para o novo usuário
+    await createSession(user, await cookies())
+
+    // Redirecionar após cadastro bem-sucedido
+    redirect('/')
+  } catch (error) {
+    console.error('Erro ao criar conta:', error)
+    return { message: 'Ocorreu um erro ao processar seu cadastro' }
+  }
 }
 
 export async function logout() {

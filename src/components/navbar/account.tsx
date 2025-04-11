@@ -1,16 +1,12 @@
+'use client'
+
 import Link from 'next/link'
-import { cookies } from 'next/headers'
-import { decrypt } from '@/app/lib/session'
 import { logout } from '@/actions'
 
-export default async function Account() {
-  const cookie = (await cookies()).get('session')?.value
-  const session = await decrypt(cookie)
-  const isLoggedIn = !!session?.userId
-
+export default function AccountUI({ isLogged }: { isLogged: boolean }) {
   return (
     <>
-      {isLoggedIn ? (
+      {isLogged ? (
         <div className="flex items-center gap-3">
           <Link
             href="/conta"

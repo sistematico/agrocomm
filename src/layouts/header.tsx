@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import AccountMenu from '@/components/navbar/account'
+import AccountMenu from '@/components/auth/session'
 
 const menuItems = [
   { name: 'Início', href: '/' },

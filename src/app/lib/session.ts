@@ -1,8 +1,6 @@
-// src/app/lib/session.ts
 import 'server-only'
 
 import { cookies } from 'next/headers'
-// Remove crypto import
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose'
 import { cache } from 'react'
 import { redirect } from 'next/navigation'
@@ -31,9 +29,10 @@ export type Cookies = {
   delete: (key: string) => void
 }
 
-const secretKey = 'secret'
+// Chave secreta mais segura - em produção use uma variável de ambiente
+const secretKey = 'minha_chave_secreta_supersegura_que_deve_ser_variavel_ambiente'
 const encodedKey = new TextEncoder().encode(secretKey)
- 
+
 export async function encrypt(payload: JWTPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
@@ -41,58 +40,66 @@ export async function encrypt(payload: JWTPayload) {
     .setExpirationTime('7d')
     .sign(encodedKey)
 }
- 
-export async function decrypt(session: string | undefined = '') {
+
+export async function decrypt(session: string | undefined = ''): Promise<JWTPayload | undefined> {
+  if (!session) return undefined
+  
   try {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ['HS256'],
     })
     return payload
   } catch (error) {
-    console.log('Failed to verify session')
+    console.log('Failed to verify session:', error)
+    return undefined
   }
-}
-
-// Use Web Crypto API to generate a random string
-async function generateRandomString(length: number): Promise<string> {
-  const buffer = new Uint8Array(length)
-  crypto.getRandomValues(buffer)
-  return Array.from(buffer)
-    .map(byte => byte.toString(16).padStart(2, '0'))
-    .join('')
 }
 
 export async function createSession(
   user: UserSession,
-  cookies: Pick<Cookies, "set">
+  cookieStore: Pick<Cookies, "set">
 ) {
-  // Use Web Crypto API instead of Node.js crypto
-  const sessionId = await generateRandomString(64)
+  // Criar payload JWT com informações do usuário
+  const token = await encrypt({
+    userId: user.id,
+    role: user.role
+  })
 
-  cookies.set('session', sessionId, {
+  // Definir o cookie com o token JWT
+  cookieStore.set('session', token, {
     secure: true,
     httpOnly: true,
     sameSite: "lax",
-    expires: Date.now() + 60 * 1000,
+    // 7 dias em milissegundos
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
   })
 }
 
 export async function deleteSession(
-  cookies: Pick<Cookies, "get" | "delete">
+  cookieStore: Pick<Cookies, "get" | "delete">
 ) {
-  const sessionId = cookies.get('session')?.value
-  if (sessionId == null) return null
-
-  cookies.delete('session')
+  cookieStore.delete('session')
 }
 
 export const verifySession = cache(async () => {
-  const cookie = (await cookies()).get('session')?.value
-  const session = await decrypt(cookie)
- 
-  if (!session?.userId) {
+  const cookie = await cookies()
+  const session = (await cookies()).get('session')?.value
+  // const cookie = cookieStore.get('session')?.value
+  
+  if (!session) {
     redirect('/entrar')
   }
- 
-  return { isAuth: true, userId: session.userId, username: session.username, role: session.role }
+  
+  const payload = await decrypt(session)
+  
+  if (!payload || !payload.userId) {
+    cookie.delete('session')
+    redirect('/entrar')
+  }
+  
+  return {
+    isAuth: true,
+    userId: payload.userId as number,
+    role: payload.role as string
+  }
 })
