@@ -3,8 +3,8 @@ import { decrypt } from '@/app/lib/session'
 import { cookies } from 'next/headers'
  
 // 1. Specify protected and public routes
-const protectedRoutes = ['/painel']
-const publicRoutes = ['/entrar', '/cadastro', '/']
+const protectedRoutes = ['/conta']
+const publicRoutes = ['/entrar', '/cadastro', '/senha']
  
 export default async function middleware(req: NextRequest) {
   // 2. Check if the current route is protected or public

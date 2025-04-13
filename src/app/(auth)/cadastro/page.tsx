@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Layout from '@/layouts/main'
-import SignupForm from '@/components/auth/signup-form'
+import SignupForm from '@/components/auth/signup'
 
 export default function SignUp() {
   return (

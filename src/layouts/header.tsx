@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import AccountMenu from '@/components/auth/session'
+import Account from '@/components/auth/session'
 
 const menuItems = [
   { name: 'Início', href: '/' },
@@ -57,7 +57,7 @@ export function Header() {
           </div>
 
           <div className="flex items-center lg:order-2 gap-x-3">
-            <AccountMenu />
+            <Account />
 
             {/* Burger menu for mobile */}
             <button

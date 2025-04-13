@@ -1,11 +1,10 @@
 'use server'
 
 import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { users } from '@/db/schema'
-import { createSession, deleteSession } from '@/app/lib/session'
+import { createSession, deleteSession } from '@/app/lib/server-session'
 import { comparePasswords, generateSalt, hashPassword } from '@/app/lib/password'
 import { SignInSchema, SignUpSchema } from '@/schemas/auth'
 import { FormState } from '@/types'
@@ -16,24 +15,15 @@ export async function signin(state: FormState, formData: FormData) {
     password: formData.get('password'),
   })
 
-  if (!validation.success) {
-    return { 
-      message: 'Dados de login inválidos',
-      errors: validation.error.flatten().fieldErrors
-    }
-  }
+  if (!validation.success) return { message: 'Dados de login inválidos', errors: validation.error.flatten().fieldErrors }
 
   const { email, password } = validation.data
 
   try {
     // Buscar usuário pelo email
-    const user = await db.query.users.findFirst({
-      where: eq(users.email, email)
-    })
+    const user = await db.query.users.findFirst({ where: eq(users.email, email) })
 
-    if (!user) {
-      return { message: 'Email ou senha incorretos' }
-    }
+    if (!user) return { message: 'Email ou senha incorretos' }
 
     // Verificar a senha
     const passwordMatch = await comparePasswords({
@@ -42,15 +32,10 @@ export async function signin(state: FormState, formData: FormData) {
       hash: user.password
     })
 
-    if (!passwordMatch) {
-      return { message: 'Email ou senha incorretos' }
-    }
+    if (!passwordMatch) return { message: 'Email ou senha incorretos' }
 
     // Criar sessão
-    await createSession(
-      { id: user.id, role: user.role },
-      await cookies()
-    )
+    await createSession({ id: user.id, role: user.role })
 
     // Redirecionar após login bem-sucedido
     redirect('/')
@@ -101,12 +86,10 @@ export async function signup(state: FormState, formData: FormData) {
       })
       .returning({ id: users.id, role: users.role })
 
-    if (!user) {
-      return { message: 'Erro ao criar conta' }
-    }
+    if (!user) return { message: 'Erro ao criar conta' }
 
     // Criar sessão para o novo usuário
-    await createSession(user, await cookies())
+    await createSession({ id: user.id, role: user.role })
 
     // Redirecionar após cadastro bem-sucedido
     redirect('/')
@@ -117,6 +100,6 @@ export async function signup(state: FormState, formData: FormData) {
 }
 
 export async function logout() {
-  await deleteSession(await cookies())
+  await deleteSession()
   redirect('/')
 }
