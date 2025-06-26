@@ -1,40 +1,47 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "bun dev",
-			"detail": "next dev --turbopack - package.json",
-			"type": "bun",
-			"script": "dev",
-			"problemMatcher": [],
-		},
-		{
-			"label": "bun db:studio",
-			"detail": "bun drizzle-kit studio - package.json",
-			"type": "bun",
-			"script": "db:studio",
-			"problemMatcher": [],
-			"presentation": {
-				"reveal": "never"
-			}
-		},
-		{
-			"label": "dev script",
-			"detail": "bash scripts/dev.sh",
-			"type": "shell",
-			"command": "bash",
-			"args": [
-				"scripts/dev.sh"
-			],
-			"problemMatcher": [],
-			"presentation": {
-				"reveal": "never"
-			},
-			"runOptions": {
-				"runOn": "folderOpen"
-			},
-			"promptOnClose": false,
-			"isBackground": true
-		}		
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "bun dev",
+      "detail": "next dev --turbopack - package.json",
+      "type": "bun",
+      "script": "dev",
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "never"
+      }
+    },
+    {
+      "label": "bun db:studio",
+      "detail": "bun drizzle-kit studio - package.json",
+      "type": "bun",
+      "script": "db:studio",
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "never"
+      }
+    },
+    {
+      "label": "dev script",
+      "detail": "bash scripts/dev.sh",
+      "type": "shell",
+      "command": "bash",
+      "args": ["scripts/dev.sh"],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "never"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "promptOnClose": false,
+      "isBackground": true
+    }
+  ]
 }

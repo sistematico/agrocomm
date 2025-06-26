@@ -3,9 +3,12 @@
 set -eE
 
 PATH=$PATH:/home/nginx/.bun/bin
+
+NAME="agrocomm"
+SERVICE="${NAME}.service"
 DEPLOY_TIMESTAMP=$(date +%Y%m%d%H%M%S)
-BACKUP_DIR="/var/backups/agrocomm"
-CURRENT_DIR="/var/www/agrocomm"
+BACKUP_DIR="/var/backups/$NAME"
+CURRENT_DIR="/var/www/$NAME"
 HEALTH_CHECK_URL="http://localhost:4000/api/health" # Ajuste conforme sua aplicação
 MAX_HEALTH_CHECKS=10
 HEALTH_CHECK_INTERVAL=3
@@ -14,15 +17,14 @@ HEALTH_CHECK_INTERVAL=3
 mkdir -p $BACKUP_DIR
 
 # Backup da configuração atual
-[ -f .env ] && [ ! -f /tmp/env.agrocomm ] && cp .env /tmp/env.agrocomm
-cp /tmp/env.agrocomm .env.production
+[ -f .env.production ] && cp .env.production /tmp/env.$NAME
 
 # Backup da versão atual funcionando
 echo "Fazendo backup da versão atual..."
-sudo systemctl is-active agrocomm && {
+sudo /usr/bin/systemctl is-active $SERVICE && {
     cd $CURRENT_DIR
     mkdir -p $BACKUP_DIR/$DEPLOY_TIMESTAMP
-    cp -a .next node_modules package.json bun.lockb .env.production $BACKUP_DIR/$DEPLOY_TIMESTAMP/
+    cp -a .next node_modules package.json bun.lockb .env.production $BACKUP_DIR/$DEPLOY_TIMESTAMP/ 2>  /dev/null
     echo $DEPLOY_TIMESTAMP > $BACKUP_DIR/last_working_version
 }
 
@@ -35,7 +37,7 @@ perform_rollback() {
         
         if [ -d $BACKUP_DIR/$ROLLBACK_VERSION ]; then
             echo "Restaurando versão: $ROLLBACK_VERSION"
-            sudo systemctl stop agrocomm
+            sudo /usr/bin/systemctl stop agrocomm
             
             # Restaurar arquivos críticos da última versão funcional
             cp -a $BACKUP_DIR/$ROLLBACK_VERSION/.next $CURRENT_DIR/
@@ -44,7 +46,7 @@ perform_rollback() {
                 cp $BACKUP_DIR/$ROLLBACK_VERSION/.env.production $CURRENT_DIR/
             
             # Iniciar serviço com a versão antiga
-            sudo systemctl start agrocomm
+            sudo /usr/bin/systemctl start $SERVICE
             
             # Verificar se o rollback foi bem-sucedido
             echo "Verificando saúde após rollback..."
@@ -70,13 +72,13 @@ perform_rollback() {
 trap perform_rollback ERR
 
 # Parar o serviço
-sudo /usr/bin/systemctl stop agrocomm
+sudo /usr/bin/systemctl stop $SERVICE
 
 # Limpeza e preparação para o novo build
 git clean -fxd
 
 # Restaurar variáveis de ambiente
-[ -f /tmp/env.agrocomm ] && cp /tmp/env.agrocomm .env.production
+[ -e /tmp/env.$NAME ] && cp /tmp/env.$NAME .env.production
 # [ ! -f .env ] && [ -f .env.production ] && cp .env.production .env
 cp -f .env.production .env
 
@@ -99,7 +101,7 @@ bun run build
 
 # Iniciar serviço
 echo "Iniciando serviço..."
-sudo /usr/bin/systemctl start agrocomm
+sudo /usr/bin/systemctl start $SERVICE
 
 # Verificar saúde do serviço após o deploy
 echo "Verificando saúde do serviço..."

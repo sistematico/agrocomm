@@ -5,23 +5,33 @@ import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { users } from '@/db/schema'
 import { createSession, deleteSession } from '@/app/lib/server-session'
-import { comparePasswords, generateSalt, hashPassword } from '@/app/lib/password'
+import {
+  comparePasswords,
+  generateSalt,
+  hashPassword
+} from '@/app/lib/password'
 import { SignInSchema, SignUpSchema } from '@/schemas/auth'
 import { FormState } from '@/types'
 
 export async function signin(state: FormState, formData: FormData) {
   const validation = SignInSchema.safeParse({
     email: formData.get('email'),
-    password: formData.get('password'),
+    password: formData.get('password')
   })
 
-  if (!validation.success) return { message: 'Dados de login inválidos', errors: validation.error.flatten().fieldErrors }
+  if (!validation.success)
+    return {
+      message: 'Dados de login inválidos',
+      errors: validation.error.flatten().fieldErrors
+    }
 
   const { email, password } = validation.data
 
   try {
     // Buscar usuário pelo email
-    const user = await db.query.users.findFirst({ where: eq(users.email, email) })
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email)
+    })
 
     if (!user) return { message: 'Email ou senha incorretos' }
 
@@ -49,11 +59,11 @@ export async function signup(state: FormState, formData: FormData) {
   const validation = SignUpSchema.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
-    password: formData.get('password'),
+    password: formData.get('password')
   })
 
   if (!validation.success) {
-    return { 
+    return {
       message: 'Dados de cadastro inválidos',
       errors: validation.error.flatten().fieldErrors
     }
@@ -76,7 +86,8 @@ export async function signup(state: FormState, formData: FormData) {
     const hashedPassword = await hashPassword(password, salt)
 
     // Inserir novo usuário
-    const [user] = await db.insert(users)
+    const [user] = await db
+      .insert(users)
       .values({
         name,
         email,
