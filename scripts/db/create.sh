@@ -4,9 +4,7 @@
 source "$(dirname "$0")/../other/read_env.sh"
 
 # Define as credenciais do banco de dados
-PGPASSWORD="$DB_PASS"
-[ $1 ] && PGPASSWORD="$1"
-DB_PASS="$PGPASSWORD"
+[ $1 ] && PGPASSWORD="$1" || PGPASSWORD="$DB_PASS"
 export PGPASSWORD
 
 if [ -f /etc/arch-release ]; then
