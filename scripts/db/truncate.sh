@@ -2,15 +2,9 @@
 
 source "$(dirname "$0")/../other/read_env.sh"
 
-PGPASSWORD="$DB_PASS"
-[ $1 ] && PGPASSWORD="$1"
+[ $1 ] && PGPASSWORD="$1" || PGPASSWORD="$DB_PASS"
 export PGPASSWORD
-
-if [ -f /etc/arch-release ]; then
-    CTRL_USER="$DB_USER"
-else 
-    CTRL_USER="postgres"
-fi
+[ -f /etc/arch-release ] && CTRL_USER="$DB_USER" || CTRL_USER="postgres"
 
 echo "🔄 Conectando ao PostgreSQL e limpando o banco de dados '$DB_NAME'..."
 
