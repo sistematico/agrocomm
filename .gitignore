@@ -47,3 +47,4 @@ drizzle/**
 
 # old files
 *.old*
+.vault_pass
