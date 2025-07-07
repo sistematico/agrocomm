@@ -2,7 +2,9 @@
 
 # Define o arquivo .env padrão
 ENV_FILE=".env.production"
-[ -f /etc/arch-release ] || [ -f ".env" ] && ENV_FILE=".env"
+if [ -f /etc/arch-release ] || [ "$(sw_vers -productName)" == "macOS" ]; then
+    [ -f ".env" ] && ENV_FILE=".env"
+fi
 
 # Verifica se o arquivo existe
 if [ ! -f "$ENV_FILE" ]; then

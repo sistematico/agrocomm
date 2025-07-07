@@ -27,6 +27,7 @@ if ! podman container exists $CONTAINER_NAME; then
   echo "✅ Criando o container ${CONTAINER_NAME}..."
   podman run -d \
     --name $CONTAINER_NAME \
+    -e POSTGRES_HOST_AUTH_METHOD=trust \
     -e POSTGRES_DB=$POSTGRES_DB \
     -e POSTGRES_USER=$POSTGRES_USER \
     -e POSTGRES_PASSWORD=$POSTGRES_PASS \
