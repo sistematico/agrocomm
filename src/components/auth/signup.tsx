@@ -1,7 +1,7 @@
 'use client'
 
 import Form from 'next/form'
-import { signup, signin } from '@/actions'
+import { signup } from '@/actions'
 import { useActionState } from 'react'
 import { FormState } from '@/types'
 

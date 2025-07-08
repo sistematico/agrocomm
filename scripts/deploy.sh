@@ -86,12 +86,8 @@ cp -f .env.production .env
 echo "Instalando dependências..."
 bun install
 
-echo "Construindo aplicação..."
-bun run build
-
-# Criar o banco de dados caso não exista
-# echo "Criando banco de dados se não existir..."
-# bash ./scripts/db/create.sh
+echo "Criando banco de dados se não existir..."
+bash ./scripts/db/create.sh
 
 echo "Atualizando banco de dados..."
 bun run db:reset
@@ -99,7 +95,9 @@ bun run db:generate
 bun run db:push
 bun run db:seed
 
-# Iniciar serviço
+echo "Construindo aplicação..."
+bun run build
+
 echo "Iniciando serviço..."
 sudo /usr/bin/systemctl start $SERVICE
 
