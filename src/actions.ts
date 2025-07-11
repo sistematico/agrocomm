@@ -5,54 +5,36 @@ import { eq } from 'drizzle-orm'
 import { db } from '@/db'
 import { users } from '@/db/schema'
 import { createSession, deleteSession } from '@/app/lib/server-session'
-import {
-  comparePasswords,
-  generateSalt,
-  hashPassword
-} from '@/app/lib/password'
+import { comparePasswords, generateSalt, hashPassword } from '@/app/lib/password'
+import { z } from 'zod'
 import { SignInSchema, SignUpSchema } from '@/schemas/auth'
 import { FormState } from '@/types'
 
-export async function signin(state: FormState, formData: FormData) {
-  const validation = SignInSchema.safeParse({
-    email: formData.get('email'),
-    password: formData.get('password')
-  })
+// export async function signin(state: FormState, formData: FormData) {
+export async function signIn(unsafeData: z.infer<typeof SignInSchema>) {
+  const { success, data } = SignInSchema.safeParse(unsafeData);
+  if (!success) return "Dados de login inválidos";
 
-  if (!validation.success)
-    return {
-      message: 'Dados de login inválidos',
-      errors: validation.error.flatten().fieldErrors
-    }
+  const user = await db.query.users.findFirst({
+    columns: { password: true, salt: true, id: true, email: true, role: true },
+    where: eq(users.email, data.email),
+  });
 
-  const { email, password } = validation.data
+  if (!user) return "Usuário não encontrado";
 
-  try {
-    // Buscar usuário pelo email
-    const user = await db.query.users.findFirst({
-      where: eq(users.email, email)
-    })
+  const isCorrectPassword = await comparePasswords({
+    hashedPassword: user.password,
+    password: data.password,
+    salt: user.salt || "",
+  });
 
-    if (!user) return { message: 'Email ou senha incorretos' }
-
-    // Verificar a senha
-    const passwordMatch = await comparePasswords({
-      password,
-      salt: user.salt || '',
-      hash: user.password
-    })
-
-    if (!passwordMatch) return { message: 'Email ou senha incorretos' }
+  if (!isCorrectPassword) return "Usuário ou senha incorretos";
 
     // Criar sessão
     await createSession({ id: user.id, role: user.role })
 
     // Redirecionar após login bem-sucedido
     redirect('/')
-  } catch (error) {
-    console.error('Erro ao fazer login:', error)
-    return { message: 'Ocorreu um erro ao processar seu login' }
-  }
 }
 
 export async function signup(state: FormState, formData: FormData) {
