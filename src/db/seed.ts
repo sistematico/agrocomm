@@ -2,7 +2,6 @@ import { db } from '@/db'
 import { users } from '@/db/schema'
 import { hashPassword, generateSalt } from '@/lib/auth'
 
-// const password = await Bun.password.hash('agrocomm')
 const password = await hashPassword('agrocomm', generateSalt())
 
 async function main() {
