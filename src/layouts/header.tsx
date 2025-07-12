@@ -9,7 +9,17 @@ const menuItems = [
   { name: 'Cotações', href: '/cotacoes' }
 ]
 
-export function Header() {
+interface NavbarProps {
+  user: {
+    id: string;
+    email: string;
+    role: string;
+    name?: string | null; // Adiciona null aqui
+  } | null | undefined; // E aqui
+}
+
+// export function Header() {
+export function Header({ user }: NavbarProps) {
   const pathname = usePathname()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)

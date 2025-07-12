@@ -19,35 +19,37 @@
     "db:reset": "bun ./src/db/reset.ts"
   },
   "dependencies": {
-    "@types/bun": "^1.2.8",
-    "cheerio": "^1.0.0",
-    "drizzle-orm": "^0.40.1",
-    "jose": "^6.0.10",
+    "@types/bun": "^1.2.18",
+    "cheerio": "^1.1.0",
+    "drizzle-orm": "^0.44.2",
+    "jose": "^6.0.11",
     "lucide-react": "^0.525.0",
-    "next": "^15.3.4",
-    "pg": "^8.14.1",
+    "next": "^15.3.5",
+    "pg": "^8.16.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "zod": "^3.24.2"
+    "zod": "^4.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@tailwindcss/postcss": "^4.1.1",
-    "@types/cheerio": "^0.22.35",
-    "@types/node": "^20.17.30",
-    "@types/pg": "^8.11.11",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.1",
-    "drizzle-kit": "^0.30.6",
-    "eslint": "^9.23.0",
-    "eslint-config-next": "15.2.2",
-    "sass": "^1.86.2",
-    "tailwindcss": "^4.1.1",
-    "typescript": "^5.8.2"
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/cheerio": "^1.0.0",
+    "@types/node": "^24.0.13",
+    "@types/pg": "^8.15.4",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "drizzle-kit": "^0.31.4",
+    "eslint": "^9.31.0",
+    "eslint-config-next": "15.3.5",
+    "sass": "^1.89.2",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3"
   },
   "trustedDependencies": [
     "@parcel/watcher",
+    "@tailwindcss/oxide",
     "esbuild",
-    "sharp"
+    "sharp",
+    "unrs-resolver"
   ]
 }

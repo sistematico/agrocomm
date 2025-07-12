@@ -11,7 +11,7 @@ import { comparePasswords, generateSalt, hashPassword } from '@/lib/auth'
 import { signInSchema, signUpSchema } from '@/schemas/auth'
 import { FormState } from '@/types'
 
-export async function signin(unsafeData: z.infer<typeof signInSchema>) {
+export async function signIn(unsafeData: z.infer<typeof signInSchema>) {
   const { success, data } = signInSchema.safeParse(unsafeData);
   if (!success) return "Dados de login inválidos";
 
@@ -30,12 +30,15 @@ export async function signin(unsafeData: z.infer<typeof signInSchema>) {
 
   if (!isCorrectPassword) return "Email ou senha incorretos";
 
-  await createUserSession(user, await cookies());
+  await createUserSession(
+    { ...user, role: user.role ?? "user" },
+    await cookies()
+  );
 
   redirect("/");
 }
 
-// export async function signin(state: FormState, formData: FormData) {
+// export async function signIn(state: FormState, formData: FormData) {
 //   const validation = SignInSchema.safeParse({
 //     email: formData.get('email'),
 //     password: formData.get('password')
@@ -69,49 +72,85 @@ export async function signin(unsafeData: z.infer<typeof signInSchema>) {
 //   redirect('/')
 // }
 
-export async function signup(state: FormState, formData: FormData) {
-  const validation = signUpSchema.safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    password: formData.get('password')
-  })
+// export async function signUp(state: FormState, formData: FormData) {
+//   const validation = signUpSchema.safeParse({
+//     name: formData.get('name'),
+//     email: formData.get('email'),
+//     password: formData.get('password')
+//   })
 
-  if (!validation.success) {
-    return {
-      message: 'Dados de cadastro inválidos',
-      errors: validation.error.flatten().fieldErrors
-    }
-  }
+//   if (!validation.success) {
+//     return {
+//       message: 'Dados de cadastro inválidos',
+//       errors: validation.error.flatten().fieldErrors
+//     }
+//   }
 
-  const { name, email, password } = validation.data
+//   const { name, email, password } = validation.data
+
+//   const existingUser = await db.query.users.findFirst({
+//     where: eq(users.email, email)
+//   })
+
+//   if (existingUser) return 'Este email já está em uso'
+
+//   // Gerar salt e hash da senha
+//   const salt = generateSalt()
+//   const hashedPassword = await hashPassword(password, salt)
+
+//   // Inserir novo usuário
+//   const [user] = await db
+//     .insert(users)
+//     .values({
+//       name,
+//       email,
+//       password: hashedPassword,
+//       salt,
+//       username: email.split('@')[0] // Gerar username básico a partir do email
+//     })
+//     .returning({ id: users.id, role: users.role })
+
+//   if (!user) return 'Erro ao criar conta'
+
+//   await createUserSession(user, await cookies());
+
+//   redirect('/')
+// }
+
+export async function signUp(unsafeData: z.infer<typeof signUpSchema>) {
+  const { success, data } = signUpSchema.safeParse(unsafeData);
+
+  if (!success) return "Dados de cadastro inválidos";
 
   const existingUser = await db.query.users.findFirst({
-    where: eq(users.email, email)
-  })
+    where: eq(users.email, data.email),
+  });
 
-  if (existingUser) return 'Este email já está em uso'
+  if (existingUser != null) return "Este email já está em uso";
 
-  // Gerar salt e hash da senha
-  const salt = generateSalt()
-  const hashedPassword = await hashPassword(password, salt)
+  try {
+    const salt = generateSalt();
+    const hashedPassword = await hashPassword(data.password, salt);
 
-  // Inserir novo usuário
-  const [user] = await db
-    .insert(users)
-    .values({
-      name,
-      email,
-      password: hashedPassword,
-      salt,
-      username: email.split('@')[0] // Gerar username básico a partir do email
-    })
-    .returning({ id: users.id, role: users.role })
+    const [user] = await db
+      .insert(users)
+      .values({
+        name: data.name,
+        email: data.email,
+        password: hashedPassword,
+        salt,
+      })
+      .returning({ id: users.id, role: users.role });
 
-  if (!user) return 'Erro ao criar conta'
+    if (!user) return "Erro ao criar conta";
 
-  await createUserSession(user, await cookies());
+    await createUserSession(user, await cookies());
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return "Erro ao criar conta";
+  }
 
-  redirect('/')
+  redirect("/");
 }
 
 export async function logout() {

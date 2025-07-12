@@ -2,7 +2,7 @@ import { integer, text, timestamp, pgEnum, pgTable, uuid } from 'drizzle-orm/pg-
 import { relations } from 'drizzle-orm'
 
 export const roles = ['user', 'admin']
-const roleEnum = pgEnum('role', ['user', 'admin'])
+export const roleEnum = pgEnum('role', ['user', 'admin'])
 
 export const users = pgTable('users', {
   // id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -23,7 +23,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 export const sessions = pgTable('sessions', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  userId: integer().references(() => users.id),
+  userId: uuid().references(() => users.id), // Changed from integer() to uuid()
   createdAt: timestamp({ withTimezone: true }).notNull().defaultNow()
 })
 

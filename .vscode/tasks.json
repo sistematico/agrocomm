@@ -37,9 +37,6 @@
       "presentation": {
         "reveal": "never"
       },
-      "runOptions": {
-        "runOn": "folderOpen"
-      },
       "promptOnClose": false,
       "isBackground": true
     }

@@ -1,14 +1,12 @@
-
-
 // 'use client'
 
 // import Form from 'next/form'
-// import { signin } from '@/actions'
+// import { signIn } from '@/actions'
 // import { useActionState } from 'react'
 // import { FormState } from '@/types'
 
 // export default function SigninForm() {
-//   const [state, action, pending] = useActionState<FormState, FormData>(signin, undefined)
+//   const [state, action, pending] = useActionState<FormState, FormData>(signIn, undefined)
 
 //   return (
 //     <Form className="space-y-6" action={action}>
@@ -18,7 +16,6 @@
 //           {state.message}
 //         </div>
 //       )}
-
 
 //       <div>
 //         <label htmlFor="email" className="block font-medium">
@@ -57,7 +54,7 @@
 //         </div>
 //         {state?.errors?.password && <p>{state.errors.password}</p>}
 //       </div>
-      
+
 //       <div>
 //         <button
 //           type="submit"
@@ -71,89 +68,89 @@
 //   )
 // }
 
-"use client";
+'use client'
 
-import { useState } from "react";
-import { signin } from "@/actions";
-import { z } from "zod";
-import { signInSchema } from "@/schemas/auth";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { InputPassword } from "@/components/ui/password";
-import Link from "next/link";
+import { useState } from 'react'
+import { signIn } from '@/actions'
+import { z } from 'zod'
+import { signInSchema } from '@/schemas/auth'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { InputPassword } from '@/components/ui/password'
+import Link from 'next/link'
 
-type FormData = z.infer<typeof signInSchema>;
+type FormData = z.infer<typeof signInSchema>
 
 export function SignInForm() {
   const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
-  });
+    email: '',
+    password: ''
+  })
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
     {}
-  );
-  const [submitError, setSubmitError] = useState<string>();
-  const [loading, setLoading] = useState(false);
-  const [emailTouched, setEmailTouched] = useState(false);
+  )
+  const [submitError, setSubmitError] = useState<string>()
+  const [loading, setLoading] = useState(false)
+  const [emailTouched, setEmailTouched] = useState(false)
 
   function validateEmail(email: string): string | undefined {
-    if (!email) return "Email é obrigatório";
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) return 'Email é obrigatório'
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      return "Email inválido. Exemplo: usuario@dominio.com";
+      return 'Email inválido. Exemplo: usuario@dominio.com'
     }
-    
-    return undefined;
+
+    return undefined
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+
     // Validação em tempo real para email
-    if (name === "email" && emailTouched) {
-      const emailError = validateEmail(value);
-      setErrors({ ...errors, email: emailError });
+    if (name === 'email' && emailTouched) {
+      const emailError = validateEmail(value)
+      setErrors({ ...errors, email: emailError })
     } else {
-      setErrors({ ...errors, [name]: undefined });
+      setErrors({ ...errors, [name]: undefined })
     }
-    
-    setSubmitError(undefined);
+
+    setSubmitError(undefined)
   }
 
   function handleEmailBlur() {
-    setEmailTouched(true);
-    const emailError = validateEmail(formData.email);
-    setErrors({ ...errors, email: emailError });
+    setEmailTouched(true)
+    const emailError = validateEmail(formData.email)
+    setErrors({ ...errors, email: emailError })
   }
 
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+    e.preventDefault()
 
     // Validar email antes de enviar
-    const emailError = validateEmail(formData.email);
+    const emailError = validateEmail(formData.email)
     if (emailError) {
-      setErrors({ ...errors, email: emailError });
-      return;
+      setErrors({ ...errors, email: emailError })
+      return
     }
 
-    const result = signInSchema.safeParse(formData);
+    const result = signInSchema.safeParse(formData)
     if (!result.success) {
-      const map: typeof errors = {};
-      result.error.errors.forEach((err) => {
-        const field = err.path[0] as keyof FormData;
-        map[field] = err.message;
-      });
-      setErrors(map);
-      return;
+      const map: typeof errors = {}
+      result.error.issues.forEach((err) => {
+        const field = err.path[0] as keyof FormData
+        map[field] = err.message
+      })
+      setErrors(map)
+      return
     }
 
-    setLoading(true);
-    const error = await signin(result.data);
-    setLoading(false);
+    setLoading(true)
+    const error = await signIn(result.data)
+    setLoading(false)
 
-    if (error) setSubmitError(error);
+    if (error) setSubmitError(error)
   }
 
   return (
@@ -174,9 +171,9 @@ export function SignInForm() {
           value={formData.email}
           onChange={handleChange}
           onBlur={handleEmailBlur}
-          className={errors.email ? "border-red-500" : ""}
+          className={errors.email ? 'border-red-500' : ''}
           aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "email-error" : undefined}
+          aria-describedby={errors.email ? 'email-error' : undefined}
         />
         {errors.email && (
           <p id="email-error" className="text-sm text-red-600">
@@ -193,7 +190,7 @@ export function SignInForm() {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          className={errors.password ? "border-red-500" : ""}
+          className={errors.password ? 'border-red-500' : ''}
           placeholder="Digite sua senha..."
         />
         {errors.password && (
@@ -202,15 +199,18 @@ export function SignInForm() {
       </div>
       <div className="flex items-center justify-between">
         <div>
-          Ainda não tem uma conta?{" "}
+          Ainda não tem uma conta?{' '}
           <Link href="/cadastro" className="underline">
             Cadastre-se
           </Link>
         </div>
-        <Button type="submit" disabled={loading || !!errors.email || !!errors.password}>
-          {loading ? "Entrando..." : "Entrar"}
+        <Button
+          type="submit"
+          disabled={loading || !!errors.email || !!errors.password}
+        >
+          {loading ? 'Entrando...' : 'Entrar'}
         </Button>
       </div>
     </form>
-  );
+  )
 }

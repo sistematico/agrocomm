@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import Layout from '@/layouts/main'
-import SigninForm from '@/components/auth/signin'
+import { SignInForm } from '@/components/auth/signin'
 
 export default function SignIn() {
   return (
     <Layout>
       <section className="bg-background p-6 rounded-lg border border-black/20 sm:mx-auto sm:w-full max-w-xl">
         <h1 className="text-3xl font-bold mb-4">Entrar</h1>
-        <SigninForm />
+        <SignInForm />
         <p className="mt-5 text-center">
           Ainda não tem conta?{' '}
           <Link
