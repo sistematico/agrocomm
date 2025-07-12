@@ -3,23 +3,23 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import Account from '@/components/auth/session'
+import type { User } from '@/types'
 
 const menuItems = [
   { name: 'Início', href: '/' },
   { name: 'Cotações', href: '/cotacoes' }
 ]
 
-interface NavbarProps {
-  user: {
-    id: string;
-    email: string;
-    role: string;
-    name?: string | null; // Adiciona null aqui
-  } | null | undefined; // E aqui
-}
+// interface NavbarProps {
+//   user: {
+//     id: string;
+//     email: string;
+//     role: string;
+//     name?: string | null; // Adiciona null aqui
+//   } | null | undefined; // E aqui
+// }
 
-// export function Header() {
-export function Header({ user }: NavbarProps) {
+export function Header({ user }: { user: User }) {
   const pathname = usePathname()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -44,6 +44,10 @@ export function Header({ user }: NavbarProps) {
             </span>
           </Link>
 
+          {user && (
+            <>{JSON.stringify(user)} Usuário Logado</>
+          )}
+
           {/* Menu for desktop */}
           <div className="hidden lg:flex lg:space-x-8">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
@@ -67,7 +71,7 @@ export function Header({ user }: NavbarProps) {
           </div>
 
           <div className="flex items-center lg:order-2 gap-x-3">
-            <Account />
+            <Account user={user} />
 
             {/* Burger menu for mobile */}
             <button

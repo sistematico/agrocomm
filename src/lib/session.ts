@@ -4,7 +4,6 @@ import { z } from 'zod'
 import { SignJWT, jwtVerify } from 'jose'
 import { cache } from 'react'
 import { cookies } from 'next/headers'
-// import { cookies } from "next/headers"
 
 // Sete dias em segundos
 const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * 7
@@ -80,13 +79,9 @@ export async function createUserSession(
   setCookie(token, cookies)
 }
 
-export async function updateUserSessionExpiration(
-  cookies: Pick<Cookies, 'get' | 'set'>
-) {
+export async function updateUserSessionExpiration(cookies: Pick<Cookies, 'get' | 'set'>) {
   const user = await getUserFromSession(cookies)
-  if (user) {
-    await createUserSession(user, cookies)
-  }
+  if (user) await createUserSession(user, cookies)
 }
 
 export async function removeUserFromSession(cookies: Pick<Cookies, 'delete'>) {
@@ -105,11 +100,8 @@ function setCookie(token: string, cookies: Pick<Cookies, 'set'>) {
 export const verifySession = cache(async () => {
   const cookie = await cookies()
   const session = (await cookies()).get('session')?.value
-  // const cookie = cookieStore.get('session')?.value
 
-  if (!session) {
-    redirect('/entrar')
-  }
+  if (!session) redirect('/entrar')
 
   const payload = await decrypt(session)
 
@@ -120,7 +112,7 @@ export const verifySession = cache(async () => {
 
   return {
     isAuth: true,
-    userId: payload.userId as number,
+    userId: payload.userId,
     role: payload.role as string
   }
 })
@@ -132,6 +124,7 @@ export async function decrypt(session: string | undefined = '') {
     const { payload } = await jwtVerify(session, new TextEncoder().encode(process.env.JWT_TOKEN_SECRET), {
       algorithms: ['HS256'],
     })
+
     return payload
   } catch (error) {
     console.log('Failed to verify session')

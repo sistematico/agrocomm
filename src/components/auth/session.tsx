@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import type { User } from '@/types'
 
-export default function Account() {
+export default function Account({ user }: { user: User }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   
@@ -23,9 +24,7 @@ export default function Account() {
     checkSession()
   }, [])
   
-  if (isLoading) {
-    return <div className="w-20 h-10 bg-gray-200 animate-pulse rounded-md"></div>
-  }
+  if (isLoading) return <div className="w-20 h-10 bg-gray-200 animate-pulse rounded-md"></div>
   
   return (
     <>
@@ -37,7 +36,7 @@ export default function Account() {
           >
             Minha conta
           </Link>
-          <form action="/api/auth/logout" method="POST">
+          <form action="/api/auth/logout" method="post">
             <button
               type="submit"
               className="bg-red-700 text-white px-5 py-2 rounded-md hover:bg-red-800 transition-colors duration-500"
