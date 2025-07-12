@@ -1,12 +1,12 @@
-import { integer, text, timestamp, pgEnum, pgTable } from 'drizzle-orm/pg-core'
+import { integer, text, timestamp, pgEnum, pgTable, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
-// export const roles = ['user', 'admin'] as const
 export const roles = ['user', 'admin']
-export const roleEnum = pgEnum('role', ['user', 'admin'])
+const roleEnum = pgEnum('role', ['user', 'admin'])
 
 export const users = pgTable('users', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  // id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid().primaryKey().defaultRandom(),
   name: text(),
   username: text().unique(),
   email: text().notNull().unique(),

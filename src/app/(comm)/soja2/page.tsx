@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Layout from '@/layouts/main'
-import { getPrices } from '@/app/lib/prices'
+import { getPrices } from '@/lib/prices'
 
 // interface SojaItem {
 //   id: number

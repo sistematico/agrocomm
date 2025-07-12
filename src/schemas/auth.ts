@@ -1,46 +1,16 @@
-import { z } from 'zod'
+import { z } from "zod";
 
-// export const SignupFormSchema = z.object({
-//   name: z
-//     .string()
-//     .min(2, { message: 'Name must be at least 2 characters long.' })
-//     .trim(),
-//   email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-//   password: z
-//     .string()
-//     .min(8, { message: 'Be at least 8 characters long' })
-//     .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-//     .regex(/[0-9]/, { message: 'Contain at least one number.' })
-//     .regex(/[^a-zA-Z0-9]/, {
-//       message: 'Contain at least one special character.'
-//     })
-//     .trim()
-// })
+export const signInSchema = z.object({
+  email: z.string().email("Email inválido"),
+  password: z.string().min(1, "Senha é obrigatória"),
+});
 
-// export const SignupSchema = z.object({
-//   name: z
-//     .string()
-//     .min(2, { message: 'Name must be at least 2 characters long.' })
-//     .trim(),
-//   email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
-//   password: z
-//     .string()
-//     .min(8, { message: 'Be at least 8 characters long' })
-//     .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-//     .regex(/[0-9]/, { message: 'Contain at least one number.' })
-//     .regex(/[^a-zA-Z0-9]/, {
-//       message: 'Contain at least one special character.'
-//     })
-//     .trim()
-// })
-
-export const SignInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1)
-})
-
-export const SignUpSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email(),
-  password: z.string().min(8)
-})
+export const signUpSchema = z.object({
+  name: z.string().min(1, "Nome é obrigatório"),
+  email: z.string().email("Email inválido"),
+  password: z.string()
+    .min(8, "Senha deve ter pelo menos 8 caracteres")
+    .regex(/[A-Z]/, "Senha deve conter pelo menos uma letra maiúscula")
+    .regex(/[a-z]/, "Senha deve conter pelo menos uma letra minúscula")
+    .regex(/[0-9]/, "Senha deve conter pelo menos um número"),
+});

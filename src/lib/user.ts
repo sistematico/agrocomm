@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { getUserFromSession } from "@/auth/session";
+import { getUserFromSession } from "@/lib/session";
 import { cache } from "react";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
@@ -42,15 +42,15 @@ async function _getCurrentUser({
 } = {}) {
   const user = await getUserFromSession(await cookies());
 
-  if (!user) {
+  if (user == null) {
     if (redirectIfNotFound) return redirect("/sign-in");
     return null;
   }
 
-  if (withFullUser && typeof user.id === "number") {
+  if (withFullUser) {
     const fullUser = await getUserFromDb(user.id);
     // This should never happen
-    if (!fullUser) throw new Error("User not found in database");
+    if (fullUser == null) throw new Error("User not found in database");
     return fullUser;
   }
 
@@ -59,7 +59,7 @@ async function _getCurrentUser({
 
 export const getCurrentUser = cache(_getCurrentUser);
 
-function getUserFromDb(id: number) {
+function getUserFromDb(id: string) {
   return db.query.users.findFirst({
     columns: { id: true, email: true, role: true, name: true },
     where: eq(users.id, id),

@@ -1,4 +1,4 @@
-import { getPricesFromLocation } from '@/app/lib/prices'
+import { getPricesFromLocation } from '@/lib/prices'
 
 export async function GET(
   request: Request,

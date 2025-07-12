@@ -1,4 +1,4 @@
-import { getPrices } from '@/app/lib/prices'
+import { getPrices } from '@/lib/prices'
 
 export const revalidate = 60
 

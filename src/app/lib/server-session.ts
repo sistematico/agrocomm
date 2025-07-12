@@ -1,4 +1,4 @@
-// src/app/lib/server-session.ts
+// src/lib/server-session.ts
 import 'server-only'
 import { cookies } from 'next/headers'
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose'
